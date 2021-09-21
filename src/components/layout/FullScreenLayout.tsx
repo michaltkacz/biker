@@ -8,7 +8,8 @@ const FullScreenLayout: React.FC<{ style?: React.CSSProperties }> = ({
   return (
     <Layout
       style={{
-        minHeight: '100vh',
+        minHeight: '100%',
+        height: '100%',
         ...style,
       }}
     >

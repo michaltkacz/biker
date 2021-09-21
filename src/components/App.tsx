@@ -16,6 +16,9 @@ const App: React.FC = () => {
         <Route exact path='/record'>
           <RecordingPage />
         </Route>
+        <Route path='*'>
+          <AuthPage />
+        </Route>
       </Switch>
     </Router>
   );

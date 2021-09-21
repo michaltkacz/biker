@@ -1,15 +1,22 @@
-import { Layout } from 'antd';
 import React from 'react';
-import NavBar from '../navbar/NavBar';
+import { Layout } from 'antd';
 import FullScreenLayout from '../layout/FullScreenLayout';
+import MenuSider from '../navMenu/MenuSider';
+import Map from './Map';
 
-const { Content } = Layout;
+const { Content, Header, Sider } = Layout;
 
 const RecordingPage: React.FC = () => {
   return (
     <FullScreenLayout>
-      <NavBar />
-      <Content>HELLOOO</Content>
+      <MenuSider />
+      <Content
+        style={{
+          height: '100%',
+        }}
+      >
+        <Map />
+      </Content>
     </FullScreenLayout>
   );
 };

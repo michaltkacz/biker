@@ -3,7 +3,7 @@ import React from 'react';
 import EmailPasswordAuth from './EmailPasswordAuth';
 import ProviderAuth from './ProviderAuth';
 import FullScreenLayout from '../layout/FullScreenLayout';
-import NavBar from '../navbar/NavBar';
+import BrandHeader from '../navMenu/BrandHeader';
 import AuthContent from './AuthContent';
 import backgroundImage from '../../assets/bg.jpg';
 
@@ -14,7 +14,7 @@ const AuthenticationPage: React.FC = () => {
         background: `top / cover no-repeat url(${backgroundImage})`,
       }}
     >
-      <NavBar />
+      <BrandHeader />
       <AuthContent>
         <EmailPasswordAuth />
         <ProviderAuth />

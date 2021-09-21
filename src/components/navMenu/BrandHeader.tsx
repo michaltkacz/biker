@@ -1,15 +1,14 @@
 import React from 'react';
 import { Layout } from 'antd';
-import Brand from './Brand';
 
 const { Header } = Layout;
 
-const NavBar: React.FC = () => {
+const BrandHeader: React.FC = () => {
   return (
     <Header>
-      <Brand />
+      <h1 style={{ color: 'white' }}>Biker</h1>
     </Header>
   );
 };
 
-export default NavBar;
+export default BrandHeader;
