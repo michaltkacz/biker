@@ -1,26 +1,29 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import '../styles/App.less';
+import './App.less';
 
-import AuthPage from './authentication/AuthPage';
-import RecordingPage from './recording/RecordingPage';
+import { AuthContextProvider } from '../firebase/AuthContext';
+import AuthPage from './authPage/AuthPage';
+import TrackerPage from './trackerPage/TrackerPage';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          <AuthPage />
-        </Route>
-        <Route exact path='/record'>
-          <RecordingPage />
-        </Route>
-        <Route path='*'>
-          <AuthPage />
-        </Route>
-      </Switch>
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Switch>
+          <Route exact path='/'>
+            <AuthPage />
+          </Route>
+          <Route exact path='/record'>
+            <TrackerPage />
+          </Route>
+          <Route path='*'>
+            <AuthPage />
+          </Route>
+        </Switch>
+      </Router>
+    </AuthContextProvider>
   );
 };
 

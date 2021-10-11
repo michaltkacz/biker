@@ -1,0 +1,66 @@
+\chapter{Za³o¿enia}
+\section{Cel pracy}
+Tabela~\ref{tab:kartapracy} przedstawia ogólne za³o¿enia pracy zawarte w karcie pracy in¿ynierskiej.
+\begin{table}[htb] \small
+    \centering
+    \caption{Za³o¿enia zawarte w karcie pracy in¿ynierskiej}
+    \label{tab:kartapracy}
+    \begin{tabularx}{\linewidth}{|l|X|} \hline
+        Temat                & Aplikacja internetowa do zarz¹dzania trasami rowerowymi i analizy ich statystyk wraz z aplikacj¹ mobiln¹ do zapisu danych trasy z wykorzystaniem modu³u GPS.                                                                                                                                                                                 \\ \hline
+        Cel i zakres pracy   & Stworzenie aplikacji internetowej s³u¿¹cej do zarz¹dzania zapisanymi trasami rowerowymi oraz stworzenie aplikacji na system Android. G³ówn¹ funkcjonalnoœci¹ aplikacji mobilnej bêdzie zbieranie danych z modu³u GPS w trakcie jazdy rowerem, natomiast aplikacja internetowa ma s³u¿yæ do prezentacji tras na mapie oraz analizy statystyk. \\ \hline
+        Zadania do wykonania & \begin{itemize}
+                                   \item Zaprojektowanie architektury systemu
+                                   \item Zaprojektowanie i implementacja bazy danych oraz zabezpieczenie danych
+                                   \item Zaprojektowanie i implementacja warstwy back-end systemu
+                                   \item Zaprojektowanie i implementacja warstwy front-end aplikacji internetowej
+                                   \item Zaprojektowanie i implementacja warstwy front-end aplikacji mobilnej dla systemu Android
+                                   \item Zapewnienie spójnoœci dzia³ania projektu
+                               \end{itemize}                                                                                                                                                                                                                                                \\ \hline
+    \end{tabularx}
+\end{table}
+
+Celem pracy jest stworzenie aplikacji internetowej przeznaczonej dla rowerzystów, która pozwoli na monitorowanie w³asnych osi¹gniêæ sportowych. Wedle g³ównych za³o¿eñ aplikacja ma umo¿liwiaæ u¿ytkownikowi zbieranie danych z tras rowerowych oraz wgl¹d w statystyki. Obok aplikacji internetowej wymagana jest aplikacja mobilna, przystosowana do dzia³ania na smartfonach. W pierwotnym za³o¿eniu mia³a to byæ aplikacja dla systemu Android, której jedyn¹ funkcjonalnoœci¹ mia³o byæ nagrywanie œladu trasy (zbieranie danych GPS) i przesy³anie danych do serwera. Jednak wykorzystanie PWA (ang.\ \emph{Progressive Web App}) pozwoli na zawarcie ca³ej funkcjonalnoœci aplikacji internetowej w aplikacji dla smartfonów z dowolnym systemem. Jednoczeœnie funkcjonalnoœæ nagrywania œlady trasy równie¿ zostanie zaimplementowana.
+
+\section{Planowane funkcjonalnoœci}
+Funkcjonalnoœci podstawowe - wszsytkie funkcjonalnoœci z tej listy powinny zostaæ w pe³ni zaimplementowane:
+\begin{itemize}
+    \item Uwierzytelnianie (konto u¿ytkownika, rejestracja, logowanie)
+    \item Nagrywanie œladów GPS (standard GPX)
+    \item Import œladów GPS (pliki \emph{*.gpx})
+    \item Eksport œladów GPS (pliki \emph{*.gpx})
+    \item Statyski œladu GPS (wkyresy, tabele, prezentacja na mapie)
+    \item Statystki ogólne u¿ytkownika (wkyresy, tabele)
+\end{itemize}
+
+Funkcjonalnoœci dodatkowe - zostan¹ czêœciowo lub w pe³ni zaimplementowane, je¿eli praca nad projektem bêdzie przebiegaæ sprawnie:
+\begin{itemize}
+    \item Edycja profilu (adresu email, has³a, innych danych)
+    \item Mapa cieplna œladów GPS (prezentacja na mapie, ang. \emph{Heat Map})
+    \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie œladów)
+\end{itemize}
+
+Dalszy rozwój - przyk³adowe funkcjonalnoœci, które nie s¹ kluczowe dla projektu i nie zostan¹ zaimplementowane (g³ównie z powodu ograniczenia czasowego), które jedak wyznaczaj¹ mo¿liwy dalszy kierunek rozwoju aplikacji:
+\begin{itemize}
+    \item Planowanie tras z wykorzystaniem mapy
+    \item Nawigacja GPS wed³ug zaplanowanych tras
+    \item Rozbudowane elementy mediów spo³ecznoœciowych (dodawanie do znajomych, komentarze, tworzenie wydarzeñ, wspódzielone planowanie tras, wspódzielona nawigacja)
+\end{itemize}
+
+\section{Technologie}
+Tabela~\ref{tab:technologie} przedstawia dobór technologii dla poszczególnych zadañ implementacyjnych
+\begin{table}[htb] \small
+    \centering
+    \caption{Dobór technologii}
+    \label{tab:technologie}
+    \begin{tabularx}{\linewidth}{|l|l|X|} \hline
+        Zadanie                          & Technologia                              & Komentarz                                                   \\ \hline\hline
+        Front-end aplikacji internetowej & React                                    & Biblioteka React z wykorzystaniem biblioteki UI Ant Desigin \\ \hline
+        Front-end aplikacji mobilnej     & React (PWA)                              & Jw. Aplikacja skonfigurowana pod PWA                        \\ \hline
+        Backend-end aplikacji            & Firebase                                 & \emph{Backend-as-a-Service (BaaS)}                          \\ \hline
+        Baza danych                      & Firebase Firestore lub Realtime Database & \emph{Database as a Service (DBaaS)}                        \\ \hline
+        Hosting aplikacji                & Firebase Hosting                         & -                                                           \\ \hline
+        Kontrola wersji                  & Git + GitHub                             & -                                                           \\ \hline
+    \end{tabularx}
+\end{table}
+
+Dziêki wykorzystaniu PWA dostêpnoœæ aplikacji mobilnej nie bêdzie ograniczona tylko dla u¿ytkowników systemu Android, a jej funkcjonalnoœæ bêdzie na równi z funkcjonalnoœci¹ aplikacji internetowej. Z kolei wykorzystanie \emph{(BaaS)} oraz \emph{(DBaaS)} jest popularnym, wspó³czesnym podejœciem projektowym, które jest nie tylko efektywne w dzia³aniu, ale i wygodne w implementacji.
