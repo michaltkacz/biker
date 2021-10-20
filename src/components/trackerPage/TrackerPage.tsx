@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Layout } from 'antd';
 
-import MenuSider from '../navMenu/NavMenu';
+import MenuSider from '../menuSider/MenuSider';
 import Tracker from '../tracker/Tracker';
 
 import './trackerPage.less';

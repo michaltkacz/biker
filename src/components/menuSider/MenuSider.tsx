@@ -4,18 +4,16 @@ import { Layout, Menu } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 import { useHistory } from 'react-router-dom';
-import { useAuth } from './../../firebase/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 import BrandHeader from '../brandHeader/BrandHeader';
 import Profile from '../profile/Profile';
-import useGpsTracker from './../../hooks/useGpsTracker';
 
-import './navMenu.less';
+import './menuSider.less';
 
-const NavMenu: React.FC = () => {
+const MenuSider: React.FC = () => {
   const history = useHistory();
   const { logout } = useAuth();
-  const { startTracking, stopTracking } = useGpsTracker();
 
   const handleClick = (e: MenuInfo) => {
     switch (e.key) {
@@ -27,10 +25,8 @@ const NavMenu: React.FC = () => {
         history.push('/');
         break;
       case '3':
-        startTracking();
         break;
       case '4':
-        stopTracking();
         break;
       default:
         console.log('Key not found in navigation');
@@ -58,8 +54,8 @@ const NavMenu: React.FC = () => {
           >
             <Menu.Item key='1'>Record</Menu.Item>
             <Menu.Item key='2'>Logout</Menu.Item>
-            <Menu.Item key='3'>START</Menu.Item>
-            <Menu.Item key='4'>STOP</Menu.Item>
+            <Menu.Item key='3'>placeholder</Menu.Item>
+            <Menu.Item key='4'>placeholder</Menu.Item>
           </Menu>
         </Layout.Content>
       </Layout>
@@ -67,4 +63,4 @@ const NavMenu: React.FC = () => {
   );
 };
 
-export default NavMenu;
+export default MenuSider;

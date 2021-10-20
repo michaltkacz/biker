@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './App.less';
 
-import { AuthContextProvider } from '../firebase/AuthContext';
+import { AuthContextProvider } from '../contexts/AuthContext';
 import AuthPage from './authPage/AuthPage';
 import TrackerPage from './trackerPage/TrackerPage';
+import Test from './test/Test';
 
 const App: React.FC = () => {
   return (
@@ -18,7 +19,10 @@ const App: React.FC = () => {
           <Route exact path='/record'>
             <TrackerPage />
           </Route>
-          <Route path='*'>
+          <Route path='/test'>
+            <Test />
+          </Route>
+          <Route path=''>
             <AuthPage />
           </Route>
         </Switch>

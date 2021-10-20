@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import './profile.less';
 
-import { useAuth } from './../../firebase/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 const Profile = () => {
   const { currentUser } = useAuth();

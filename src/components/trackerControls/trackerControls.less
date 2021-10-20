@@ -1,1 +1,26 @@
 @import '~antd/es/style/themes/default.less';
+
+.tracker-controls {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  place-content: center space-around;
+  place-items: center;
+  overflow: hidden;
+}
+
+.button {
+  border-radius: 0;
+
+  .button-text {
+    margin-left: 0.25em;
+  }
+
+  .anticon {
+    vertical-align: middle;
+    svg {
+      width: 1.25em;
+      height: 1.25em;
+    }
+  }
+}

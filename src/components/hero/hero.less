@@ -3,21 +3,31 @@
 .hero {
   flex: 1 1 0;
   display: flex;
-  place-content: center flex-end;
+  place-content: center;
   place-items: center;
   position: relative;
+
+  @media (min-width: @screen-md-min) {
+    place-content: center flex-end;
+  }
 
   &::after {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: @primary-color;
+    background: linear-gradient(to right, @primary-color 25%, transparent);
     mix-blend-mode: multiply;
   }
 
   .hero-content {
-    background: white;
+    // background: white;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.3)
+    );
+
     mix-blend-mode: luminosity;
     padding: @padding-lg;
   }

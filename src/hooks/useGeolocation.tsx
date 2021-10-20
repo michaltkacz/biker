@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const defaultPosition: GeolocationPosition = {
+export const defaultPosition: GeolocationPosition = {
   coords: {
     accuracy: 0,
     altitude: null,
@@ -13,44 +13,55 @@ const defaultPosition: GeolocationPosition = {
   timestamp: Date.now(),
 };
 
-const useGeolocation = (): {
-  lastPosition: GeolocationPosition | null;
+export type Geolocation = {
+  latestPosition: GeolocationPosition | null;
+  lastKnownPosition: GeolocationPosition | null;
   defaultPosition: GeolocationPosition;
-  updateOncePosition: () => void;
+  updatePositionOnce: () => void;
   startWatchingPosition: () => void;
   stopWatchingPosition: () => void;
+  isWatchingPosition: boolean;
   geolocationError: GeolocationPositionError | null;
-} => {
-  const [lastPosition, setLastPosition] = useState<GeolocationPosition | null>(
-    null
-  );
-  const [watchId, setWatchId] = useState<number | null>(null);
+};
+
+const useGeolocation = (): Geolocation => {
+  const [latestPosition, setLatestPosition] =
+    useState<GeolocationPosition | null>(null);
+  const [lastKnownPosition, setLastKnownPosition] =
+    useState<GeolocationPosition | null>(null);
   const [geolocationError, setGeolocationError] =
     useState<GeolocationPositionError | null>(null);
+  const [watchId, setWatchId] = useState<number | null>(null);
+  const [isWatchingPosition, setIsWatchingPosition] = useState<boolean>(false);
 
   useEffect(() => {
-    updateOncePosition();
+    updatePositionOnce();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('LP_UPDATED: ', new Date(), lastPosition);
-  //   // console.log('geolocationError: ', geolocationError);
-  // }, [lastPosition]);
+  useEffect(() => {
+    setIsWatchingPosition(watchId !== null);
+  }, [watchId]);
 
-  const updateOncePosition = (): void => {
+  const getCurrentPositionSuccess = (position: GeolocationPosition): void => {
+    setLatestPosition(position);
+    setLastKnownPosition(position);
+    setGeolocationError(null);
+  };
+
+  const getCurrentPositionError = (error: GeolocationPositionError): void => {
+    setLatestPosition(null);
+    setGeolocationError(error);
+  };
+
+  const positionOptions: PositionOptions = {
+    enableHighAccuracy: true,
+  };
+
+  const updatePositionOnce = (): void => {
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log('Updated position once', position);
-        setLastPosition(position);
-        setGeolocationError(null);
-      },
-      (error) => {
-        setLastPosition(null);
-        setGeolocationError(error);
-      },
-      {
-        enableHighAccuracy: false,
-      }
+      getCurrentPositionSuccess,
+      getCurrentPositionError,
+      positionOptions
     );
   };
 
@@ -59,22 +70,12 @@ const useGeolocation = (): {
       return;
     }
 
-    console.log('Watching position...');
-    const id = navigator.geolocation.watchPosition(
-      (position) => {
-        setLastPosition(position);
-        setGeolocationError(null);
-      },
-      (error) => {
-        setLastPosition(null);
-        setGeolocationError(error);
-      },
-      {
-        enableHighAccuracy: false,
-      }
+    const newWatchId = navigator.geolocation.watchPosition(
+      getCurrentPositionSuccess,
+      getCurrentPositionError,
+      positionOptions
     );
-
-    setWatchId(id);
+    setWatchId(newWatchId);
   };
 
   const stopWatchingPosition = (): void => {
@@ -82,17 +83,18 @@ const useGeolocation = (): {
       return;
     }
 
-    console.log('Clearing watch...', watchId);
     navigator.geolocation.clearWatch(watchId);
     setWatchId(null);
   };
 
   return {
-    lastPosition,
+    latestPosition,
+    lastKnownPosition,
     defaultPosition,
-    updateOncePosition,
+    updatePositionOnce,
     startWatchingPosition,
     stopWatchingPosition,
+    isWatchingPosition,
     geolocationError,
   };
 };
