@@ -1,12 +1,12 @@
 import React from 'react';
-import { Avatar } from 'antd';
+import { Avatar, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import './profile.less';
+import './userCard.less';
 
 import { useAuth } from '../../hooks/useAuth';
 
-const Profile = () => {
+const UserCard = () => {
   const { currentUser } = useAuth();
 
   return (
@@ -15,12 +15,14 @@ const Profile = () => {
         size={100}
         alt='User profile avatar'
         icon={<UserOutlined />}
-        style={{ margin: '0.25rem' }}
+        className='profile-avatar'
         src='https://images.unsplash.com/photo-1574158622682-e40e69881006?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80'
       />
-      <h2>{currentUser ? currentUser.email : 'no-user'}</h2>
+      <Typography.Text strong className='profile-username'>
+        {currentUser ? currentUser.displayName : 'no-user'}
+      </Typography.Text>
     </div>
   );
 };
 
-export default Profile;
+export default UserCard;

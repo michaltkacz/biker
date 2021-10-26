@@ -1,33 +1,22 @@
 @import '~antd/es/style/themes/default.less';
 
-@background-overlay-color: rgba(255, 255, 255, 0.8);
-
 .auth {
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  place-content: center;
-  place-items: center;
-  background: @background-overlay-color;
+  width: 100%;
+  background: white;
+  padding: @padding-lg @padding-lg 0;
 
   @media (min-width: @screen-md-min) {
-    background: none;
-    // place-content: center;
-    // place-items: start;
+    width: 350px;
   }
 
-  .auth-wrapper {
-    padding: @padding-lg;
-
-    @media (min-width: @screen-md-min) {
-      background: @background-overlay-color;
-    }
+  .auth-title {
+    text-align: center;
   }
 
   .firebaseui-container {
-    background: transparent;
-    padding: @padding-lg;
     width: 100%;
+    background: none;
     box-shadow: none;
+    padding-top: @padding-md;
   }
 }

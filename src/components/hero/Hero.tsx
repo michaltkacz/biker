@@ -1,19 +1,19 @@
 import React from 'react';
-
 import { Typography } from 'antd';
+
+import Brand from '../brand/Brand';
 
 import './hero.less';
 
 const Hero: React.FC = () => {
   return (
     <div className='hero'>
-      <div className='hero-content'>
-        <Typography.Title level={1}>Biker</Typography.Title>
-        <Typography.Title level={2}>
-          Monitor all your cycling statistics in one place
-        </Typography.Title>
-        <Typography.Text>Sign in to continue</Typography.Text>
+      <div className='hero-brand-wrapper'>
+        <Brand />
       </div>
+      <Typography.Title level={2} className='hero-text'>
+        Monitor all your cycling statistics in one place
+      </Typography.Title>
     </div>
   );
 };

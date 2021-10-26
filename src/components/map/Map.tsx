@@ -14,32 +14,24 @@ import {
 
 import useGeolocation from '../../hooks/useGeolocation';
 
-import positionMarkerHeading from '../../assets/positionMarkerHeading.png';
+// import positionMarkerHeading from '../../assets/positionMarkerHeading.png';
 import positionMarker from '../../assets/positionMarker.png';
 
 import 'leaflet/dist/leaflet.css';
 import './map.less';
-
-export enum PositionType {
-  'latest',
-  'lastKnown',
-}
-
-export interface Position {
-  position: GeolocationPosition;
-  type: PositionType;
-}
 
 interface TrackPolylineProps {
   track?: GeolocationPosition[];
 }
 
 interface PositionMarkerProps {
-  position: Position | null;
+  position: GeolocationPosition | null;
+  iconWidth?: number;
+  iconHeight?: number;
 }
 
 interface MapViewUpdaterProps {
-  position: Position | null;
+  position: GeolocationPosition | null;
   followPosition: boolean;
   panToPosition: boolean;
 }
@@ -50,7 +42,7 @@ interface MapAutoResizerProps {
 
 export interface MapProps {
   height: number;
-  position: Position | null;
+  position: GeolocationPosition | null;
   followPosition: boolean;
   panToPosition: boolean;
   track?: GeolocationPosition[];
@@ -121,34 +113,51 @@ const TrackPolyline: React.FC<TrackPolylineProps> = ({ track }) => {
   );
 };
 
-const PositionMarker: React.FC<PositionMarkerProps> = ({ position }) => {
+// const makeIcon = (
+//   width: number,
+//   height: number,
+//   heading: number | null
+// ): L.DivIcon => {
+//   return L.divIcon({
+//     iconSize: [width, height],
+//     className: 'current-position-marker',
+//     html: heading
+//       ? `<img
+//     style="transform: rotate(calc(${heading}deg - 180deg));";
+//     width="${width}"
+//     height="${height}"
+//     src=${positionMarkerHeading}>`
+//       : `<img
+//     width="${width}"
+//     height="${height}"
+//     src=${positionMarker}>`,
+//   });
+// };
+const iconSize: number = 24;
+const icon = L.divIcon({
+  iconSize: [iconSize, iconSize],
+  className: 'current-position-marker',
+  html: `<img
+    width="${iconSize}"
+    height="${iconSize}"
+    src=${positionMarker}>`,
+});
+
+const PositionMarker: React.FC<PositionMarkerProps> = ({
+  position,
+  iconWidth = 24,
+  iconHeight = 24,
+}) => {
   if (!position) {
     return null;
   }
-  const iconSize: { width: number; height: number } = {
-    width: 24,
-    height: 24,
-  };
 
-  const { coords } = position.position;
-  const { heading } = position.position.coords;
-
-  const icon = L.divIcon({
-    iconSize: [iconSize.width, iconSize.height],
-    className: 'current-position-marker',
-    html: heading
-      ? `<img
-    style="transform: rotate(${heading}deg);";
-    width="${iconSize.width}"
-    height="${iconSize.height}"
-    src=${positionMarkerHeading}>`
-      : `<img
-    width="${iconSize.width}"
-    height="${iconSize.height}"
-    src=${positionMarker}>`,
-  });
-
-  return <Marker position={[coords.latitude, coords.longitude]} icon={icon} />;
+  return (
+    <Marker
+      position={[position.coords.latitude, position.coords.longitude]}
+      icon={icon}
+    />
+  );
 };
 
 const MapViewUpdater: React.FC<MapViewUpdaterProps> = ({
@@ -158,8 +167,8 @@ const MapViewUpdater: React.FC<MapViewUpdaterProps> = ({
 }) => {
   const map = useMap();
 
-  const panMap = (position: Position): void => {
-    const { latitude, longitude } = position.position.coords;
+  const panMap = (position: GeolocationPosition): void => {
+    const { latitude, longitude } = position.coords;
     map.panTo([latitude, longitude]);
   };
 
@@ -191,57 +200,5 @@ const MapAutoResizer: React.FC<MapAutoResizerProps> = ({ height }) => {
 
   return null;
 };
-
-// interface MapViewControlProps {
-//   clickCallback: () => void;
-// }
-
-// const createMapViewControl = (props: L.ControlOptions & MapViewControlProps) =>
-//   new (L.Control.extend({
-//     onAdd: function (map: L.Map) {
-//       const container = L.DomUtil.create('div', 'leaflet-touch leaflet-bar');
-//       const a = L.DomUtil.create('a');
-//       const img = L.DomUtil.create('img');
-//       img.src = positionMarkerHeading;
-//       img.alt = 'Icon of position marker';
-//       img.width = 20;
-//       img.height = 20;
-
-//       a.onclick = props.clickCallback;
-//       // a.onclick = (ev) => {
-//       //   ev.preventDefault();
-//       //   ev.stopPropagation();
-//       //   map.locate({
-//       //     watch: true,
-//       //     setView: false,
-//       //     maxZoom: 12,
-//       //   });
-//       //   console.log('click locate');
-
-//       //   a.style.background = 'lightgreen';
-//       // };
-//       a.style.background = 'lightgreen';
-//       a.href = '#';
-//       a.type = 'button';
-//       a.title = 'Toggle Map View';
-//       a.ariaLabel = 'Toggle Map View';
-//       a.setAttribute('role', 'button');
-//       a.appendChild(img);
-
-//       container.appendChild(a);
-
-//       map.on('dragstart', () => {
-//         map.stopLocate();
-//         console.log('drag stop locate');
-//         a.style.background = 'lightgrey';
-//       });
-
-//       return container;
-//     },
-
-//     onRemove: function (map: L.Map) {},
-//   }))();
-
-// const MapViewControl = createControlComponent(createMapViewControl);
 
 export default Map;

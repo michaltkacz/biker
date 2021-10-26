@@ -4,17 +4,21 @@ import { Layout } from 'antd';
 
 import './authPage.less';
 
-import BrandHeader from '../brandHeader/BrandHeader';
 import Hero from '../hero/Hero';
 import Auth from '../auth/Auth';
+import Brand from '../brand/Brand';
 
 const AuthPage: React.FC = () => {
   return (
     <Layout className='auth-page'>
-      <BrandHeader />
+      <Layout.Header className='auth-page-header'>
+        <Brand />
+      </Layout.Header>
       <Layout.Content className='auth-page-content'>
-        <Hero />
-        <Auth />
+        <div className='content-wrapper'>
+          <Hero />
+          <Auth />
+        </div>
       </Layout.Content>
     </Layout>
   );

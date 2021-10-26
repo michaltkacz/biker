@@ -1,5 +1,6 @@
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
+import Pages from '../global/pages';
 
 import {
   EmailAuthProvider,
@@ -14,7 +15,7 @@ const firebaseUI = new firebaseui.auth.AuthUI(auth);
 // FirebaseUI default configuration
 export const firebaseUiDefaultConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
-  signInSuccessUrl: '/record',
+  signInSuccessUrl: `/${Pages.Tracker}`,
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
     GoogleAuthProvider.PROVIDER_ID,

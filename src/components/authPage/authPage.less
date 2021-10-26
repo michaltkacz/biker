@@ -3,18 +3,33 @@
 .auth-page {
   height: 100%;
 
+  .auth-page-header {
+    display: flex;
+    flex-flow: row;
+    place-content: center start;
+    place-items: center;
+  }
+
   .auth-page-content {
     flex: 1 1 0;
     display: flex;
-    flex-direction: column;
-    place-items: stretch;
-    isolation: isolate;
+    flex-flow: column;
+    place-content: center;
+    place-items: center;
     background: center / cover no-repeat url('../../assets/bg.jpg');
 
     @media (min-width: @screen-md-min) {
-      flex-direction: row;
-      place-items: stretch;
-      gap: @margin-lg;
+      flex-flow: row;
+    }
+
+    .content-wrapper {
+      width: 100%;
+      display: flex;
+      flex-flow: row;
+
+      @media (min-width: @screen-md-min) {
+        width: auto;
+      }
     }
   }
 }

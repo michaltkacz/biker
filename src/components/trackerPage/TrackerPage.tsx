@@ -1,21 +1,11 @@
 import React from 'react';
 
-import { Layout } from 'antd';
-
-import MenuSider from '../menuSider/MenuSider';
 import Tracker from '../tracker/Tracker';
 
 import './trackerPage.less';
 
 const TrackerPage: React.FC = () => {
-  return (
-    <Layout className='tracker-page'>
-      <MenuSider />
-      <Layout.Content>
-        <Tracker />
-      </Layout.Content>
-    </Layout>
-  );
+  return <Tracker />;
 };
 
 export default TrackerPage;

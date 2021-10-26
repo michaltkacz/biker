@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Checkbox } from 'antd';
+import { Checkbox, message } from 'antd';
 
 import MapCanvas from '../mapCanvas/MapCanvas';
-import Map, { Position, PositionType } from '../map/Map';
+import Map from '../map/Map';
 import TrackerDashboard from '../trackerDashboard/TrackerDashboard';
 import TrackerControls from '../trackerControls/TrackerControls';
 
@@ -13,49 +13,39 @@ import './tracker.less';
 import {
   PauseCircleOutlined,
   PlayCircleOutlined,
-  // SettingOutlined,
   CompassOutlined,
   AimOutlined,
 } from '@ant-design/icons';
 
 const Tracker: React.FC = () => {
   const {
-    latestPosition,
-    lastKnownPosition,
+    latestPosition: position, //temporary test
     currentTrack,
     startTracking,
     stopTracking,
     isTracking,
+    trackingTime,
   } = useTracker();
 
-  const [position, setPosition] = useState<Position | null>(null);
+  // const [position, setPosition] = useState<GeolocationPosition | null>(null);
   const [panToPosition, setPanToPosition] = useState<boolean>(false);
   const [followPosition, setFollowPosition] = useState<boolean>(true);
-  // const { value: followPosition, toggleValue: toggleFollowPosition } =
-  //   useToggle(true);
-  // const { value: panToPosition, toggleValue: togglePanToPosition } =
-  //   useToggle(false);
+
+  // useEffect(() => {
+  //   if (latestPosition) {
+  //     setPosition(latestPosition);
+  //     return;
+  //   }
+
+  //   if (lastKnownPosition) {
+  //     setPosition(lastKnownPosition);
+  //     return;
+  //   }
+  // }, [latestPosition, lastKnownPosition]);
 
   useEffect(() => {
-    console.log(currentTrack);
-  }, [currentTrack]);
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    if (latestPosition) {
-      setPosition({ position: latestPosition, type: PositionType.latest });
-      return;
-    }
-
-    if (lastKnownPosition) {
-      setPosition({
-        position: lastKnownPosition,
-        type: PositionType.lastKnown,
-      });
-      return;
-    }
-  }, [latestPosition, lastKnownPosition]);
+    message.info('Searching for position...');
+  }, []);
 
   const startTrackingCallback = (): void => {
     startTracking();
@@ -79,7 +69,11 @@ const Tracker: React.FC = () => {
 
   return (
     <div className='tracker'>
-      <TrackerDashboard />
+      <TrackerDashboard
+        show={isTracking}
+        position={position}
+        trackingTime={trackingTime}
+      />
       <MapCanvas
         render={(height) => (
           <Map

@@ -12,10 +12,10 @@ const Auth: React.FC = () => {
 
   return (
     <div className='auth'>
-      <div className='auth-wrapper'>
-        <Typography.Title level={2}>Sign In</Typography.Title>
-        <div id={elementID} className='auth-widget'></div>
-      </div>
+      <Typography.Title level={2} className='auth-title'>
+        Sign In
+      </Typography.Title>
+      <div id={elementID} className='auth-widget'></div>
     </div>
   );
 };

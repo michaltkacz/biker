@@ -1,0 +1,26 @@
+@import '~antd/es/style/themes/default.less';
+
+.profile {
+  margin: @padding-md;
+
+  display: flex;
+  flex-flow: column;
+  place-items: center;
+  place-content: center;
+
+  cursor: pointer;
+
+  transition: transform 0.3s ease-in;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .profile-avatar {
+  }
+
+  .profile-username {
+    font-size: 2em;
+    text-align: center;
+  }
+}

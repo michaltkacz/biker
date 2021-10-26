@@ -1,9 +1,10 @@
 @import '~antd/es/style/themes/default.less';
 
 .tracker-dashboard {
-  overflow: hidden;
-
-  .temp {
-    overflow: hidden;
-  }
+  width: 100%;
+  padding: @padding-sm;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8em, auto));
+  row-gap: @padding-xs;
+  column-gap: @padding-xs;
 }

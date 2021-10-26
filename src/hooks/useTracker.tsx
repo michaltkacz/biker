@@ -11,6 +11,8 @@ export type TrackRecorder = {
   stopTracking: () => void;
   resetTracker: () => void;
   isTracking: boolean;
+  trackingTimestamp: number | null;
+  trackingTime: number;
   geolocationError: GeolocationPositionError | null;
 };
 
@@ -26,6 +28,10 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
 
   const [isTracking, setIsTracking] = useState<boolean>(false);
   const [currentTrack, setCurrentTrack] = useState<GeolocationPosition[]>([]);
+  const [trackingTimestamp, setTrackingTimestamp] = useState<number | null>(
+    null
+  );
+  const [trackingTime, setTrackingTime] = useState<number>(0);
 
   useEffect(() => {
     startWatchingPosition();
@@ -38,17 +44,25 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
   useInterval(
     () => {
       updateCurrentTrack();
+      updateTrackingTime();
     },
     isTracking ? interval : null
   );
 
   const updateCurrentTrack = () => {
-    if (latestPosition === null) {
+    if (!latestPosition) {
       return;
     }
 
-    console.log(latestPosition);
     setCurrentTrack([...currentTrack, latestPosition]);
+  };
+
+  const updateTrackingTime = () => {
+    if (!trackingTimestamp) {
+      return null;
+    }
+
+    setTrackingTime(Date.now() - trackingTimestamp);
   };
 
   // const startWatching = (): void => {
@@ -74,6 +88,7 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
       startWatchingPosition();
     }
 
+    setTrackingTimestamp(Date.now());
     setIsTracking(true);
   };
 
@@ -99,6 +114,8 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
     stopTracking,
     resetTracker,
     isTracking,
+    trackingTimestamp,
+    trackingTime,
     geolocationError,
   };
 };

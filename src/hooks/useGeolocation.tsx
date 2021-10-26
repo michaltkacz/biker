@@ -54,7 +54,9 @@ const useGeolocation = (): Geolocation => {
   };
 
   const positionOptions: PositionOptions = {
-    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: 10000,
+    enableHighAccuracy: false,
   };
 
   const updatePositionOnce = (): void => {
