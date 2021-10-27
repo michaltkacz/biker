@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.less';
 
 import { AuthContextProvider } from '../contexts/AuthContext';
+import { DatabaseContextProvider } from '../contexts/DatabaseContext';
 
 import Pages from '../global/pages';
 import GlobalPageLayout from './globalPageLayout/GlobalPageLayout';
@@ -15,27 +16,29 @@ import ActivityPage from './activityPage/ActivityPage';
 const App: React.FC = () => {
   return (
     <AuthContextProvider>
-      <Router>
-        <Switch>
-          <Route exact path='/'>
-            <AuthPage />
-          </Route>
-          <GlobalPageLayout>
-            <Route exact path={`/${Pages.Profile}`}>
-              <ProfilePage />
+      <DatabaseContextProvider>
+        <Router>
+          <Switch>
+            <Route exact path='/'>
+              <AuthPage />
             </Route>
-            <Route exact path={`/${Pages.Tracker}`}>
-              <TrackerPage />
+            <GlobalPageLayout>
+              <Route exact path={`/${Pages.Profile}`}>
+                <ProfilePage />
+              </Route>
+              <Route exact path={`/${Pages.Tracker}`}>
+                <TrackerPage />
+              </Route>
+              <Route exact path={`/${Pages.Activity}`}>
+                <ActivityPage />
+              </Route>
+            </GlobalPageLayout>
+            <Route path='*'>
+              <AuthPage />
             </Route>
-            <Route exact path={`/${Pages.Activity}`}>
-              <ActivityPage />
-            </Route>
-          </GlobalPageLayout>
-          <Route path='*'>
-            <AuthPage />
-          </Route>
-        </Switch>
-      </Router>
+          </Switch>
+        </Router>
+      </DatabaseContextProvider>
     </AuthContextProvider>
   );
 };

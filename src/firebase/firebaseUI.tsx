@@ -6,8 +6,12 @@ import {
   EmailAuthProvider,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  UserCredential,
 } from 'firebase/auth';
-import { auth } from './firebase';
+
+import { auth, database } from './firebase';
+import { User } from '../database/schema';
+import { ref, set } from 'firebase/database';
 
 // Initialize FirebaseUI
 const firebaseUI = new firebaseui.auth.AuthUI(auth);
@@ -23,6 +27,21 @@ export const firebaseUiDefaultConfig: firebaseui.auth.Config = {
   ],
   tosUrl: 'https://en.wikipedia.org/wiki/Terms_of_service',
   privacyPolicyUrl: 'https://en.wikipedia.org/wiki/Privacy_policy',
+  callbacks: {
+    signInSuccessWithAuthResult: (authResult) => {
+      if (authResult.additionalUserInfo.isNewUser) {
+        const user: User = {
+          userId: authResult.user.uid,
+          profile: null,
+          statistics: null,
+          activities: null,
+        };
+        set(ref(database, 'users/' + user.userId), user);
+        // dbCreateNewUserEntry(user);
+      }
+      return true;
+    },
+  },
 };
 
 // Widget element ID

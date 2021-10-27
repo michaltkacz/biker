@@ -5,7 +5,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
 
   if (context === undefined) {
-    throw new Error('useAuthContext must be within AuthProvider');
+    throw new Error('useAuth must be within AuthProvider');
   }
 
   return context;
