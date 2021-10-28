@@ -1,9 +1,8 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useEffect, createContext } from 'react';
 
-import { collection, addDoc } from 'firebase/firestore';
+// import { collection, addDoc } from 'firebase/firestore';
 
-import { database } from '../firebase/firebase';
-import { ref, set } from '@firebase/database';
+// import { database } from '../firebase/firebase';
 
 export interface IDatabaseContext {}
 

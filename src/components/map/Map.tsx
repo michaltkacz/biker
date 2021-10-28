@@ -12,9 +12,8 @@ import {
   Polyline,
 } from 'react-leaflet';
 
-import useGeolocation from '../../hooks/useGeolocation';
+import { defaultPosition } from '../../hooks/useGeolocation';
 
-// import positionMarkerHeading from '../../assets/positionMarkerHeading.png';
 import positionMarker from '../../assets/positionMarker.png';
 
 import 'leaflet/dist/leaflet.css';
@@ -26,8 +25,6 @@ interface TrackPolylineProps {
 
 interface PositionMarkerProps {
   position: GeolocationPosition | null;
-  iconWidth?: number;
-  iconHeight?: number;
 }
 
 interface MapViewUpdaterProps {
@@ -55,8 +52,6 @@ const Map: React.FC<MapProps> = ({
   panToPosition,
   track,
 }) => {
-  const { defaultPosition } = useGeolocation();
-
   return (
     <MapContainer
       zoom={12}
@@ -143,11 +138,7 @@ const icon = L.divIcon({
     src=${positionMarker}>`,
 });
 
-const PositionMarker: React.FC<PositionMarkerProps> = ({
-  position,
-  iconWidth = 24,
-  iconHeight = 24,
-}) => {
+const PositionMarker: React.FC<PositionMarkerProps> = ({ position }) => {
   if (!position) {
     return null;
   }
@@ -167,26 +158,14 @@ const MapViewUpdater: React.FC<MapViewUpdaterProps> = ({
 }) => {
   const map = useMap();
 
-  const panMap = (position: GeolocationPosition): void => {
+  useEffect(() => {
+    if (!position || (!followPosition && !panToPosition)) {
+      return;
+    }
+
     const { latitude, longitude } = position.coords;
     map.panTo([latitude, longitude]);
-  };
-
-  useEffect(() => {
-    if (!position || !followPosition) {
-      return;
-    }
-
-    panMap(position);
-  }, [position, followPosition]);
-
-  useEffect(() => {
-    if (!position || !panToPosition) {
-      return;
-    }
-
-    panMap(position);
-  }, [position, panToPosition]);
+  }, [map, position, followPosition, panToPosition]);
 
   return null;
 };
@@ -196,7 +175,7 @@ const MapAutoResizer: React.FC<MapAutoResizerProps> = ({ height }) => {
 
   useEffect(() => {
     map.invalidateSize();
-  }, [height]);
+  }, [map, height]);
 
   return null;
 };

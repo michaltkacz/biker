@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
-import { User } from '../database/schema';
+import { getDatabase } from 'firebase/database';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -20,9 +19,5 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 export const auth = getAuth(firebaseApp);
 export const database = getDatabase(firebaseApp);
-
-// export const dbCreateNewUserEntry = (user: User) => {
-//   set(ref(database, 'users/' + user.userId), { user });
-// };
 
 export default firebaseApp;

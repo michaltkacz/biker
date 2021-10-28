@@ -6,7 +6,6 @@ import {
   EmailAuthProvider,
   GoogleAuthProvider,
   FacebookAuthProvider,
-  UserCredential,
 } from 'firebase/auth';
 
 import { auth, database } from './firebase';
@@ -37,7 +36,6 @@ export const firebaseUiDefaultConfig: firebaseui.auth.Config = {
           activities: null,
         };
         set(ref(database, 'users/' + user.userId), user);
-        // dbCreateNewUserEntry(user);
       }
       return true;
     },

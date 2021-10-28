@@ -12,7 +12,7 @@ interface TrackerDashboardProps {
 }
 
 const degreeSymbol = String.fromCharCode(0x00b0);
-const plusMinusSymbol = String.fromCharCode(0x00b1);
+// const plusMinusSymbol = String.fromCharCode(0x00b1);
 
 const TrackerDashboard: React.FC<TrackerDashboardProps> = ({
   show,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const defaultPosition: GeolocationPosition = {
   coords: {
@@ -16,12 +16,17 @@ export const defaultPosition: GeolocationPosition = {
 export type Geolocation = {
   latestPosition: GeolocationPosition | null;
   lastKnownPosition: GeolocationPosition | null;
-  defaultPosition: GeolocationPosition;
   updatePositionOnce: () => void;
   startWatchingPosition: () => void;
   stopWatchingPosition: () => void;
   isWatchingPosition: boolean;
   geolocationError: GeolocationPositionError | null;
+};
+
+const positionOptions: PositionOptions = {
+  maximumAge: 0,
+  timeout: 10000,
+  enableHighAccuracy: false,
 };
 
 const useGeolocation = (): Geolocation => {
@@ -34,14 +39,6 @@ const useGeolocation = (): Geolocation => {
   const [watchId, setWatchId] = useState<number | null>(null);
   const [isWatchingPosition, setIsWatchingPosition] = useState<boolean>(false);
 
-  useEffect(() => {
-    updatePositionOnce();
-  }, []);
-
-  useEffect(() => {
-    setIsWatchingPosition(watchId !== null);
-  }, [watchId]);
-
   const getCurrentPositionSuccess = (position: GeolocationPosition): void => {
     setLatestPosition(position);
     setLastKnownPosition(position);
@@ -53,21 +50,15 @@ const useGeolocation = (): Geolocation => {
     setGeolocationError(error);
   };
 
-  const positionOptions: PositionOptions = {
-    maximumAge: 0,
-    timeout: 10000,
-    enableHighAccuracy: false,
-  };
-
-  const updatePositionOnce = (): void => {
+  const updatePositionOnce = useCallback((): void => {
     navigator.geolocation.getCurrentPosition(
       getCurrentPositionSuccess,
       getCurrentPositionError,
       positionOptions
     );
-  };
+  }, []);
 
-  const startWatchingPosition = (): void => {
+  const startWatchingPosition = useCallback((): void => {
     if (watchId !== null) {
       return;
     }
@@ -78,21 +69,28 @@ const useGeolocation = (): Geolocation => {
       positionOptions
     );
     setWatchId(newWatchId);
-  };
+  }, [watchId]);
 
-  const stopWatchingPosition = (): void => {
+  const stopWatchingPosition = useCallback((): void => {
     if (watchId === null) {
       return;
     }
 
     navigator.geolocation.clearWatch(watchId);
     setWatchId(null);
-  };
+  }, [watchId]);
+
+  useEffect(() => {
+    updatePositionOnce();
+  }, [updatePositionOnce]);
+
+  useEffect(() => {
+    setIsWatchingPosition(watchId !== null);
+  }, [watchId]);
 
   return {
     latestPosition,
     lastKnownPosition,
-    defaultPosition,
     updatePositionOnce,
     startWatchingPosition,
     stopWatchingPosition,

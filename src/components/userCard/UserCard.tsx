@@ -8,7 +8,6 @@ import { useAuth } from '../../hooks/useAuth';
 
 const UserCard = () => {
   const { currentUser } = useAuth();
-  console.log(currentUser);
 
   return (
     <div className='profile'>
