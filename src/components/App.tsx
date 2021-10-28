@@ -12,31 +12,26 @@ import AuthPage from './authPage/AuthPage';
 import TrackerPage from './trackerPage/TrackerPage';
 import ProfilePage from './ProfilePage/ProfilePage';
 import ActivityPage from './activityPage/ActivityPage';
+import NotFoundPage from './notFoundPage/notFoundPage';
 
 const App: React.FC = () => {
   return (
     <AuthContextProvider>
       <DatabaseContextProvider>
         <Router>
-          <Switch>
-            <Route exact path='/'>
-              <AuthPage />
-            </Route>
-            <GlobalPageLayout>
-              <Route exact path={`/${Pages.Profile}`}>
-                <ProfilePage />
-              </Route>
-              <Route exact path={`/${Pages.Tracker}`}>
-                <TrackerPage />
-              </Route>
-              <Route exact path={`/${Pages.Activity}`}>
-                <ActivityPage />
-              </Route>
-            </GlobalPageLayout>
-            <Route path='*'>
-              <AuthPage />
-            </Route>
-          </Switch>
+          <GlobalPageLayout>
+            <Switch>
+              <Route exact path={`/${Pages.Authorize}`} component={AuthPage} />
+              <Route exact path={`/${Pages.Profile}`} component={ProfilePage} />
+              <Route exact path={`/${Pages.Tracker}`} component={TrackerPage} />
+              <Route
+                exact
+                path={`/${Pages.Activity}`}
+                component={ActivityPage}
+              />
+              <Route path='/*' component={NotFoundPage} />
+            </Switch>
+          </GlobalPageLayout>
         </Router>
       </DatabaseContextProvider>
     </AuthContextProvider>

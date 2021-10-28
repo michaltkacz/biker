@@ -2,34 +2,24 @@
 
 .auth-page {
   height: 100%;
+  display: flex;
+  flex-flow: column;
+  place-content: center;
+  place-items: center;
+  background: center / cover no-repeat url('../../assets/bg.jpg');
 
-  .auth-page-header {
-    display: flex;
+  @media (min-width: @screen-md-min) {
     flex-flow: row;
-    place-content: center start;
-    place-items: center;
   }
 
-  .auth-page-content {
-    flex: 1 1 0;
+  .content-wrapper {
+    width: 100%;
     display: flex;
     flex-flow: column;
-    place-content: center;
-    place-items: center;
-    background: center / cover no-repeat url('../../assets/bg.jpg');
 
     @media (min-width: @screen-md-min) {
+      width: auto;
       flex-flow: row;
-    }
-
-    .content-wrapper {
-      width: 100%;
-      display: flex;
-      flex-flow: row;
-
-      @media (min-width: @screen-md-min) {
-        width: auto;
-      }
     }
   }
 }

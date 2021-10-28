@@ -1,26 +1,24 @@
 @import '~antd/es/style/themes/default.less';
 
 .hero {
-  display: none;
+  width: 100%;
+  flex-flow: column;
+  place-content: flex-start;
+  place-items: flex-start;
+  background: white;
+  border-left: @padding-lg solid @primary-color;
 
   @media (min-width: @screen-md-min) {
-    width: 350px;
-    display: flex;
-    flex-flow: column;
-    place-content: flex-start;
-    place-items: flex-start;
-    background: white;
-    // border-right: 1px lightgrey solid;
-    border-left: @padding-lg solid @primary-color;
+    width: 400px;
+  }
 
-    .hero-brand-wrapper {
-      background: @primary-color;
-      width: 100%;
-      padding: @padding-lg;
-    }
+  .hero-brand-wrapper {
+    background: @primary-color;
+    width: 100%;
+    padding: @padding-lg;
+  }
 
-    .hero-text {
-      padding: @padding-lg;
-    }
+  .hero-text {
+    padding: @padding-lg;
   }
 }

@@ -12,8 +12,8 @@ import './navigationMenu.less';
 
 const NavigationMenu: React.FC = () => {
   const history = useHistory();
-  const { logout } = useAuth();
-
+  const { currentUser, logout } = useAuth();
+  console.log(currentUser);
   const handleClick = (e: MenuInfo) => {
     if (e.key === Pages.Logout) {
       logout();
@@ -32,10 +32,16 @@ const NavigationMenu: React.FC = () => {
       onClick={handleClick}
       className='navigation-menu'
     >
-      <Menu.Item key={Pages.Profile}>{Pages.Profile}</Menu.Item>
-      <Menu.Item key={Pages.Tracker}>{Pages.Tracker}</Menu.Item>
-      <Menu.Item key={Pages.Activity}>{Pages.Activity}</Menu.Item>
-      <Menu.Item key={Pages.Logout}>{Pages.Logout}</Menu.Item>
+      {currentUser ? (
+        <>
+          <Menu.Item key={Pages.Profile}>{Pages.Profile}</Menu.Item>
+          <Menu.Item key={Pages.Tracker}>{Pages.Tracker}</Menu.Item>
+          <Menu.Item key={Pages.Activity}>{Pages.Activity}</Menu.Item>
+          <Menu.Item key={Pages.Logout}>{Pages.Logout}</Menu.Item>
+        </>
+      ) : (
+        <Menu.Item key={Pages.Authorize}>Authorize</Menu.Item>
+      )}
     </Menu>
   );
 };
