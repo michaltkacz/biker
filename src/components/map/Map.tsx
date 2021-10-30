@@ -14,7 +14,7 @@ import {
 
 import { defaultPosition } from '../../hooks/useGeolocation';
 
-import positionMarker from '../../assets/positionMarker.png';
+import positionMarker from '../../assets/map/position1.png';
 
 import 'leaflet/dist/leaflet.css';
 import './map.less';

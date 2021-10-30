@@ -8,10 +8,10 @@ import './hero.less';
 const Hero: React.FC = () => {
   return (
     <div className='hero'>
-      <div className='hero-brand-wrapper'>
+      <div className='hero-header'>
         <Brand />
       </div>
-      <Typography.Title level={2} className='hero-text'>
+      <Typography.Title level={2} className='hero-content'>
         Monitor all your cycling statistics in one place
       </Typography.Title>
     </div>

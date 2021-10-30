@@ -2,3 +2,22 @@ https://www.flaticon.com/free-icon/geo_2527411
 https://www.flaticon.com/free-icon/rec_808569
 
 https://www.flaticon.com/premium-icon/segmented-circle-arrow_1853281?term=circle&page=1&position=6&page=1&position=6&related_id=1853281&origin=search
+
+https://www.1001fonts.com/road-rage-font.html
+
+
+
+  "shortcuts": [
+    {
+      "name": "Profile",
+      "url": "/profile"
+    },
+    {
+      "name": "Tracker",
+      "url": "/tracker"
+    },
+    {
+      "name": "Activity",
+      "url": "/activity"
+    }
+  ],
