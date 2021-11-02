@@ -53,42 +53,17 @@ export type TrackPoint = {
   lon: number;
   time: number;
   ele: number | null;
-  speed: number | null;
 };
 
-export type TrackSegment = {
-  points: Array<TrackPoint>;
-};
+export type TrackSegment = Array<TrackPoint>;
 
-export type Track = {
-  segments: Array<TrackSegment>;
-  timestamp: number | null;
-};
-
-// !template:
-// const tp:TrackPoint = {
-//   lat: 0,
-//   lon: 0,
-//   ele: 0,
-//   time: 0,
-// }
-
-// const ts: TrackSegment = {
-//   trackPoints: [tp],
-// }
-
-// const t: Track = {
-//   segments: [ts]
-// }
-
-// t.segments[0].trackPoints[0]
+export type Track = Array<TrackSegment>;
 
 export type ActivityStatistics = {
   totalDistance: number | null;
   totalDuration: number | null;
   inMotionDuration: number | null;
   maxSpeed: number | null;
-  averageSpeed: number | null;
   elevationUp: number | null;
   elevationDown: number | null;
 };

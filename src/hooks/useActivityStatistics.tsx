@@ -1,92 +1,102 @@
 import { useState, useEffect } from 'react';
 import { Track, ActivityStatistics } from '../database/schema';
-import { geodistance } from '../global/mathHelpers';
+import { geoSpeed2, geoMove, deltaTime } from '../global/geoMath';
 
-const useActivityStatistics = (track: Track): ActivityStatistics => {
-  const [maxSpeed, setMaxSpeed] = useState<number | null>(null);
-  const [averageSpeed, setAverageSpeed] = useState<number | null>(null);
+export type ActivityStatisticsExtended = {
+  latestSpeed: number | null;
+  latestElevation: number | null;
+} & ActivityStatistics;
+
+const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
+  const [latestSpeed, setLatestSpeed] = useState<number | null>(null);
+  const [latestElevation, setLatestElevation] = useState<number | null>(null);
 
   const [totalDistance, setTotalDistance] = useState<number | null>(null);
-
   const [totalDuration, setTotalDuration] = useState<number | null>(null);
   const [inMotionDuration, setInMotionDuration] = useState<number | null>(null);
-
+  const [maxSpeed, setMaxSpeed] = useState<number | null>(null);
   const [elevationUp, setElevationUp] = useState<number | null>(null);
   const [elevationDown, setElevationDown] = useState<number | null>(null);
 
   useEffect(() => {
-    const { segments, timestamp } = track;
-
-    // there must be a timestamp,
     // there must be at least one segment
     // there must be at least one point in segment
-    if (
-      !timestamp ||
-      segments.length === 0 ||
-      segments[0].points.length === 0
-    ) {
+    if (track.length === 0 || track[0].length === 0) {
       return;
     }
 
     // index of last segment and last point
-    const lsi = segments.length - 1;
-    const lpi = segments[lsi].points.length - 1;
-    const lastPoint = segments[lsi].points[lpi];
+    const lsi = track.length - 1;
+    const lpi = track[lsi].length - 1;
+    const firstTrackPoint = track[0][0];
+    const lastTrackPoint = track[lsi][lpi];
 
-    // maxSpeed
-    const newSpeed = lastPoint.speed; // m/s
-    if (!maxSpeed || (newSpeed && newSpeed > maxSpeed)) {
-      setMaxSpeed(newSpeed); // m/s
-    }
-
-    // totalDuration
-    const newTotalDuration = lastPoint.time - timestamp; // miliseconds
-    setTotalDuration(newTotalDuration);
-
+    const newLatestElevation = lastTrackPoint.ele; // meters
+    const newTotalDuration = deltaTime(
+      firstTrackPoint.time,
+      lastTrackPoint.time
+    ); // miliseconds
+    let newLatestSpeed = null;
+    let newMaxSpeed = null;
     let newTotalDistance = 0;
     let newInMotionDuration = 0;
     let newElevationUp = 0;
     let newElevationDown = 0;
 
-    segments.forEach((segment) => {
-      // at least two points
-      for (let i = 1; i < segment.points.length; i++) {
-        const prevPoint = segment.points[i - 1];
-        const point = segment.points[i];
+    // latestSpeed
+    if (lpi >= 1) {
+      const secondLastPoint = track[lsi][lpi - 1];
+      newLatestSpeed = geoSpeed2(
+        secondLastPoint.lat,
+        secondLastPoint.lon,
+        secondLastPoint.time,
+        lastTrackPoint.lat,
+        lastTrackPoint.lon,
+        lastTrackPoint.time
+      );
+    }
 
-        const distanceChange = geodistance(
-          prevPoint.lat,
-          prevPoint.lon,
-          point.lat,
-          point.lon
-        ); // meters
+    track.forEach((trackSegment) => {
+      // at least two points in segment required
+      for (let i = 1; i < trackSegment.length; i++) {
+        const prevTrackPoint = trackSegment[i - 1];
+        const currTrackPoint = trackSegment[i];
+
+        const { distance, speed, dTime, dElevation } = geoMove(
+          prevTrackPoint.lat,
+          prevTrackPoint.lon,
+          prevTrackPoint.time,
+          currTrackPoint.lat,
+          currTrackPoint.lon,
+          currTrackPoint.time,
+          prevTrackPoint.ele,
+          currTrackPoint.ele
+        );
 
         // greater than one meter
-        if (distanceChange > 1) {
-          //totalDistance
-          newTotalDistance += distanceChange;
-
-          // inMotionDuraiton
-          newInMotionDuration += point.time - prevPoint.time; // miliseconds
-
-          // elevationUp, elevationDown
-          if (prevPoint.ele && point.ele) {
-            const elevationDifference = prevPoint.ele - point.ele; // meters
-            if (elevationDifference > 0) {
-              newElevationDown += elevationDifference;
+        if (distance > 1) {
+          newTotalDistance += distance; // m
+          newInMotionDuration += dTime; // miliseconds
+          newMaxSpeed = speed;
+          if (dElevation) {
+            if (dElevation > 0) {
+              newElevationDown += dElevation;
             } else {
-              newElevationUp += Math.abs(elevationDifference);
+              newElevationUp += Math.abs(dElevation);
             }
           }
         }
       }
     });
 
-    if (totalDuration && totalDistance) {
-      const newAverageSpeed = (totalDistance * 1000) / totalDuration; // m/ms -> m/s
-      setAverageSpeed(newAverageSpeed);
+    // maxSpeed
+    if (!maxSpeed || (newMaxSpeed && newMaxSpeed > maxSpeed)) {
+      setMaxSpeed(newMaxSpeed); // m/s
     }
 
+    setLatestSpeed(newLatestSpeed);
+    setLatestElevation(newLatestElevation);
+    setTotalDuration(newTotalDuration);
     setTotalDistance(newTotalDistance);
     setInMotionDuration(newInMotionDuration);
     setElevationUp(newElevationUp);
@@ -94,11 +104,12 @@ const useActivityStatistics = (track: Track): ActivityStatistics => {
   }, [track]);
 
   return {
+    latestSpeed,
+    latestElevation,
     totalDistance,
     totalDuration,
     inMotionDuration,
     maxSpeed,
-    averageSpeed,
     elevationUp,
     elevationDown,
   };

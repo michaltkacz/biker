@@ -12,8 +12,8 @@ export type TrackRecorder = {
   track: Track;
 } & Geolocation;
 
-const emptySegment: TrackSegment = { points: [] };
-const emptyTrack: Track = { segments: [emptySegment], timestamp: null };
+const emptySegment: TrackSegment = [];
+const emptyTrack: Track = [emptySegment];
 
 const useTracker = (interval: number = 2000): TrackRecorder => {
   const { enableNoSleep, disableNoSleep } = useNoSleep();
@@ -51,11 +51,8 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
   const updateTrack = () => {
     if (!latestPosition) {
       // if last track segment is not empty, add new empty track segment
-      if (track.segments[track.segments.length - 1].points.length !== 0) {
-        setTrack({
-          segments: [...track.segments, emptySegment],
-          timestamp: track.timestamp,
-        });
+      if (track[track.length - 1].length === 0) {
+        setTrack([...track, emptySegment]);
       }
       return;
     }
@@ -64,16 +61,14 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
       lat: latestPosition.coords.latitude,
       lon: latestPosition.coords.longitude,
       ele: latestPosition.coords.altitude,
-      speed: latestPosition.coords.speed,
       time: Date.now(),
     };
 
     // add new track point to last track segment
-    const segments = [...track.segments];
-    const timestamp = track.timestamp;
-    segments[segments.length - 1].points.push(newTrackPoint);
+    const newTrack = [...track];
+    newTrack[newTrack.length - 1].push(newTrackPoint);
 
-    setTrack({ segments, timestamp });
+    setTrack(newTrack);
   };
 
   const startTracking = (): void => {
@@ -85,7 +80,7 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
       startWatchingPosition();
     }
 
-    setTrack({ segments: [emptySegment], timestamp: Date.now() });
+    setTrack(emptyTrack);
     setIsTracking(true);
     enableNoSleep();
   };

@@ -4,17 +4,16 @@ import { Statistic } from 'antd';
 import './trackerDashboard.less';
 
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { TrackerStatistics } from '../../hooks/useTrackerStatistics';
+import { ActivityStatisticsExtended } from '../../hooks/useActivityStatistics';
 
 type TrackerDashboardProps = {
   show: boolean;
-} & TrackerStatistics;
+} & ActivityStatisticsExtended;
 
 const TrackerDashboard: React.FC<TrackerDashboardProps> = ({
   show,
-  speed,
-  averageSpeed,
-  elevation,
+  latestSpeed,
+  latestElevation,
   totalDistance,
   totalDuration,
   inMotionDuration,
@@ -45,6 +44,21 @@ const TrackerDashboard: React.FC<TrackerDashboardProps> = ({
       return validatedValue;
     }
     return validatedValue * 3.6;
+  };
+
+  const formatAverageSpeedValue = (
+    distance: number | null,
+    time: number | null
+  ): number | string => {
+    const validatedDistance = validateValue(distance);
+    const validatedTime = validateValue(time);
+    if (
+      typeof validatedDistance === 'string' ||
+      typeof validatedTime === 'string'
+    ) {
+      return validatedDistance;
+    }
+    return (validatedDistance / validatedTime) * 3600;
   };
 
   const formatTimeValue = (value: number | null): string => {
@@ -78,28 +92,28 @@ const TrackerDashboard: React.FC<TrackerDashboardProps> = ({
       />
       <Statistic
         title='Speed'
-        value={formatSpeedValue(speed)}
+        value={formatSpeedValue(latestSpeed)}
         prefix={<QuestionCircleOutlined />}
-        suffix='m/s'
+        suffix='km/s'
         precision={1}
       />
       <Statistic
         title='Average Speed'
-        value={formatSpeedValue(averageSpeed)}
+        value={formatAverageSpeedValue(totalDistance, inMotionDuration)}
         prefix={<QuestionCircleOutlined />}
-        suffix='m/s'
+        suffix='km/s'
         precision={1}
       />
       <Statistic
         title='Max Speed'
         value={formatSpeedValue(maxSpeed)}
         prefix={<QuestionCircleOutlined />}
-        suffix='m/s'
+        suffix='km/s'
         precision={1}
       />
       <Statistic
         title='Current Elevation'
-        value={validateValue(elevation)}
+        value={validateValue(latestElevation)}
         prefix={<QuestionCircleOutlined />}
         suffix='m'
         precision={0}

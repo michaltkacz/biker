@@ -7,7 +7,7 @@ import TrackerDashboard from '../trackerDashboard/TrackerDashboard';
 import TrackerControls from '../trackerControls/TrackerControls';
 
 import useTracker from '../../hooks/useTracker';
-import useTrackerStatistics from '../../hooks/useTrackerStatistics';
+import useActivityStatistics from '../../hooks/useActivityStatistics';
 
 import './trackerPage.less';
 
@@ -28,7 +28,7 @@ const TrackerPage: React.FC = () => {
     isTracking,
   } = useTracker();
 
-  const trackerStatistics = useTrackerStatistics(track);
+  const activityStatistics = useActivityStatistics(track);
 
   const [panToPosition, setPanToPosition] = useState<boolean>(false);
   const [followPosition, setFollowPosition] = useState<boolean>(true);
@@ -61,7 +61,7 @@ const TrackerPage: React.FC = () => {
 
   return (
     <div className='tracker-page'>
-      <TrackerDashboard show={isTracking} {...trackerStatistics} />
+      <TrackerDashboard show={isTracking} {...activityStatistics} />
       <MapCanvas
         render={(height) => (
           <Map
