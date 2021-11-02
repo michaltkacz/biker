@@ -7,6 +7,7 @@ import TrackerDashboard from '../trackerDashboard/TrackerDashboard';
 import TrackerControls from '../trackerControls/TrackerControls';
 
 import useTracker from '../../hooks/useTracker';
+import useTrackerStatistics from '../../hooks/useTrackerStatistics';
 
 import './trackerPage.less';
 
@@ -20,13 +21,14 @@ import {
 const TrackerPage: React.FC = () => {
   const {
     latestPosition,
+    lastKnownPosition,
     track,
     startTracking,
     stopTracking,
-    resetTracker,
     isTracking,
-    trackingTotalTime,
   } = useTracker();
+
+  const trackerStatistics = useTrackerStatistics(track);
 
   const [panToPosition, setPanToPosition] = useState<boolean>(false);
   const [followPosition, setFollowPosition] = useState<boolean>(true);
@@ -36,7 +38,6 @@ const TrackerPage: React.FC = () => {
   }, []);
 
   const handleStartTracking = (): void => {
-    resetTracker();
     startTracking();
   };
 
@@ -60,17 +61,13 @@ const TrackerPage: React.FC = () => {
 
   return (
     <div className='tracker-page'>
-      <TrackerDashboard
-        show={isTracking}
-        position={latestPosition}
-        trackingTime={trackingTotalTime}
-      />
+      <TrackerDashboard show={isTracking} {...trackerStatistics} />
       <MapCanvas
         render={(height) => (
           <Map
             height={height}
             track={track}
-            position={latestPosition}
+            position={latestPosition || lastKnownPosition}
             followPosition={followPosition}
             panToPosition={panToPosition}
           />

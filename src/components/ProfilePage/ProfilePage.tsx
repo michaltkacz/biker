@@ -1,13 +1,12 @@
 import React from 'react';
+import { Typography } from 'antd';
 
 import './profilePage.less';
-import { PageHeader } from 'antd';
 
 const ProfilePage = () => {
   return (
     <div className='profile-page'>
-      {/* <Typography.Title level={1}>Profile</Typography.Title> */}
-      <PageHeader title='Profile'></PageHeader>
+      <Typography.Title level={1}>Profile</Typography.Title>
     </div>
   );
 };

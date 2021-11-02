@@ -3,10 +3,10 @@ import { User, onAuthStateChanged, signOut } from '@firebase/auth';
 
 import { auth } from '../firebase/firebase';
 
-export interface IAuthContext {
+export type IAuthContext = {
   currentUser: User | null;
   logout: () => void;
-}
+};
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
 

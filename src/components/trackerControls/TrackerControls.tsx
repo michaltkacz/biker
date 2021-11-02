@@ -5,16 +5,16 @@ import './trackerControls.less';
 import { useMediaQuery } from 'react-responsive';
 import { screen } from '../../reactResponsive/options';
 
-interface TrackerControlsProps {}
+type TrackerControlsProps = {};
 
-interface ButtonProps {
+type ButtonProps = {
   text: string;
   messageText?: string;
   icon: React.ReactNode;
   onClick: () => void;
-}
+};
 
-interface PopconfirmButtonProps {
+type PopconfirmButtonProps = {
   buttonText: string;
   popconfirmText: string;
   messageTextConfirm: string;
@@ -22,16 +22,16 @@ interface PopconfirmButtonProps {
   icon: React.ReactNode;
   onConfirm: () => void;
   onCancel?: () => void;
-}
+};
 
-interface ToggleControlProps {
+type ToggleControlProps = {
   toggled: boolean;
   primaryControl: React.ReactNode;
   secondaryControl: React.ReactNode;
-}
-interface ButtonTextProps {
+};
+type ButtonTextProps = {
   text: string;
-}
+};
 
 const TrackerControls: React.FC<TrackerControlsProps> & {
   Button: React.FC<ButtonProps>;
@@ -51,7 +51,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <AntdButton
       block
-      type='primary'
+      // type='primary'
       size='large'
       icon={icon}
       onClick={() => {
@@ -93,7 +93,7 @@ const PopconfirmButton: React.FC<PopconfirmButtonProps> = ({
     >
       <AntdButton
         block
-        type='primary'
+        // type='primary'
         size='large'
         icon={icon}
         className='button'

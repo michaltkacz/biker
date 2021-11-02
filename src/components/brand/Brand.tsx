@@ -1,23 +1,22 @@
 import React from 'react';
-// import { Typography } from 'antd';
+import Pages from '../../global/pages';
 
 import './brand.less';
-// import { StarOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 const Brand = () => {
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
+  const history = useHistory();
+  const location = useLocation();
+
+  const handleClick = (): void => {
+    if (location.pathname === `/${Pages.Authorize}`) {
+      return;
+    }
+    history.push(Pages.Profile);
   };
 
-  return (
-    // <div className='brand'>
-    //   <StarOutlined className='brand-logo' />
-    //   <Typography.Title level={2} className='brand-name'>
-    //     Biker
-    //   </Typography.Title>
-    // </div>
-    <div className='brand' onClick={handleClick}></div>
-  );
+  return <div className='brand' onClick={handleClick}></div>;
 };
 
 export default Brand;

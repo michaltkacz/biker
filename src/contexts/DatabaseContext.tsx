@@ -4,7 +4,7 @@ import React, { useEffect, createContext } from 'react';
 
 // import { database } from '../firebase/firebase';
 
-export interface IDatabaseContext {}
+export type IDatabaseContext = {};
 
 export const DatabaseContext = createContext<IDatabaseContext | undefined>(
   undefined

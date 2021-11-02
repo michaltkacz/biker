@@ -32,17 +32,65 @@ export enum GenderTypes {
   Other = 'other',
 }
 
+export enum RatingTypes {
+  Terrible = 'terrible',
+  VeryPoor = 'very_poor',
+  Poor = 'poor',
+  Fair = 'fair',
+  Good = 'good',
+  VeryGood = 'very_good',
+  Excelent = 'excelent',
+}
+
 export type ActivityShape = {
   isLoop: boolean;
   from?: string;
   to?: string;
 };
 
-export type Coordinates = {
+export type TrackPoint = {
   lat: number;
   lon: number;
-  ele?: number;
   time: number;
+  ele: number | null;
+  speed: number | null;
+};
+
+export type TrackSegment = {
+  points: Array<TrackPoint>;
+};
+
+export type Track = {
+  segments: Array<TrackSegment>;
+  timestamp: number | null;
+};
+
+// !template:
+// const tp:TrackPoint = {
+//   lat: 0,
+//   lon: 0,
+//   ele: 0,
+//   time: 0,
+// }
+
+// const ts: TrackSegment = {
+//   trackPoints: [tp],
+// }
+
+// const t: Track = {
+//   segments: [ts]
+// }
+
+// t.segments[0].trackPoints[0]
+
+export type ActivityStatistics = {
+  totalDistance: number | null;
+  totalDuration: number | null;
+  inMotionDuration: number | null;
+  maxSpeed: number | null;
+  averageSpeed: number | null;
+  elevationUp: number | null;
+  elevationDown: number | null;
 };
 
 export type Activity = {
@@ -51,31 +99,40 @@ export type Activity = {
   name: string;
   createdAt: number;
   lastModifiedAt: number;
-  distance: number;
-  totalDuration: number;
-  inMotionDuration: number;
   type: ActivityTypes;
   sport: ActivitySportTypes;
   category: ActivityCategoryTypes;
   shape: ActivityShape;
-  maxSpeed?: number;
-  averageSpeed?: number;
-  elevationUp?: number;
-  elevationDown?: number;
+  statistics: ActivityStatistics;
   rating?: number;
   tags?: Array<string>;
 };
 
 export type UserStatistics = {
+  minDistance?: number;
+  minElevation?: number;
+  minDuration?: number;
   maxSpeed?: number;
+  maxDistance?: number;
+  maxElevation?: number;
+  maxDuration?: number;
   totalDistance?: number;
   totalElevationUp?: number;
   totalElevationDown?: number;
   totalDuration?: number;
   totalInMotionDuration?: number;
-  averageRating?: number;
+  // averageSpeed?: number; //! can be calcualted just in time
+  // averageDistance?: number;
+  // averageElevation?: number;
+  // averageDuration?: number;
+  // averageInMotionDuration?: number;
+  longestUphill?: number;
+  longestDownhill?: number;
   firstActivityAt?: number;
   lastActivityAt?: number;
+  ratingStatistics?: {
+    [key in RatingTypes]?: number;
+  };
   sportStatistics?: {
     [key in ActivitySportTypes]?: number;
   };
@@ -99,11 +156,11 @@ export type User = {
   profile: UserProfile | null;
   statistics: UserStatistics | null;
   activities: { [activityId: string]: Activity } | null;
+  tracks: { [activityId: string]: Track } | null;
 };
 
 type DatabaseSchema = {
   users: { [userId: string]: User } | null;
-  tracks: { [activityId: string]: Array<Coordinates> } | null;
 };
 
 export default DatabaseSchema;

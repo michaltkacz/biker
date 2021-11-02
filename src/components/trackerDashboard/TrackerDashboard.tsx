@@ -4,64 +4,119 @@ import { Statistic } from 'antd';
 import './trackerDashboard.less';
 
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { TrackerStatistics } from '../../hooks/useTrackerStatistics';
 
-interface TrackerDashboardProps {
+type TrackerDashboardProps = {
   show: boolean;
-  position: GeolocationPosition | null;
-  trackingTime: number;
-}
-
-const degreeSymbol = String.fromCharCode(0x00b0);
-// const plusMinusSymbol = String.fromCharCode(0x00b1);
+} & TrackerStatistics;
 
 const TrackerDashboard: React.FC<TrackerDashboardProps> = ({
   show,
-  position,
-  trackingTime,
+  speed,
+  averageSpeed,
+  elevation,
+  totalDistance,
+  totalDuration,
+  inMotionDuration,
+  maxSpeed,
+  elevationUp,
+  elevationDown,
 }) => {
   if (!show) {
     return null;
   }
 
-  const formatTrackingTime = () => {
-    return new Date(trackingTime).toISOString().substr(11, 8);
+  const validateValue = (value: number | null): number | string => {
+    if (value === null) return '-';
+    return value;
+  };
+
+  const formatDistanceValue = (value: number | null): number | string => {
+    const validatedValue = validateValue(value);
+    if (typeof validatedValue === 'string') {
+      return validatedValue;
+    }
+    return validatedValue / 1000;
+  };
+
+  const formatSpeedValue = (value: number | null): number | string => {
+    const validatedValue = validateValue(value);
+    if (typeof validatedValue === 'string') {
+      return validatedValue;
+    }
+    return validatedValue * 3.6;
+  };
+
+  const formatTimeValue = (value: number | null): string => {
+    const validatedValue = validateValue(value);
+    if (typeof validatedValue === 'string') {
+      return validatedValue;
+    }
+    return validatedValue > 60000
+      ? new Date(validatedValue).toISOString().substr(11, 5)
+      : new Date(validatedValue).toISOString().substr(11, 8);
   };
 
   return (
     <div className='tracker-dashboard'>
       <Statistic
+        title='Distance'
+        value={formatDistanceValue(totalDistance)}
+        prefix={<QuestionCircleOutlined />}
+        suffix='km'
+        precision={1}
+      />
+      <Statistic
+        title='In Motion Time'
+        value={formatTimeValue(inMotionDuration)}
+        prefix={<QuestionCircleOutlined />}
+      />
+      <Statistic
+        title='Total Time'
+        value={formatTimeValue(totalDuration)}
+        prefix={<QuestionCircleOutlined />}
+      />
+      <Statistic
         title='Speed'
-        value={position?.coords.speed || 'N/A'}
+        value={formatSpeedValue(speed)}
         prefix={<QuestionCircleOutlined />}
         suffix='m/s'
-        precision={2}
+        precision={1}
       />
       <Statistic
-        title='Time'
-        value={formatTrackingTime()}
+        title='Average Speed'
+        value={formatSpeedValue(averageSpeed)}
         prefix={<QuestionCircleOutlined />}
-        suffix=''
+        suffix='m/s'
+        precision={1}
       />
       <Statistic
-        title='Altitude'
-        value={position?.coords.altitude || 'N/A'}
+        title='Max Speed'
+        value={formatSpeedValue(maxSpeed)}
+        prefix={<QuestionCircleOutlined />}
+        suffix='m/s'
+        precision={1}
+      />
+      <Statistic
+        title='Current Elevation'
+        value={validateValue(elevation)}
         prefix={<QuestionCircleOutlined />}
         suffix='m'
         precision={0}
       />
       <Statistic
-        title='Latitude'
-        value={position?.coords.latitude || 'N/A'}
+        title='Elevation Up'
+        value={validateValue(elevationUp)}
         prefix={<QuestionCircleOutlined />}
-        suffix={degreeSymbol}
-        precision={2}
+        suffix='m'
+        precision={0}
       />
       <Statistic
-        title='Longitude'
-        value={position?.coords.longitude || 'N/A'}
+        title='Elevation Down'
+        value={validateValue(elevationDown)}
         prefix={<QuestionCircleOutlined />}
-        suffix={degreeSymbol}
-        precision={2}
+        suffix='m'
+        precision={0}
       />
     </div>
   );

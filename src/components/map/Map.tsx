@@ -18,32 +18,33 @@ import positionMarker from '../../assets/map/position1.png';
 
 import 'leaflet/dist/leaflet.css';
 import './map.less';
+import { Track } from '../../database/schema';
 
-interface TrackPolylineProps {
-  track?: GeolocationPosition[];
-}
+type TrackPolylineProps = {
+  track?: Track;
+};
 
-interface PositionMarkerProps {
+type PositionMarkerProps = {
   position: GeolocationPosition | null;
-}
+};
 
-interface MapViewUpdaterProps {
-  position: GeolocationPosition | null;
-  followPosition: boolean;
-  panToPosition: boolean;
-}
-
-interface MapAutoResizerProps {
-  height: number;
-}
-
-export interface MapProps {
-  height: number;
+type MapViewUpdaterProps = {
   position: GeolocationPosition | null;
   followPosition: boolean;
   panToPosition: boolean;
-  track?: GeolocationPosition[];
-}
+};
+
+type MapAutoResizerProps = {
+  height: number;
+};
+
+export type MapProps = {
+  height: number;
+  position: GeolocationPosition | null;
+  followPosition: boolean;
+  panToPosition: boolean;
+  track?: Track;
+};
 
 const Map: React.FC<MapProps> = ({
   height,
@@ -98,13 +99,15 @@ const TrackPolyline: React.FC<TrackPolylineProps> = ({ track }) => {
   }
 
   return (
-    <Polyline
-      positions={track.map((position) => [
-        position.coords.latitude,
-        position.coords.longitude,
-      ])}
-      pathOptions={{ color: 'purple' }}
-    />
+    <>
+      {track.segments.map((segment, index) => (
+        <Polyline
+          positions={segment.points.map((point) => [point.lat, point.lon])}
+          pathOptions={{ color: 'purple' }}
+          key={`track-polyline-${index}`}
+        />
+      ))}
+    </>
   );
 };
 

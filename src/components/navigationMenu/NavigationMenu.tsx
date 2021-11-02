@@ -26,7 +26,6 @@ const NavigationMenu: React.FC = () => {
 
   return (
     <Menu
-      defaultSelectedKeys={[Pages.Tracker]}
       mode='inline'
       theme='light'
       onClick={handleClick}

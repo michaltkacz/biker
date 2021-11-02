@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useLocation } from 'react-router';
 
-import './globalPageLayout.less';
+import './pageLayout.less';
 
 import Brand from '../brand/Brand';
 import UserCard from '../userCard/UserCard';
@@ -11,7 +11,7 @@ import NavigationMenu from '../navigationMenu/NavigationMenu';
 
 import Pages from '../../global/pages';
 
-const GlobalPageLayout: React.FC = ({ children }) => {
+const PageLayout: React.FC = ({ children }) => {
   const location = useLocation();
 
   return (
@@ -42,4 +42,4 @@ const GlobalPageLayout: React.FC = ({ children }) => {
   );
 };
 
-export default GlobalPageLayout;
+export default PageLayout;

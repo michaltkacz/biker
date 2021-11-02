@@ -8,7 +8,7 @@ import Auth from '../auth/Auth';
 const AuthPage: React.FC = () => {
   return (
     <div className='auth-page'>
-      <div className='content-wrapper'>
+      <div className='auth-page-content'>
         <Hero />
         <Auth />
       </div>

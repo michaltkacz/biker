@@ -25,8 +25,8 @@ export type Geolocation = {
 
 const positionOptions: PositionOptions = {
   maximumAge: 0,
-  timeout: 10000,
-  enableHighAccuracy: false,
+  timeout: 5000,
+  enableHighAccuracy: true,
 };
 
 const useGeolocation = (): Geolocation => {

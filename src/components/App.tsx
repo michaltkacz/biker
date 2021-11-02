@@ -7,7 +7,7 @@ import { AuthContextProvider } from '../contexts/AuthContext';
 import { DatabaseContextProvider } from '../contexts/DatabaseContext';
 
 import Pages from '../global/pages';
-import GlobalPageLayout from './globalPageLayout/GlobalPageLayout';
+import PageLayout from './pageLayout/PageLayout';
 import AuthPage from './authPage/AuthPage';
 import TrackerPage from './trackerPage/TrackerPage';
 import ProfilePage from './ProfilePage/ProfilePage';
@@ -19,7 +19,7 @@ const App: React.FC = () => {
     <AuthContextProvider>
       <DatabaseContextProvider>
         <Router>
-          <GlobalPageLayout>
+          <PageLayout>
             <Switch>
               <Route exact path={`/${Pages.Authorize}`} component={AuthPage} />
               <Route exact path={`/${Pages.Profile}`} component={ProfilePage} />
@@ -31,7 +31,7 @@ const App: React.FC = () => {
               />
               <Route path='/*' component={NotFoundPage} />
             </Switch>
-          </GlobalPageLayout>
+          </PageLayout>
         </Router>
       </DatabaseContextProvider>
     </AuthContextProvider>
