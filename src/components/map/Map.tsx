@@ -20,16 +20,21 @@ import 'leaflet/dist/leaflet.css';
 import './map.less';
 import { Track } from '../../database/schema';
 
+export type GeoPoint = {
+  lat: number;
+  lon: number;
+};
+
 type TrackPolylineProps = {
   track?: Track;
 };
 
 type PositionMarkerProps = {
-  position: GeolocationPosition | null;
+  position: GeoPoint | null;
 };
 
 type MapViewUpdaterProps = {
-  position: GeolocationPosition | null;
+  position: GeoPoint | null;
   followPosition: boolean;
   panToPosition: boolean;
 };
@@ -40,7 +45,7 @@ type MapAutoResizerProps = {
 
 export type MapProps = {
   height: number;
-  position: GeolocationPosition | null;
+  position: GeoPoint | null;
   followPosition: boolean;
   panToPosition: boolean;
   track?: Track;
@@ -146,12 +151,7 @@ const PositionMarker: React.FC<PositionMarkerProps> = ({ position }) => {
     return null;
   }
 
-  return (
-    <Marker
-      position={[position.coords.latitude, position.coords.longitude]}
-      icon={icon}
-    />
-  );
+  return <Marker position={[position.lat, position.lon]} icon={icon} />;
 };
 
 const MapViewUpdater: React.FC<MapViewUpdaterProps> = ({
@@ -166,8 +166,7 @@ const MapViewUpdater: React.FC<MapViewUpdaterProps> = ({
       return;
     }
 
-    const { latitude, longitude } = position.coords;
-    map.panTo([latitude, longitude]);
+    map.panTo([position.lat, position.lon]);
   }, [map, position, followPosition, panToPosition]);
 
   return null;

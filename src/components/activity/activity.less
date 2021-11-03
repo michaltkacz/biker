@@ -1,0 +1,30 @@
+@import '~antd/es/style/themes/default.less';
+
+.activity {
+  .ant-card-head {
+    &-wrapper {
+      text-overflow: unset;
+    }
+    &-title {
+      display: flex;
+      overflow: unset;
+      white-space: normal;
+
+      .header-tags {
+        margin-bottom: @margin-sm;
+      }
+
+      .header-name {
+        flex: 1 1 0;
+        display: inline-block;
+        margin: 0;
+      }
+      .header-date {
+        margin: 0;
+      }
+    }
+  }
+  .ant-card-body {
+    padding: @padding-sm;
+  }
+}

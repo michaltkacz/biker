@@ -1,8 +1,3 @@
-export enum ActivityTypes {
-  Track = 'track',
-  Route = 'route',
-}
-
 export enum ActivitySportTypes {
   Touring = 'touring',
   MTB = 'mtb',
@@ -74,13 +69,13 @@ export type Activity = {
   name: string;
   createdAt: number;
   lastModifiedAt: number;
-  type: ActivityTypes;
-  sport: ActivitySportTypes;
-  category: ActivityCategoryTypes;
-  shape: ActivityShape;
-  statistics: ActivityStatistics;
-  rating?: number;
-  tags?: Array<string>;
+  track: Track;
+  sport: ActivitySportTypes | null;
+  category: ActivityCategoryTypes | null;
+  shape: ActivityShape | null;
+  statistics: ActivityStatistics | null;
+  rating: RatingTypes | null;
+  tags: Array<string> | null;
 };
 
 export type UserStatistics = {
@@ -118,7 +113,7 @@ export type UserStatistics = {
 
 export type UserProfile = {
   gender?: GenderTypes;
-  age?: number;
+  birthday?: Date;
   weight?: number;
   height?: number;
   country?: string;
@@ -131,7 +126,7 @@ export type User = {
   profile: UserProfile | null;
   statistics: UserStatistics | null;
   activities: { [activityId: string]: Activity } | null;
-  tracks: { [activityId: string]: Track } | null;
+  // tracks: { [activityId: string]: Track } | null;
 };
 
 type DatabaseSchema = {

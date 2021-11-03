@@ -34,7 +34,6 @@ export const firebaseUiDefaultConfig: firebaseui.auth.Config = {
           profile: null,
           statistics: null,
           activities: null,
-          tracks: null,
         };
         set(ref(database, 'users/' + user.userId), user);
       }

@@ -2,9 +2,14 @@
 
 .tracker-dashboard {
   width: 100%;
-  padding: @padding-sm;
+  flex: 1;
+  padding: @padding-xs;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8em, auto));
   row-gap: @padding-xs;
-  column-gap: @padding-xs;
+
+  .ant-statistic-content-prefix,
+  .ant-statistic-content-suffix {
+    font-size: 0.75em;
+  }
 }

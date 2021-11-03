@@ -27,7 +27,7 @@ const NavigationMenu: React.FC = () => {
   return (
     <Menu
       mode='inline'
-      theme='light'
+      theme='dark'
       onClick={handleClick}
       className='navigation-menu'
     >

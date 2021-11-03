@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Track, ActivityStatistics } from '../database/schema';
-import { geoSpeed2, geoMove, deltaTime } from '../global/geoMath';
+import { geoSpeed2, geoMove, deltaTime } from '../global/geolocationMath';
 
 export type ActivityStatisticsExtended = {
   latestSpeed: number | null;

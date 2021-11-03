@@ -67,7 +67,17 @@ const TrackerPage: React.FC = () => {
           <Map
             height={height}
             track={track}
-            position={latestPosition || lastKnownPosition}
+            position={
+              (latestPosition && {
+                lat: latestPosition.coords.latitude,
+                lon: latestPosition.coords.longitude,
+              }) ||
+              (lastKnownPosition && {
+                lat: lastKnownPosition.coords.latitude,
+                lon: lastKnownPosition.coords.longitude,
+              }) ||
+              null
+            }
             followPosition={followPosition}
             panToPosition={panToPosition}
           />
