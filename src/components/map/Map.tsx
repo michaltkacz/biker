@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import L from 'leaflet';
 
 import {
@@ -105,11 +106,11 @@ const TrackPolyline: React.FC<TrackPolylineProps> = ({ track }) => {
 
   return (
     <>
-      {track.map((segment, index) => (
+      {track.map((segment) => (
         <Polyline
           positions={segment.map((point) => [point.lat, point.lon])}
           pathOptions={{ color: 'purple' }}
-          key={`track-polyline-${index}`}
+          key={uuidv4()}
         />
       ))}
     </>

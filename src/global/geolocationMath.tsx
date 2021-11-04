@@ -23,7 +23,7 @@ export const geoDistance = (
 };
 
 export const geoSpeed1 = (deltaDistance: number, deltaTime: number): number => {
-  return (deltaDistance / deltaTime) * 1000;
+  return (deltaDistance / deltaTime) * 1000; // km/h
 };
 
 export const geoSpeed2 = (
@@ -37,7 +37,7 @@ export const geoSpeed2 = (
   return geoSpeed1(
     geoDistance(lat1, lon1, lat2, lon2),
     deltaTime(time1, time2)
-  );
+  ); // km/h
 };
 
 export const geoMove = (

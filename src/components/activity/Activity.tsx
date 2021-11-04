@@ -1,16 +1,27 @@
-import { Card, Col, Row, Tag, Typography, Popconfirm, Statistic } from 'antd';
 import React, { useEffect, useState } from 'react';
+import {
+  Card,
+  Col,
+  Row,
+  Tag,
+  Typography,
+  Popconfirm,
+  Statistic,
+  Rate,
+  Switch,
+  Select,
+} from 'antd';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   ArrowRightOutlined,
   CalendarOutlined,
   ClockCircleOutlined,
   DeleteOutlined,
-  DoubleRightOutlined,
   FallOutlined,
   HistoryOutlined,
   RiseOutlined,
-  StockOutlined,
   SwapOutlined,
   VerticalLeftOutlined,
 } from '@ant-design/icons';
@@ -47,18 +58,23 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const statistics = useActivityStatistics(activity.track);
 
   const [name, setName] = useState<string>(activity.name);
-  const [lastModifiedAt, setLastModifiedAt] = useState(activity.lastModifiedAt);
-  const [sport, setSport] = useState<ActivitySportTypes | null>(activity.sport);
-  const [category, setCategory] = useState<ActivityCategoryTypes | null>(
-    activity.category
+  const [sport, setSport] = useState<ActivitySportTypes>(
+    activity.sport || ActivitySportTypes.Other
   );
-  const [shape, setShape] = useState<ActivityShape | null>(activity.shape);
+  const [category, setCategory] = useState<ActivityCategoryTypes>(
+    activity.category || ActivityCategoryTypes.Casual
+  );
+  const [shape, setShape] = useState<ActivityShape>(
+    activity.shape || { isLoop: false, from: 'unknown', to: 'unknown' }
+  );
   const [rating, setRating] = useState<RatingTypes | null>(activity.rating);
   const [tags, setTags] = useState<Array<string> | null>(activity.tags);
 
-  // useEffect(() => {
-  //   console.log(activity);
-  // }, [activity]);
+  const [lastModifiedAt, setLastModifiedAt] = useState(activity.lastModifiedAt);
+
+  useEffect(() => {
+    setLastModifiedAt(Date.now());
+  }, [name, sport, category, shape, rating, tags]);
 
   const deleteActivity = () => {
     //todo delete this...
@@ -68,34 +84,108 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
     <Card
       className='activity'
       title={
-        <div>
-          <div className='header-tags'>
-            {tags?.map((tag, index) => (
-              <Tag
-                closable
-                onClose={() => {
-                  const newTags = [...tags];
-                  newTags.splice(index, 0);
-                  setTags(newTags);
-                }}
-              >
-                {tag}
-              </Tag>
-            ))}
+        <div className='header'>
+          <div>
+            <div className='header-tags'>
+              {tags?.map((tag, index) => (
+                <Tag
+                  key={uuidv4()}
+                  closable
+                  onClose={() => {
+                    const newTags = [...tags];
+                    newTags.splice(index, 0);
+                    setTags(newTags);
+                  }}
+                >
+                  {tag}
+                </Tag>
+              ))}
+            </div>
+            <Typography.Title
+              level={4}
+              className='header-name'
+              editable={{
+                onChange: setName,
+              }}
+            >
+              {name}
+            </Typography.Title>
+            <Typography.Paragraph type='secondary' className='header-date'>
+              <CalendarOutlined />
+              {` ${formatDateValue(activity.createdAt)}`}
+            </Typography.Paragraph>
+            <Rate
+              tooltips={Object.values(RatingTypes)}
+              onChange={(value) => {
+                value === 0
+                  ? setRating(null)
+                  : setRating(Object.values(RatingTypes)[value]);
+              }}
+              style={{ display: 'block' }}
+            />
+            <Typography.Text type='secondary'>Sport</Typography.Text>
+            <Select
+              defaultValue={sport}
+              style={{ width: '100%', maxWidth: 120 }}
+              onChange={(value) => setSport(value)}
+            >
+              {Object.values(ActivitySportTypes).map((type) => (
+                <Select.Option key={uuidv4()} value={type}>
+                  {type}
+                </Select.Option>
+              ))}
+            </Select>
+            <Typography.Text type='secondary'>Category</Typography.Text>
+            <Select
+              defaultValue={category}
+              style={{ width: '100%', maxWidth: 120 }}
+              onChange={(value) => setCategory(value)}
+            >
+              {Object.values(ActivityCategoryTypes).map((type) => (
+                <Select.Option key={uuidv4()} value={type}>
+                  {type}
+                </Select.Option>
+              ))}
+            </Select>
           </div>
-          <Typography.Title
-            level={4}
-            className='header-name'
-            editable={{
-              onChange: setName,
-            }}
-          >
-            {name}
-          </Typography.Title>
-          <Typography.Paragraph type='secondary' className='header-date'>
-            <CalendarOutlined />
-            {` ${formatDateValue(activity.createdAt)}`}
-          </Typography.Paragraph>
+          <div>
+            <Typography.Text type='secondary'>Loop </Typography.Text>
+            <Switch
+              onChange={(checked) => setShape({ ...shape, isLoop: checked })}
+            />
+            <Row gutter={[4, 4]}>
+              <Col xs={12}>
+                <Typography.Text style={{ display: 'block' }} type='secondary'>
+                  Start
+                </Typography.Text>
+                <Typography.Text
+                  editable={{
+                    onChange: (value) => setShape({ ...shape, from: value }),
+                  }}
+                >
+                  {shape?.from || 'unknown'}
+                </Typography.Text>
+              </Col>
+              {shape.isLoop && (
+                <Col xs={12}>
+                  <Typography.Text
+                    style={{ display: 'block' }}
+                    type='secondary'
+                  >
+                    End
+                  </Typography.Text>
+                  <Typography.Text
+                    editable={{
+                      maxLength: 100,
+                      onChange: (value) => setShape({ ...shape, to: value }),
+                    }}
+                  >
+                    {shape.to || 'unknown'}
+                  </Typography.Text>
+                </Col>
+              )}
+            </Row>
+          </div>
         </div>
       }
       extra={
@@ -111,7 +201,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
       }
     >
       <Row gutter={[{ xs: 4, sm: 8, md: 16, lg: 24 }, 16]}>
-        <Col xs={24} lg={16} style={{ minHeight: 400 }}>
+        <Col xs={24} md={18} style={{ minHeight: 400 }}>
           <MapCanvas
             render={(height) => (
               <Map
@@ -127,7 +217,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             )}
           />
         </Col>
-        <Col xs={24} lg={8}>
+        <Col xs={24} md={6}>
           <Statistic
             title='Distance'
             value={formatDistanceValue(statistics.totalDistance)}
@@ -146,10 +236,20 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             prefix={<ClockCircleOutlined />}
           />
           <Statistic
-            title='Average Speed'
+            title='Average Speed (Motion Time)'
             value={formatAverageSpeedValue(
               statistics.totalDistance,
               statistics.inMotionDuration
+            )}
+            prefix={<SwapOutlined />}
+            suffix='km/h'
+            precision={1}
+          />
+          <Statistic
+            title='Average Speed (Total Time)'
+            value={formatAverageSpeedValue(
+              statistics.totalDistance,
+              statistics.totalDuration
             )}
             prefix={<SwapOutlined />}
             suffix='km/h'
@@ -182,7 +282,6 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             prefix={<CalendarOutlined />}
           />
         </Col>
-        <Col xs={24}></Col>
       </Row>
     </Card>
   );

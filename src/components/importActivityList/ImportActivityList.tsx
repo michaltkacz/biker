@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 
 import GpxFileParser from '../GpxFileParser/GpxToActivityParser';
 
@@ -15,9 +16,7 @@ const ImportActivityList: React.FC<ImportActivityListProps> = ({ files }) => {
           Choose files to import
         </Typography.Paragraph>
       ) : (
-        files.map((file, index) => (
-          <GpxFileParser file={file} key={`gpx-file-parser-${index}`} />
-        ))
+        files.map((file) => <GpxFileParser file={file} key={uuidv4()} />)
       )}
     </>
   );

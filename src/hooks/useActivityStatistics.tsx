@@ -36,12 +36,12 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
       firstTrackPoint.time,
       lastTrackPoint.time
     ); // miliseconds
-    let newLatestSpeed = null;
-    let newMaxSpeed = null;
-    let newTotalDistance = 0;
-    let newInMotionDuration = 0;
-    let newElevationUp = 0;
-    let newElevationDown = 0;
+    let newLatestSpeed: null | number = null;
+    let newMaxSpeed: null | number = null;
+    let newTotalDistance: number = 0;
+    let newInMotionDuration: number = 0;
+    let newElevationUp: number = 0;
+    let newElevationDown: number = 0;
 
     // latestSpeed
     if (lpi >= 1) {
@@ -74,17 +74,18 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
         );
 
         // greater than one meter
-        if (distance > 1) {
+        if (speed > 1) {
           newTotalDistance += distance; // m
           newInMotionDuration += dTime; // miliseconds
-          newMaxSpeed = speed;
-          if (dElevation) {
-            if (dElevation > 0) {
-              newElevationDown += dElevation;
-            } else {
-              newElevationUp += Math.abs(dElevation);
-            }
+
+          if (!newMaxSpeed || speed > newMaxSpeed) {
+            newMaxSpeed = speed;
           }
+
+          dElevation &&
+            (dElevation > 0
+              ? (newElevationDown += dElevation)
+              : (newElevationUp += -dElevation));
         }
       }
     });

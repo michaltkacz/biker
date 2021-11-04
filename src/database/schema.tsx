@@ -29,18 +29,16 @@ export enum GenderTypes {
 
 export enum RatingTypes {
   Terrible = 'terrible',
-  VeryPoor = 'very_poor',
   Poor = 'poor',
   Fair = 'fair',
   Good = 'good',
-  VeryGood = 'very_good',
   Excelent = 'excelent',
 }
 
 export type ActivityShape = {
   isLoop: boolean;
-  from?: string;
-  to?: string;
+  from: string;
+  to: string;
 };
 
 export type TrackPoint = {
