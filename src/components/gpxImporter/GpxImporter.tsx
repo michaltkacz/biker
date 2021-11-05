@@ -35,19 +35,8 @@ const GpxImporter = () => {
           </Typography.Title>
         }
         extra={
-          <FileButton
-            accept='.gpx'
-            multiple
-            onChange={handleFilesSelect}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <UploadOutlined
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            />
+          <FileButton accept='.gpx' multiple onChange={handleFilesSelect}>
+            <UploadOutlined />
           </FileButton>
         }
       >

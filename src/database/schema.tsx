@@ -1,8 +1,14 @@
+export type EnumTypes =
+  | ActivitySportTypes
+  | ActivityCategoryTypes
+  | GenderTypes
+  | RatingTypes;
+
 export enum ActivitySportTypes {
   Touring = 'touring',
   MTB = 'mtb',
-  EnduroMTB = 'enduroMtb',
-  DownhillMTB = 'downhillMtb',
+  Enduro = 'enduro',
+  Downhill = 'downhill',
   Gravel = 'gravel',
   Road = 'road',
   BMX = 'bmx',
@@ -16,9 +22,10 @@ export enum ActivitySportTypes {
 export enum ActivityCategoryTypes {
   Commute = 'commute',
   Casual = 'casual',
-  Workout = 'workout',
+  Workout = 'training',
   Race = 'race',
   Bikepacking = 'bikepacking',
+  Other = 'other',
 }
 
 export enum GenderTypes {

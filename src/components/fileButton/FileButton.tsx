@@ -12,6 +12,7 @@ const FileButton: React.FC<FileButtonProps> = ({ children, ...rest }) => {
     <label
       role='button'
       className='file-import-button ant-btn ant-btn-primary button ant-btn-block'
+      onClick={(e) => e.stopPropagation()}
     >
       <input type='file' {...rest} />
       {children}

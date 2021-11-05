@@ -1,41 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Card,
-  Col,
-  Row,
-  Tag,
-  Typography,
-  Popconfirm,
-  Statistic,
-  Rate,
-  Switch,
-  Select,
-} from 'antd';
+import { Card, Col, Row, Rate, Popconfirm, Button } from 'antd';
 
-import { v4 as uuidv4 } from 'uuid';
-
-import {
-  ArrowRightOutlined,
-  CalendarOutlined,
-  ClockCircleOutlined,
-  DeleteOutlined,
-  FallOutlined,
-  HistoryOutlined,
-  RiseOutlined,
-  SwapOutlined,
-  VerticalLeftOutlined,
-} from '@ant-design/icons';
+import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import './activity.less';
-
-import {
-  formatAverageSpeedValue,
-  formatDateValue,
-  formatDistanceValue,
-  formatDurationValue,
-  formatSpeedValue,
-  validateValue,
-} from '../../global/statisiticsFormatters';
 
 import {
   Activity as ActivityType,
@@ -47,8 +15,13 @@ import {
 
 import Map from '../map/Map';
 import MapCanvas from '../mapCanvas/MapCanvas';
+import TagList from '../TagList/TagList';
 
 import useActivityStatistics from '../../hooks/useActivityStatistics';
+import ActivityStatisticsDashboard from '../activityStatisticsDashboard/ActivityStatisticsDashboard';
+import ActivityTitle from '../activityTitle/ActivityTitle';
+import LabeledEnumSelect from '../labeledEnumSelect/LabeledEnumSelect';
+import { ActivityShaper } from '../activityShaper/ActivityShaper';
 
 export type ActivityProps = {
   activity: ActivityType;
@@ -57,12 +30,15 @@ export type ActivityProps = {
 const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const statistics = useActivityStatistics(activity.track);
 
+  const [firstRender, setFirstRender] = useState<boolean>(true);
+  const [activityModified, setActivityModified] = useState<boolean>(false);
+
   const [name, setName] = useState<string>(activity.name);
   const [sport, setSport] = useState<ActivitySportTypes>(
     activity.sport || ActivitySportTypes.Other
   );
   const [category, setCategory] = useState<ActivityCategoryTypes>(
-    activity.category || ActivityCategoryTypes.Casual
+    activity.category || ActivityCategoryTypes.Other
   );
   const [shape, setShape] = useState<ActivityShape>(
     activity.shape || { isLoop: false, from: 'unknown', to: 'unknown' }
@@ -70,138 +46,105 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const [rating, setRating] = useState<RatingTypes | null>(activity.rating);
   const [tags, setTags] = useState<Array<string> | null>(activity.tags);
 
-  const [lastModifiedAt, setLastModifiedAt] = useState(activity.lastModifiedAt);
-
   useEffect(() => {
-    setLastModifiedAt(Date.now());
+    // setActivity({...activity, name, sport, category, shape, rating, tags, lastModifiedAt: Date.now()});
+    if (!firstRender) {
+      setActivityModified(true);
+    } else {
+      setFirstRender(false);
+    }
   }, [name, sport, category, shape, rating, tags]);
 
-  const deleteActivity = () => {
+  useEffect(() => {
+    console.log(activityModified);
+  }, [activityModified]);
+
+  const onDeleteActivity = () => {
+    console.log('delete');
     //todo delete this...
   };
+
+  const onConfirmEdit = () => {
+    console.log('edit');
+    setActivityModified(false);
+    //todo edit this...
+  };
+
+  const ActivityHeader = (
+    <div className='header'>
+      <div className='first-row'>
+        <Rate
+          tooltips={Object.values(RatingTypes)}
+          onChange={(value) => {
+            value === 0
+              ? setRating(null)
+              : setRating(Object.values(RatingTypes)[value]);
+          }}
+          style={{ padding: '4px 8px 4px 0px' }}
+        />
+        <TagList tags={tags} onTagsChange={(newTags) => setTags(newTags)} />
+        <ActivityTitle
+          name={name}
+          createdAt={activity.createdAt}
+          lastModifiedAt={activity.lastModifiedAt}
+          onNameChange={(newName) => setName(newName)}
+        />
+      </div>
+      <div className='second-row'>
+        <LabeledEnumSelect
+          label='Sport'
+          onChange={(value) => {
+            setSport(value);
+          }}
+          values={Object.values(ActivitySportTypes)}
+          defaultValue={sport}
+        />
+        <LabeledEnumSelect
+          label='Category'
+          onChange={(value) => {
+            setCategory(value);
+          }}
+          values={Object.values(ActivityCategoryTypes)}
+          defaultValue={category}
+        />
+        <ActivityShaper
+          shape={shape}
+          onChange={(newShape) => setShape(newShape)}
+        />
+      </div>
+    </div>
+  );
+
+  const ActionConfirmEdit = (
+    <Button block disabled={!activityModified} onClick={onConfirmEdit}>
+      Confirm Changes
+      <CheckOutlined style={{ marginLeft: '0.5em' }} />
+    </Button>
+  );
+
+  const ActionDelete = (
+    <Popconfirm
+      title='Do you want to delete this activity?'
+      onConfirm={onDeleteActivity}
+      okText='Yes'
+      cancelText='No'
+    >
+      <Button block danger>
+        Delete Activity
+        <DeleteOutlined style={{ marginLeft: '0.5em' }} />
+      </Button>
+    </Popconfirm>
+  );
 
   return (
     <Card
       className='activity'
-      title={
-        <div className='header'>
-          <div>
-            <div className='header-tags'>
-              {tags?.map((tag, index) => (
-                <Tag
-                  key={uuidv4()}
-                  closable
-                  onClose={() => {
-                    const newTags = [...tags];
-                    newTags.splice(index, 0);
-                    setTags(newTags);
-                  }}
-                >
-                  {tag}
-                </Tag>
-              ))}
-            </div>
-            <Typography.Title
-              level={4}
-              className='header-name'
-              editable={{
-                onChange: setName,
-              }}
-            >
-              {name}
-            </Typography.Title>
-            <Typography.Paragraph type='secondary' className='header-date'>
-              <CalendarOutlined />
-              {` ${formatDateValue(activity.createdAt)}`}
-            </Typography.Paragraph>
-            <Rate
-              tooltips={Object.values(RatingTypes)}
-              onChange={(value) => {
-                value === 0
-                  ? setRating(null)
-                  : setRating(Object.values(RatingTypes)[value]);
-              }}
-              style={{ display: 'block' }}
-            />
-            <Typography.Text type='secondary'>Sport</Typography.Text>
-            <Select
-              defaultValue={sport}
-              style={{ width: '100%', maxWidth: 120 }}
-              onChange={(value) => setSport(value)}
-            >
-              {Object.values(ActivitySportTypes).map((type) => (
-                <Select.Option key={uuidv4()} value={type}>
-                  {type}
-                </Select.Option>
-              ))}
-            </Select>
-            <Typography.Text type='secondary'>Category</Typography.Text>
-            <Select
-              defaultValue={category}
-              style={{ width: '100%', maxWidth: 120 }}
-              onChange={(value) => setCategory(value)}
-            >
-              {Object.values(ActivityCategoryTypes).map((type) => (
-                <Select.Option key={uuidv4()} value={type}>
-                  {type}
-                </Select.Option>
-              ))}
-            </Select>
-          </div>
-          <div>
-            <Typography.Text type='secondary'>Loop </Typography.Text>
-            <Switch
-              onChange={(checked) => setShape({ ...shape, isLoop: checked })}
-            />
-            <Row gutter={[4, 4]}>
-              <Col xs={12}>
-                <Typography.Text style={{ display: 'block' }} type='secondary'>
-                  Start
-                </Typography.Text>
-                <Typography.Text
-                  editable={{
-                    onChange: (value) => setShape({ ...shape, from: value }),
-                  }}
-                >
-                  {shape?.from || 'unknown'}
-                </Typography.Text>
-              </Col>
-              {shape.isLoop && (
-                <Col xs={12}>
-                  <Typography.Text
-                    style={{ display: 'block' }}
-                    type='secondary'
-                  >
-                    End
-                  </Typography.Text>
-                  <Typography.Text
-                    editable={{
-                      maxLength: 100,
-                      onChange: (value) => setShape({ ...shape, to: value }),
-                    }}
-                  >
-                    {shape.to || 'unknown'}
-                  </Typography.Text>
-                </Col>
-              )}
-            </Row>
-          </div>
-        </div>
-      }
-      extra={
-        <Popconfirm
-          placement='bottomRight'
-          title='Do you want to delete this activity?'
-          onConfirm={deleteActivity}
-          okText='Yes'
-          cancelText='No'
-        >
-          <DeleteOutlined style={{ fontSize: '1.5em' }} />
-        </Popconfirm>
-      }
+      title={ActivityHeader}
+      size='small'
+      actions={[ActionDelete, ActionConfirmEdit]}
     >
-      <Row gutter={[{ xs: 4, sm: 8, md: 16, lg: 24 }, 16]}>
-        <Col xs={24} md={18} style={{ minHeight: 400 }}>
+      <Row gutter={[{ xs: 0, sm: 16 }, 16]}>
+        <Col xs={24} md={16} style={{ minHeight: 400 }}>
           <MapCanvas
             render={(height) => (
               <Map
@@ -217,70 +160,8 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             )}
           />
         </Col>
-        <Col xs={24} md={6}>
-          <Statistic
-            title='Distance'
-            value={formatDistanceValue(statistics.totalDistance)}
-            prefix={<ArrowRightOutlined />}
-            suffix='km'
-            precision={1}
-          />
-          <Statistic
-            title='In Motion Time'
-            value={formatDurationValue(statistics.inMotionDuration)}
-            prefix={<HistoryOutlined />}
-          />
-          <Statistic
-            title='Total Time'
-            value={formatDurationValue(statistics.totalDuration)}
-            prefix={<ClockCircleOutlined />}
-          />
-          <Statistic
-            title='Average Speed (Motion Time)'
-            value={formatAverageSpeedValue(
-              statistics.totalDistance,
-              statistics.inMotionDuration
-            )}
-            prefix={<SwapOutlined />}
-            suffix='km/h'
-            precision={1}
-          />
-          <Statistic
-            title='Average Speed (Total Time)'
-            value={formatAverageSpeedValue(
-              statistics.totalDistance,
-              statistics.totalDuration
-            )}
-            prefix={<SwapOutlined />}
-            suffix='km/h'
-            precision={1}
-          />
-          <Statistic
-            title='Max Speed'
-            value={formatSpeedValue(statistics.maxSpeed)}
-            prefix={<VerticalLeftOutlined />}
-            suffix='km/h'
-            precision={1}
-          />
-          <Statistic
-            title='Elevation Up'
-            value={validateValue(statistics.elevationUp)}
-            prefix={<RiseOutlined />}
-            suffix='m'
-            precision={0}
-          />
-          <Statistic
-            title='Elevation Down'
-            value={validateValue(statistics.elevationDown)}
-            prefix={<FallOutlined />}
-            suffix='m'
-            precision={0}
-          />
-          <Statistic
-            title='Last Modified'
-            value={formatDateValue(lastModifiedAt)}
-            prefix={<CalendarOutlined />}
-          />
+        <Col xs={24} md={8}>
+          <ActivityStatisticsDashboard {...statistics} />
         </Col>
       </Row>
     </Card>

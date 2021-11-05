@@ -3,7 +3,7 @@ import { Checkbox, message } from 'antd';
 
 import MapCanvas from '../mapCanvas/MapCanvas';
 import Map from '../map/Map';
-import TrackerDashboard from '../trackerDashboard/TrackerDashboard';
+import TrackerStatisticsDashboard from '../trackerStatisticsDashboard/TrackerStatisticsDashboard';
 import TrackerControls from '../trackerControls/TrackerControls';
 
 import useTracker from '../../hooks/useTracker';
@@ -61,7 +61,7 @@ const TrackerPage: React.FC = () => {
 
   return (
     <div className='tracker-page'>
-      <TrackerDashboard show={isTracking} {...activityStatistics} />
+      <TrackerStatisticsDashboard show={isTracking} {...activityStatistics} />
       <MapCanvas
         render={(height) => (
           <Map

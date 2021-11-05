@@ -9,24 +9,21 @@
       display: flex;
       overflow: unset;
       white-space: normal;
-
-      .header {
-        &-tags {
-          margin-bottom: @margin-sm;
-        }
-
-        &-name {
-          flex: 1 1 0;
-          display: inline-block;
-          margin: 0;
-        }
-        &-date {
-          margin: 0;
-        }
-      }
     }
   }
   .ant-card-body {
-    padding: @padding-sm;
+  }
+
+  .header {
+    width: 100%;
+
+    .first-row {
+      width: 100%;
+    }
+    .second-row {
+      display: flex;
+      flex-flow: row wrap;
+      gap: @padding-sm;
+    }
   }
 }
