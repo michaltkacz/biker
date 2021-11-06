@@ -15,8 +15,6 @@ import {
 
 import { defaultPosition } from '../../hooks/useGeolocation';
 
-import positionMarker from '../../assets/map/position1.png';
-
 import 'leaflet/dist/leaflet.css';
 import './map.less';
 import { Track } from '../../database/schema';
@@ -137,14 +135,14 @@ const TrackPolyline: React.FC<TrackPolylineProps> = ({ track }) => {
 //     src=${positionMarker}>`,
 //   });
 // };
-const iconSize: number = 24;
+const iconSize: number = 20;
 const icon = L.divIcon({
   iconSize: [iconSize, iconSize],
-  className: 'current-position-marker',
-  html: `<img
-    width="${iconSize}"
+  className: 'position-marker',
+  html: `<div
+     width="${iconSize}"
     height="${iconSize}"
-    src=${positionMarker}>`,
+  ></div>`,
 });
 
 const PositionMarker: React.FC<PositionMarkerProps> = ({ position }) => {

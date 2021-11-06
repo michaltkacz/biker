@@ -8,7 +8,7 @@ export const geoDistance = (
   lat2: number,
   lon2: number
 ) => {
-  var R = 6371 * 1000; // Radius of the earth in km
+  var R = 6371 * 1000; // Radius of the earth in m
   var dLat = toRad(lat2 - lat1);
   var dLon = toRad(lon2 - lon1);
   var a =
@@ -18,7 +18,7 @@ export const geoDistance = (
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in km
+  var d = R * c; // Distance in m
   return d;
 };
 

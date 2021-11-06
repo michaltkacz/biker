@@ -2,7 +2,9 @@ enum Pages {
   Authorize = '',
   Profile = 'profile',
   Tracker = 'tracker',
-  Activity = 'activity',
+  Activities = 'activities',
+  ActivitiesHistory = 'activities/history',
+  ActivitiesTransfer = 'activities/transfer',
   Logout = 'logout',
 }
 

@@ -44,6 +44,13 @@ const ActivityStatisticsDashboard: React.FC<ActivityStatisticsDashboardProps> =
           precision={1}
         />
         <Statistic
+          title='Max Speed'
+          value={formatSpeedValue(maxSpeed)}
+          prefix={<VerticalLeftOutlined />}
+          suffix='km/h'
+          precision={1}
+        />
+        <Statistic
           title='In Motion Time'
           value={formatDurationValue(inMotionDuration)}
           prefix={<HistoryOutlined />}
@@ -54,23 +61,16 @@ const ActivityStatisticsDashboard: React.FC<ActivityStatisticsDashboardProps> =
           prefix={<ClockCircleOutlined />}
         />
         <Statistic
-          title='Average Speed (Motion Time)'
+          title='Average Speed (Motion)'
           value={formatAverageSpeedValue(totalDistance, inMotionDuration)}
           prefix={<SwapOutlined />}
           suffix='km/h'
           precision={1}
         />
         <Statistic
-          title='Average Speed (Total Time)'
+          title='Average Speed (Total)'
           value={formatAverageSpeedValue(totalDistance, totalDuration)}
           prefix={<SwapOutlined />}
-          suffix='km/h'
-          precision={1}
-        />
-        <Statistic
-          title='Max Speed'
-          value={formatSpeedValue(maxSpeed)}
-          prefix={<VerticalLeftOutlined />}
           suffix='km/h'
           precision={1}
         />

@@ -11,8 +11,8 @@ import PageLayout from './pageLayout/PageLayout';
 import AuthPage from './authPage/AuthPage';
 import TrackerPage from './trackerPage/TrackerPage';
 import ProfilePage from './ProfilePage/ProfilePage';
-import ActivityPage from './activityPage/ActivityPage';
 import NotFoundPage from './notFoundPage/notFoundPage';
+import ActivitiesTransferPage from './activitiesTransferPage/ActivitiesTransferPage';
 
 const App: React.FC = () => {
   return (
@@ -26,8 +26,13 @@ const App: React.FC = () => {
               <Route exact path={`/${Pages.Tracker}`} component={TrackerPage} />
               <Route
                 exact
-                path={`/${Pages.Activity}`}
-                component={ActivityPage}
+                path={`/${Pages.ActivitiesHistory}`}
+                component={NotFoundPage}
+              />
+              <Route
+                exact
+                path={`/${Pages.ActivitiesTransfer}`}
+                component={ActivitiesTransferPage}
               />
               <Route path='/*' component={NotFoundPage} />
             </Switch>

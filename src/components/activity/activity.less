@@ -1,6 +1,7 @@
 @import '~antd/es/style/themes/default.less';
 
 .activity {
+  margin-bottom: @margin-lg;
   .ant-card-head {
     &-wrapper {
       text-overflow: unset;
@@ -24,6 +25,16 @@
       display: flex;
       flex-flow: row wrap;
       gap: @padding-sm;
+    }
+  }
+
+  .rating {
+    padding: 4px 8px 4px 0px;
+  }
+
+  .action-button {
+    &-icon {
+      margin-left: 0.5em;
     }
   }
 }

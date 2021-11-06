@@ -2,8 +2,6 @@ import React from 'react';
 import { message, Button as AntdButton, Popconfirm } from 'antd';
 
 import './trackerControls.less';
-import { useMediaQuery } from 'react-responsive';
-import { screen } from '../../reactResponsive/options';
 
 type TrackerControlsProps = {};
 
@@ -58,7 +56,7 @@ const Button: React.FC<ButtonProps> = ({
         onClick && onClick();
         message.info(messageText);
       }}
-      className='button'
+      className='tracker-controls-button'
     >
       {children}
       <ButtonText text={text} />
@@ -93,10 +91,9 @@ const PopconfirmButton: React.FC<PopconfirmButtonProps> = ({
     >
       <AntdButton
         block
-        // type='primary'
         size='large'
         icon={icon}
-        className='button'
+        className='tracker-controls-utton'
       >
         <ButtonText text={buttonText} />
       </AntdButton>
@@ -113,9 +110,7 @@ const ToggleControl: React.FC<ToggleControlProps> = ({
 };
 
 const ButtonText: React.FC<ButtonTextProps> = ({ text }) => {
-  const isScreenMd = useMediaQuery(screen.md);
-
-  return <span className='button-text'>{isScreenMd ? text : ' '}</span>;
+  return <span className='tracker-controls-button-text'>{text}</span>;
 };
 
 TrackerControls.Button = Button;

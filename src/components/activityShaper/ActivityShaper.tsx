@@ -10,10 +10,7 @@ export type ActivityShaperProps = {
   onChange: (newShape: ActivityShape) => void;
 };
 
-export const ActivityShaper: React.FC<ActivityShaperProps> = ({
-  shape,
-  onChange,
-}) => {
+const ActivityShaper: React.FC<ActivityShaperProps> = ({ shape, onChange }) => {
   return (
     <div className='activity-shaper'>
       <div>
@@ -23,7 +20,7 @@ export const ActivityShaper: React.FC<ActivityShaperProps> = ({
         />
       </div>
       <div>
-        <Typography.Text style={{ display: 'block' }} type='secondary'>
+        <Typography.Text className='activity-shaper-label' type='secondary'>
           Start
         </Typography.Text>
         <Typography.Text
@@ -31,12 +28,12 @@ export const ActivityShaper: React.FC<ActivityShaperProps> = ({
             onChange: (value) => onChange({ ...shape, from: value }),
           }}
         >
-          {shape?.from || 'unknown'}
+          {shape?.from || '---'}
         </Typography.Text>
       </div>
       {!shape.isLoop && (
         <div>
-          <Typography.Text style={{ display: 'block' }} type='secondary'>
+          <Typography.Text className='activity-shaper-label' type='secondary'>
             End
           </Typography.Text>
           <Typography.Text
@@ -45,7 +42,7 @@ export const ActivityShaper: React.FC<ActivityShaperProps> = ({
               onChange: (value) => onChange({ ...shape, to: value }),
             }}
           >
-            {shape.to || 'unknown'}
+            {shape.to || '---'}
           </Typography.Text>
         </div>
       )}
@@ -53,4 +50,4 @@ export const ActivityShaper: React.FC<ActivityShaperProps> = ({
   );
 };
 
-export default ActivityShaperProps;
+export default ActivityShaper;

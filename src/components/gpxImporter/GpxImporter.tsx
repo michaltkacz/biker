@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Collapse, Typography } from 'antd';
+import { Collapse, Typography, message } from 'antd';
 
 import { UploadOutlined } from '@ant-design/icons';
 
@@ -11,22 +11,23 @@ import ImportActivityList from '../importActivityList/ImportActivityList';
 const GpxImporter = () => {
   const [files, setFiles] = useState<Array<File>>([]);
 
-  useEffect(() => {
-    console.log(files);
-  }, [files]);
-
   const handleFilesSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFiles(Array.from(e.target.files));
     }
   };
 
+  useEffect(() => {
+    if (files.length === 0) {
+      return;
+    }
+    message.success(
+      'Your activities are uploaded. You can modify them, if you want.'
+    );
+  }, [files]);
+
   return (
-    <Collapse
-      className='gpx-importer'
-      // ghost
-      defaultActiveKey='gpx-importer'
-    >
+    <Collapse className='gpx-importer' defaultActiveKey='gpx-importer'>
       <Collapse.Panel
         key='gpx-importer'
         header={
@@ -36,7 +37,7 @@ const GpxImporter = () => {
         }
         extra={
           <FileButton accept='.gpx' multiple onChange={handleFilesSelect}>
-            <UploadOutlined />
+            <UploadOutlined className='icon' />
           </FileButton>
         }
       >

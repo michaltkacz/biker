@@ -21,7 +21,8 @@ import useActivityStatistics from '../../hooks/useActivityStatistics';
 import ActivityStatisticsDashboard from '../activityStatisticsDashboard/ActivityStatisticsDashboard';
 import ActivityTitle from '../activityTitle/ActivityTitle';
 import LabeledEnumSelect from '../labeledEnumSelect/LabeledEnumSelect';
-import { ActivityShaper } from '../activityShaper/ActivityShaper';
+import ActivityShaper from '../activityShaper/ActivityShaper';
+import ActivityCharts from '../activityCharts/ActivityCharts';
 
 export type ActivityProps = {
   activity: ActivityType;
@@ -53,7 +54,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
     } else {
       setFirstRender(false);
     }
-  }, [name, sport, category, shape, rating, tags]);
+  }, [firstRender, name, sport, category, shape, rating, tags]);
 
   useEffect(() => {
     console.log(activityModified);
@@ -80,7 +81,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
               ? setRating(null)
               : setRating(Object.values(RatingTypes)[value]);
           }}
-          style={{ padding: '4px 8px 4px 0px' }}
+          className='rating'
         />
         <TagList tags={tags} onTagsChange={(newTags) => setTags(newTags)} />
         <ActivityTitle
@@ -116,9 +117,17 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   );
 
   const ActionConfirmEdit = (
-    <Button block disabled={!activityModified} onClick={onConfirmEdit}>
+    <Button
+      block
+      disabled={!activityModified}
+      onClick={onConfirmEdit}
+      className='action-button'
+    >
       Confirm Changes
-      <CheckOutlined style={{ marginLeft: '0.5em' }} />
+      <CheckOutlined
+        className='action-button-icon'
+        style={{ marginLeft: '0.5em' }}
+      />
     </Button>
   );
 
@@ -129,22 +138,20 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
       okText='Yes'
       cancelText='No'
     >
-      <Button block danger>
+      <Button block danger className='action-button'>
         Delete Activity
-        <DeleteOutlined style={{ marginLeft: '0.5em' }} />
+        <DeleteOutlined className='action-button-icon' />
       </Button>
     </Popconfirm>
   );
 
   return (
-    <Card
-      className='activity'
-      title={ActivityHeader}
-      size='small'
-      actions={[ActionDelete, ActionConfirmEdit]}
-    >
+    <Card className='activity' title={ActivityHeader} size='small'>
+      <Row gutter={[4, 4]}></Row>
       <Row gutter={[{ xs: 0, sm: 16 }, 16]}>
-        <Col xs={24} md={16} style={{ minHeight: 400 }}>
+        <Col xs={12}>{ActionDelete}</Col>
+        <Col xs={12}>{ActionConfirmEdit}</Col>
+        <Col xs={24} md={16} xl={16} xxl={18} style={{ minHeight: 400 }}>
           <MapCanvas
             render={(height) => (
               <Map
@@ -160,8 +167,11 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             )}
           />
         </Col>
-        <Col xs={24} md={8}>
+        <Col xs={24} md={8} xl={8} xxl={6}>
           <ActivityStatisticsDashboard {...statistics} />
+        </Col>
+        <Col xs={24}>
+          <ActivityCharts track={activity.track} />
         </Col>
       </Row>
     </Card>

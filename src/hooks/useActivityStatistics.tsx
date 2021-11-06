@@ -21,15 +21,15 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
   useEffect(() => {
     // there must be at least one segment
     // there must be at least one point in segment
-    if (track.length === 0 || track[0].length === 0) {
+    const trackFlat = track.flat();
+    if (trackFlat.length === 0) {
       return;
     }
 
     // index of last segment and last point
-    const lsi = track.length - 1;
-    const lpi = track[lsi].length - 1;
-    const firstTrackPoint = track[0][0];
-    const lastTrackPoint = track[lsi][lpi];
+    const lpi = trackFlat.length - 1;
+    const firstTrackPoint = trackFlat[0];
+    const lastTrackPoint = trackFlat[lpi];
 
     const newLatestElevation = lastTrackPoint.ele; // meters
     const newTotalDuration = deltaTime(
@@ -45,7 +45,7 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
 
     // latestSpeed
     if (lpi >= 1) {
-      const secondLastPoint = track[lsi][lpi - 1];
+      const secondLastPoint = trackFlat[lpi - 1];
       newLatestSpeed = geoSpeed2(
         secondLastPoint.lat,
         secondLastPoint.lon,
@@ -56,37 +56,38 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
       );
     }
 
-    track.forEach((trackSegment) => {
+    trackFlat.forEach((currPoint, index) => {
       // at least two points in segment required
-      for (let i = 1; i < trackSegment.length; i++) {
-        const prevTrackPoint = trackSegment[i - 1];
-        const currTrackPoint = trackSegment[i];
+      if (index === 0) {
+        return;
+      }
 
-        const { distance, speed, dTime, dElevation } = geoMove(
-          prevTrackPoint.lat,
-          prevTrackPoint.lon,
-          prevTrackPoint.time,
-          currTrackPoint.lat,
-          currTrackPoint.lon,
-          currTrackPoint.time,
-          prevTrackPoint.ele,
-          currTrackPoint.ele
-        );
+      const prevPoint = trackFlat[index - 1];
 
-        // greater than one meter
-        if (speed > 1) {
-          newTotalDistance += distance; // m
-          newInMotionDuration += dTime; // miliseconds
+      const { distance, speed, dTime, dElevation } = geoMove(
+        prevPoint.lat,
+        prevPoint.lon,
+        prevPoint.time,
+        currPoint.lat,
+        currPoint.lon,
+        currPoint.time,
+        prevPoint.ele,
+        currPoint.ele
+      );
 
-          if (!newMaxSpeed || speed > newMaxSpeed) {
-            newMaxSpeed = speed;
-          }
+      // greater than one meter
+      if (speed > 1) {
+        newTotalDistance += distance; // m
+        newInMotionDuration += dTime; // miliseconds
 
-          dElevation &&
-            (dElevation > 0
-              ? (newElevationDown += dElevation)
-              : (newElevationUp += -dElevation));
+        if (!newMaxSpeed || speed > newMaxSpeed) {
+          newMaxSpeed = speed;
         }
+
+        dElevation &&
+          (dElevation > 0
+            ? (newElevationDown += dElevation)
+            : (newElevationUp += -dElevation));
       }
     });
 

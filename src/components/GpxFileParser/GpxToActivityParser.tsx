@@ -12,6 +12,7 @@ import {
 } from '../../database/schema';
 
 import './gpxToActivityParser.less';
+
 import Activity from '../activity/Activity';
 
 import { useAuth } from '../../hooks/useAuth';

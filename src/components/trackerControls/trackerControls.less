@@ -8,20 +8,25 @@
   place-content: center space-around;
   place-items: center;
   overflow: hidden;
-}
 
-.button {
-  border-radius: 0;
+  &-button {
+    border-radius: 0;
 
-  &-text {
-    margin-left: 0.25em;
-  }
+    &-text {
+      margin-left: 0.25em;
+      display: none !important;
 
-  .anticon {
-    vertical-align: middle;
-    svg {
-      width: 1.25em;
-      height: 1.25em;
+      @media (min-width: @screen-md-min) {
+        display: unset !important;
+      }
+    }
+
+    .anticon {
+      vertical-align: middle;
+      svg {
+        width: 1.25em;
+        height: 1.25em;
+      }
     }
   }
 }

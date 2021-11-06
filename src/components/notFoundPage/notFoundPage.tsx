@@ -14,10 +14,10 @@ const NotFoundPage = () => {
 
   const handleRedirect = () => {
     if (currentUser) {
-      history.push(Pages.Profile);
+      history.push(`/${Pages.Profile}`);
       return;
     }
-    history.push(Pages.Authorize);
+    history.push(`/${Pages.Authorize}`);
   };
 
   return (
