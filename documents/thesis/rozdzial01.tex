@@ -1,48 +1,38 @@
 \chapter{Wstêp}
 \section{Wprowadzenie}
-Niniejszy dokument powsta³ z myœl¹ o ujednoliceniu sposobu redagowania prac dyplomowych. Jego Ÿród³a maj¹ pe³niæ rolê szablonu nowoedytowanej pracy, zaœ prezentowana treœæ pos³u¿yæ ma jako zbiór zaleceñ i uwag o charakterze technicznym (dotycz¹cych takich zagadnieñ, jak na przyk³ad: formatowanie tekstu, za³¹czanie rysunków, uk³ad strony) oraz stylistycznym (odnosz¹cych siê do stylu wypowiedzi, sposobów tworzenia referencji itp.).
 
-W Ÿród³ach szablonu zamieszczono komentarze z uwagami pozwalaj¹cymi lepiej zrozumieæ znaczenie u¿ywanych komend. Komentarze te nie s¹ widoczne w pliku \texttt{Dokument.pdf}, powstaj¹cym w wyniku kompilacji szablonu. Aby zrozumieæ, jak dobrze wykorzystaæ szablon, nale¿y siêgn¹æ do tych komentarzy.
+\section{Komputer rowerowy}
+Rower to z definicji pojazd jedno- lub wieloœladowy, który napêdzany jest si³¹ miêœni osoby poruszaj¹cej siê na nim. Wynalazek ten siêga swoimi korzeniami do wieku XIX, zatem od niemal dwóch wieków podlega on nieustannej ewolucji technologicznej. Jednym z efektów tej ewolucji, powsta³ym w wyniku zetkniêcia z technik¹ cyfrow¹, jest elektroniczny komputer rowerowy. Pocz¹tkowo urz¹dzenia te, zwane równie¿ potocznie licznikami rowerowymi, mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.: obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
 
-Szablon przygotowano do kompilacji narzêdziem \texttt{pdflatex} w konfiguracji: \texttt{MiKTeX} (windowsowa dystrybucja latexa) + \texttt{TeXnicCenter} (œrodowisko do edycji i kompilacji projektów latexowych) + \texttt{SumatraPDF} (przegl¹darka pdfów z nawigacj¹ zwrotn¹) + JabRef (opcjonalny edytor bazy danych bibliograficznych). Wymieniony zestaw narzêdzi jest zalecany do pracy w systemie Windows. Narzêdzia te mo¿na pobraæ ze stron internetowych, których adresy zamieszczono w tabeli~\ref{tab:narzedzia}.
+Zasada dzia³ania prostego licznika rowerowego oparta jest na nastêpuj¹cych trzech g³ównych elementach:
+\begin{enumerate}
+        \item Magnes zamontowany na szprysze ko³a roweru.
+        \item Czujnik reaguj¹cy na magnes, zamontowany na ramie roweru tak, aby przy obrocie ko³a magnes przemieszcza³ siê w odleg³oœci ok. 1cm od czujnika.
+        \item Urz¹dzenie elektroniczne z wyœwietlaczem zamontowane najczêœciej na kierownicy.
+\end{enumerate}
 
-\begin{table}[htb] \small
-\centering
-\caption{Wykaz zalecanych narzêdzi do pracy z wykorzystaniem szablonu (na dzieñ 09.02.2021)}
-\label{tab:narzedzia}
-\begin{tabularx}{\linewidth}{|c|c|X|p{5.5cm}|} \hline\
-Narzêdzie & Wersja & Opis & Adres \\ \hline\hline
-\texttt{MiKTeX} & 21.1 & Zalecana jest instalacja \texttt{Basic MiKTeX} 32 lub 64 bitowa. Brakuj¹ce pakiety bêd¹ siê doinstalowywaæ podczas kompilacji projektu &
-\url{http://miktex.org/download} \\ \hline
-\texttt{TeXnicCenter} & 2.02 &  Mo¿na pobraæ 32 lub 64 bitow¹ wersjê & \url{http://www.texniccenter.org/download/} \\ \hline
-\texttt{SumatraPDF} & 3.2 & Mo¿na pobraæ 32 lub 64 bitow¹ wersjê & \url{http://www.sumatrapdfreader.org/download-free-pdf-viewer.html} \\ \hline
-\texttt{JabRef} & 5.2 & Rozwijane w JDK 15, ma w³asny instalator i wersjê przenoœn¹ & \url{http://www.fosshub.com/JabRef.html} \\ \hline
-\end{tabularx}
-\end{table}
+Prêdkoœæ z jak¹ porusza siê rower obliczana jest przez mikroprocesor w urz¹dzeniu, na podstawie liczby obrotów ko³a zarejestrowanych przez czujnik w okreœlonej jednostce czasu oraz zadanej œrednicy ko³a. Inne dane pobierane s¹ z dodatkowych czujników np.: temperatura - wbudowany elektroniczny termometr, kadencja - osobny czujnik magnetyczny z magnesem zamontowanym do peda³ów, itp.
 
-Wspomniana nawigacja miêdzy \texttt{TeXnicCenter} a \texttt{SumatraPDF} polega na prze³¹czani siê pomiêdzy tymi œrodowiskami z zachowaniem kontekstu. Czyli edytuj¹c tekst w \texttt{TeXnicCenter} po kliku na narzêdziu podgl¹du mo¿na przeskoczyæ do odpowiedniego miejsca w pdfie wyœwietlanym przez \texttt{SumatraPDF}, podwójne klikniêcie w pdfie widocznym w \texttt{SumatraPDF} ustawi kursor we w³aœciwym akapicie w edytorze tekstu \texttt{TeXnicCenter}. O konfiguracji obu narzêdzi do takiej wspó³pracy napisano na stronie \url{http://tex.stackexchange.com/questions/116981/how-to-configure-texniccenter-2-0-with-sumatra-2013-2014-2015-version} (w sieci mo¿na znaleŸæ równie¿ inne materia³y na ten temat).
+Za prze³om w dziedzinie komputerów rowerowych mo¿na uznaæ wyposa¿enie licznika w wydajny mikroprocesor, wiêkszy wyœwietlacz oraz modu³ GPS. Znacz¹co rozszerzy³o to listê dostêpnych funkcji. Informacja o pozycji urz¹dzenia pozwoli³a na wykorzystanie map cyfrowych, na których w czasie rzeczywistym wyœwietlana jest obecna pozycja. W zwi¹zku z tym pojawi³a siê równie¿ mo¿liwoœæ uprzedniego wytyczania tras, a nastêpnie nawigowania rowerzysty w trakcie podró¿y. Ponadto na podstawie samych danych lokalizacyjnych mo¿na w prosty sposób, na bie¿¹co wyliczaæ szereg statystyk, jak np.: prêdkoœæ, przejechany dystans, po³o¿enie geograficzne (szerokoœæ geograficzna, d³ugoœæ geograficzna, wysokoœæ nad poziomem morza), bez koniecznoœci stosowania dodatkowych czujników. Wszystkie te dane mog¹ zostaæ zapisane w celu archiwizacji oraz póŸniejszej analizy.
 
-Szablon mo¿na ³atwo dostosowaæ do innych narzêdzi i œrodowisk (jak np.\ do multiplatformowego \texttt{TexStudio} oraz ró¿nych dystrybucji systemu LaTeX). Dostosowanie to mo¿e polegaæ na zmianie kodowania plików, pominiêciu pliku projektu \texttt{Dyplom.tcp} (patrz nastêpny rozdzia³) i korekcie deklaracji kodowania znaków w dokumencie g³ównym (co opisano dalej).
+Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
+\begin{itemize}
+        \item Wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona.
+        \item Nie wymaga inwestycji finansowej.
+\end{itemize}
 
-Mo¿na go te¿ zaadoptowaæ do potrzeb pracy z wykorzystaniem latexowych edytorów i kompilatorów dzia³aj¹cych w trybie on-line. Takim narzêdziem jest Overleaf (\url{https://www.overleaf.com/}). Choæ ma niew¹tpliwie wiele zalet (w tym mo¿liwoœæ edycji przez wielu u¿ytkowników jednoczeœnie), to podczas edycji d³ugich dokumentów narzêdzie to przegrywa ze wspomnianymi zintegrowanymi œrodowiskami TeXnicCenter czy TexStudio. Overleaf nie wyœwietla struktury dokumentu (a jedynie listê plików), nie umo¿liwia wyszukiwania we wszystkich plikach projektowych (nie ma opcji  \texttt{Find in Files ...}, która bardzo siê przydaje do wyszukiwania wyst¹pieñ pewnych sentencji czy komend). Ponadto choæ istnieje mo¿liwoœæ w³¹czenia wersjonowania w Overleaf (w powi¹zaniu z jakimœ gitowym repozytorium), to wersjonowanie to nie dzia³a perfekcyjnie.
+Aplikacji tego typu dostêpnych jest na rynku wiele. Do najpopularniejszych nale¿¹ m.in.: \emph{Strava}, \emph{Cyclemeter}, \emph{MapMyRide}, \emph{Bikemap}, \emph{Komoot}, \emph{Wahoo Fitness}. Mimo ¿e wszystkie udostêpniaj¹ podstawowe mo¿liwoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcji dodatkowych. Czêœæ z nich jest skierowana bardziej w stronê organizacji treningów (np. \emph{Strava}), inne specjalizuj¹ siê w planowaniu tras (np. \emph{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np. \emph{Cyclemeter}).
 
-Dlatego \textbf{zaleca siê korzystanie ze œrodowisk zintegrowanych zainstalowanych lokalnie, czemu towarzyszyæ ma wersjonowanie z pomoc¹ wybranego zdalnego repozytorium (gitlab, github, bitbucket)}.
+Zarówno dedykowane urz¹dzenia, jak i aplikacje na smartfony do eksportu oraz importu danych pos³uguj¹ siê zazwyczaj standardem GPX. Dziêki temu u¿ytkownicy w razie w³asnych upodobañ oraz potrzeb mog¹ w doœæ ³atwy sposób migrowaæ miêdzy poszczególnymi us³ugami.
+
+\section{System GPS}
+Zarówno dedykowane komputery rowerowe, jak i smartfony z zainstalowanymi aplikacjami korzystaj¹ z systemu GPS. Zadaniem tego systemu jest dostarczanie do odbiornika informacji o jego obecnym po³o¿eniu. Na system GPS sk³adaj¹ siê trzy g³ówne elementy:
+\begin{enumerate}
+        \item Naziemne stacje nadawcze
+        \item 31 satelitów na orbicie Ziemi
+        \item Odbiorniki na powierzchni lub w stosunkowo niewielkiej odleg³oœci od powierzchni Ziemi
+\end{enumerate}
 
 
-%%%- JabRef - narzêdzie do przygotowywania bibliografii.
-%%%
-%%%
-%%%Uwaga: tytu³ powinien zmieœciæ siê w okienku kolorowej ok³adki (któr¹
-%%%powinna dostarczyæ uczelniana administracja). Proszê posterowaæ
-%%%parametrami, aby "wpasowaæ" w okienko w³asny tekst.
-%%%
-%%%Do ASAPa nale¿y wprowadziæ pracê dyplomow¹/projekt in¿ynierski w pliku o nazwie:
-%%%
-%%%W04_[nr albumu]_[rok kalendarzowy]_[rodzaj pracy] (szczegó³owa instrukcja pod adresem asap.pwr.edu.pl)
-%%%
-           %%%Przyk³adowo:
-        %%%­W04_123456_2015_praca in¿ynierska.pdf     - praca dyplomowa in¿ynierska
-        %%%W04_123456_2015_projekt in¿ynierski.pdf   - projekt in¿ynierski
-        %%%W04_123456_2015_praca magisterska.pdf  - praca dyplomowa magisterska
-%%%
-              %%%rok kalendarzowy ? rok realizacji kursu „Praca dyplomowa” (nie rok obrony) 
+
+\section{Standard GPX}
