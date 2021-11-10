@@ -1,5 +1,8 @@
 #Latex
 
+latexindent.exe
+
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -272,4 +275,3 @@ Dyplom.tcp
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
