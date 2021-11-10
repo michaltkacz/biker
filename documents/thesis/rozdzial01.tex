@@ -1,60 +1,52 @@
 \chapter{Wstêp}
-Rozdzia³ ten stanowi wstêp teoretyczny do pracy. We wprowadzeniu wyjaœnione zosta³y w ogólnym ujêciu trzy zagadnienia: komputer rowerowy, system GPS oraz standard GPX. Stoj¹ one u podstaw niniejszej pracy, dlatego te¿ wskazane jest zaznajomienie siê z nimi przed przyst¹pieniem do lektury kolejnych rozdzia³ów.
+\label{chap:1}
+Niniejszy rozdzia³ stanowi wstêp do pracy. W najbli¿szej sekcji przedstawiono genezê projektu oraz motywacjê autora do podjêcia jego realizacji. Nastêpnie wyjaœniono cel, który przyœwieca³ autorowi oraz przewidziany zakres zadañ, które powinny zostaæ wykonane w ramach pracy. Na koñcu rozdzia³u opisano strukturê tego dokumentu oraz zawartoœæ poszczególnych rozdzia³ów.
 
 \section{Wprowadzenie}
-\section{Komputer rowerowy}
-Rower to z definicji pojazd jedno- lub wieloœladowy, który napêdzany jest si³¹ miêœni osoby poruszaj¹cej siê na nim. Wynalazek ten siêga swoimi korzeniami do wieku XIX, zatem od niemal dwóch wieków podlega on nieustannej ewolucji technologicznej. Jednym z efektów tej ewolucji, powsta³ym w wyniku zetkniêcia z technik¹ cyfrow¹, jest elektroniczny komputer rowerowy. Pocz¹tkowo urz¹dzenia te, zwane równie¿ potocznie licznikami rowerowymi, mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.: obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
+Autorem pracy jest m³ody mê¿czyzna, który od dzieciñstwa silnie zwi¹zany jest z rowerami i kolarstwem rekreacyjnym. W wieku nastoletnim wiêŸ ta przerodzi³a siê w hobby, którego najsilniejszy rozkwit przypad³ na okres jego studiów in¿ynierskich. Dlatego te¿ w obliczu zbli¿aj¹cej siê pracy in¿ynierskiej, autor wykorzysta³ sytuacjê, aby po³¹czyæ dwie pasje --- rowerow¹ oraz programistyczn¹ --- i samodzielnie zrealizowaæ w³asn¹ ideê aplikacji dla rowerzystów.
 
-Zasada dzia³ania prostego licznika rowerowego oparta jest na trzech g³ównych elementach:
-\begin{enumerate}
-        \item Magnes zamontowany na szprysze ko³a roweru.
-        \item Czujnik reaguj¹cy na magnes, zamontowany na ramie roweru tak, aby przy obrocie ko³a magnes przemieszcza³ siê w odleg³oœci ok. 1cm od czujnika.
-        \item Urz¹dzenie elektroniczne z wyœwietlaczem zamontowane najczêœciej na kierownicy.
-\end{enumerate}
+G³ównymi inspiracjami podjêtego projektu (który opisany zosta³ w nastêpnym podrozdziale) by³y przede wszystkim dwie u¿ywane przez niego aplikacje --- \emph{Komoot} oraz \emph{Strava}. G³ównymi zadaniami tego typu aplikacji (w postaci aplikacji w wersjach mobilnych oraz przegl¹darkowych) s¹: nawigacja rowerowa, zapisywanie œladów przejechanych tras rowerowych oraz analiza ich statystyk. Jednak we wspomnianych programach autor dostrzeg³ --- poprzez subiektywny pryzmat --- zarówno wady, jak i zalety ka¿dej z nich. St¹d zrodzi³a siê motywacja do zaprojektowania i implementacji w³asnej aplikacji, której dzia³anie i mo¿liwoœci odpowiada³by zapotrzebowaniom autora.
 
-Prêdkoœæ z jak¹ porusza siê rower obliczana jest przez mikroprocesor w urz¹dzeniu, na podstawie liczby obrotów ko³a zarejestrowanych przez czujnik w okreœlonej jednostce czasu oraz zadanej œrednicy ko³a. Inne dane pobierane s¹ z dodatkowych czujników np.: temperatura --- wbudowany elektroniczny termometr, kadencja --- czujnik magnetyczny z magnesem zamontowanym do peda³ów, itp.
-
-Za prze³om w dziedzinie komputerów rowerowych mo¿na uznaæ wyposa¿enie licznika w wydajny mikroprocesor, wiêkszy wyœwietlacz oraz modu³ GPS. Znacz¹co rozszerzy³o to listê dostêpnych funkcji. Informacja o pozycji urz¹dzenia pozwoli³a na wykorzystanie map cyfrowych, na których w czasie rzeczywistym wyœwietlana jest obecna pozycja. W zwi¹zku z tym pojawi³a siê równie¿ mo¿liwoœæ uprzedniego wytyczania tras, a nastêpnie nawigowania rowerzysty w trakcie podró¿y. Ponadto na podstawie samych danych lokalizacyjnych mo¿na w prosty sposób, na bie¿¹co wyliczaæ szereg statystyk, jak np.: prêdkoœæ, przejechany dystans, po³o¿enie geograficzne (szerokoœæ geograficzna, d³ugoœæ geograficzna, wysokoœæ nad poziomem morza), bez koniecznoœci stosowania dodatkowych czujników. Wszystkie te dane mog¹ zostaæ zapisane w celu archiwizacji oraz póŸniejszej analizy.
-
-Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
-\begin{enumerate}
-        \item Wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona.
-        \item Nie wymaga inwestycji finansowej.
-\end{enumerate}
-
-Aplikacji tego typu dostêpnych jest na rynku wiele. Do najpopularniejszych nale¿¹ m.in.: \emph{Strava}, \emph{Cyclemeter}, \emph{MapMyRide}, \emph{Bikemap}, \emph{Komoot}, \emph{Wahoo Fitness}. Mimo ¿e wszystkie udostêpniaj¹ podstawowe mo¿liwoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcji dodatkowych. Czêœæ z nich jest skierowana bardziej w stronê organizacji treningów (np. \emph{Strava}), inne specjalizuj¹ siê w planowaniu tras (np. \emph{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np. \emph{Cyclemeter}).
-
-Zarówno dedykowane urz¹dzenia, jak i aplikacje na smartfony do eksportu oraz importu danych pos³uguj¹ siê zazwyczaj standardem GPX. Dziêki temu u¿ytkownicy w razie w³asnych upodobañ oraz potrzeb mog¹ w doœæ ³atwy sposób migrowaæ miêdzy poszczególnymi us³ugami.
-
-\section{System GPS}
-Zarówno dedykowane komputery rowerowe, jak i smartfony z zainstalowanymi aplikacjami korzystaj¹ z GPSa. GPS, a dok³adniej NAVSTAR--GPS jest to system nawigacji satelitarnej opracowany w latach 70. XX w. przez Departament Obrony Stanów Zjednoczonych. Swoim zasiêgiem obejmuje ca³¹ kulê ziemsk¹. Zadaniem systemu jest dostarczanie do odbiornika informacji o jego obecnym po³o¿eniu. Na system GPS sk³adaj¹ siê trzy g³ówne, œciœle wspó³pracuj¹ce ze sob¹ modu³y:
-\begin{enumerate}
-        \item Naziemne stacje nadawcze.
-        \item 31 satelitów na orbicie Ziemi.
-        \item Odbiorniki na powierzchni Ziemi lub w stosunkowo niewielkiej odleg³oœci niej.
-\end{enumerate}
-
-Stacje nadawacze, których jest 12, rozmieszczone s¹ równomiernie na równiku Ziemi. Dziêki temu ka¿dy satelita jest zawsze w zasiêgu minimum dwóch nadajników. Zadaniem stacji jest przesy³anie do satelitów sygna³ów korekcyjnych czasu oraz pozycji.
-
-Satelity rozmieszczone s¹ w taki sposób, aby w ka¿dym punkcie na Ziemi dostêpny by³ sygna³ z co najmniej czterech satelitów. Z 31 satelitów, zazwyczaj 28 jest jednoczeœnie aktywnych. Satelity rozsy³aj¹ sygna³ radiowy, który zawiera informacje o obecnym uk³adzie satelitów, o teoretycznej drodze oraz ewentualnych odchyleñ od niej.
-
-Odbiornik na powierzchni ziemi na podstawie odebranych sygna³ów wylicza odleg³oœæ od satelitów, a nastêpnie wylicza swoj¹ pozycjê geograficzn¹ --- standardowo w uk³adzie odniesienia WGS-84. Czynniki, które mog¹ zak³óciæ sygna³, a co za tym idzie wp³yn¹æ na jakoœæ okreœlenia pozycji, to m.in.:
-\begin{itemize}
-        \item OpóŸnienia spowodowane przez atmosferê ziemsk¹
-        \item Odbicia sygna³u od obiektów na Ziemi (np. budynki w mieœcie)
-        \item Liczba dostêpnych w zasiêgu satelitów
-        \item Wzajemne po³o¿enie satelitów
-        \item Odchylenie po³o¿enia satelitów od wyznaczonej orbity
-        \item B³êdy zegara (niedok³adne wskazani czasu)
-\end{itemize}
-
-
-
-\section{Standard GPX}
-
+W ramach samej pracy, aby sprostaæ ograniczeniom czasowym, projekt zosta³ okrojony do fundamentalnych funkcji. Niemniej jednak, autor nie zamierza zaprzestaæ rozwoju aplikacji na zaimplementowaniu wersji podstawowej. Planuje on kontynuowaæ pracê w ramach praktyki hobbistycznej. W chwili redagowania tego dokumentu, wersja komercyjna programu nie jest przewidywana.
 
 \section{Cel i zakres pracy}
+Celem pracy jest stworzenie aplikacji internetowej dedykowanej dla rowerzystów. Aplikacja powinna byæ dostosowana do dzia³ania zarówno do du¿ych ekranów komputerów oraz laptopów, jak i mniejszych ekranów urz¹dzeñ mobilnych --- smartfonów oraz tabletów. Wymóg ten zostanie pokryty przez zaimplementowanie aplikacji internetowej z zastosowaniem technik RWD (ang~\emph{Responsive Web Design}) oraz PWA (ang.~\emph{Progressive Web App}).
+
+Szczegó³y techniczne dotycz¹ce architektury projektu omówiono w Rozdziale~\ref{chap:3}, natomiast generalny zakres pracy jest nastêpuj¹cy:
+\begin{itemize}
+        \item Zaprojektowanie architektury systemu
+        \item Zaprojektowanie i implementacja bazy danych oraz zabezpieczenie danych
+        \item Zaprojektowanie i implementacja warstwy back-end systemu
+        \item Zaprojektowanie i implementacja warstwy front-end aplikacji internetowej
+        \item Zaprojektowanie i implementacja warstwy front-end aplikacji mobilnej
+        \item Zapewnienie spójnoœci dzia³ania projektu
+\end{itemize}
+
+W wyniku zebrania wymagañ projektowych powsta³a lista funkcjonalnoœci, któr¹ podzielono na trzy kategorie: podstawowe, dodatkowe oraz dalszego rozwoju. Zaimplementowanie wszystkich funkcjonalnoœci z kategorii podstawowych bêdzie równoznaczne z osi¹gniêciem wyznaczonego celu pracy. W przypadku efektywnego tempa rozwoju oprogramowania oraz zapasu czasu, powinno dojœæ do wdro¿enia funkcjonalnoœci z kategorii dodatkowych. Ostatnia kategoria nie jest przewidziana do realizacji w ramach niniejszej pracy. Przedstawia ona jedynie pomys³y i kierunek dalszego rozwoju. Kompletna lista jest nastêpuj¹ca:
+\begin{enumerate}
+        \item Funkcjonalnoœci podstawowe
+              \begin{itemize}
+                      \item Uwierzytelnianie (konto u¿ytkownika, rejestracja, logowanie)
+                      \item Nagrywanie œladów GPS (standard GPX)
+                      \item Import œladów GPS (pliki \emph{*.gpx})
+                      \item Eksport œladów GPS (pliki \emph{*.gpx})
+                      \item Statystki œladu GPS (wykresy, tabele, prezentacja na mapie)
+                      \item Statystki ogólne u¿ytkownika (wykresy, tabele)
+              \end{itemize}
+        \item Funkcjonalnoœci dodatkowe
+              \begin{itemize}
+                      \item Edycja profilu (adresu email, has³a, innych danych)
+                      \item Mapa cieplna œladów GPS (prezentacja na mapie, ang. \emph{Heat Map})
+                      \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie œladów)
+              \end{itemize}
+        \item Dalszy rozwój
+              \begin{itemize}
+                      \item Planowanie tras z wykorzystaniem mapy
+                      \item Nawigacja GPS wed³ug zaplanowanych tras
+                      \item Rozbudowane elementy mediów spo³ecznoœciowych (dodawanie do znajomych, komentarze, tworzenie wydarzeñ, wspó³dzielone planowanie tras, wspó³dzielona nawigacja)
+              \end{itemize}
+\end{enumerate}
 
 
 \section{Uk³ad pracy}
-
+Praca sk³ada siê z szeœciu rozdzia³ów oraz dwóch dodatków. W Rozdziale~\ref{chap:1} zawarto generalne informacje dotycz¹ce celu i zakresu pracy. Rozdzia³~\ref{chap:2} stanowi natomiast wprowadzenie teoretyczne, w zakresie którego wyjaœniono pojêcia stoj¹ce u podstaw pracy: komputer rowerowy, GPS oraz GPX. W Rozdziale~\ref{chap:3} zestawiono i uzasadniono decyzje projektowe, których implementacja programow¹ opisano w Rozdziale~\ref{chap:4}. Natomiast w Rozdziale~\ref{chap:5} zaprezentowano wyniki i dzia³anie ukoñczonego projektu. Ostatni Rozdzia³~\ref{chap:6} stanowi podsumowanie procesu tworzenia pracy oraz analizê rezultatu pracy. W Dodatku~A znajduje siê instrukcja wyjaœniaj¹ca jak uruchomiæ aplikacjê w œrodowisku lokalnym w trybie deweloperskim. Dodatek~B to opis zawartoœci do³¹czonej p³yty CD/DVD.

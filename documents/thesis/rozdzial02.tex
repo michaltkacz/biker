@@ -1,10 +1,124 @@
-\chapter{Decyzje projektowe}
+\chapter{Pod³o¿e teoretyczne}
+\label{chap:2}
+Celem niniejszego rozdzia³u jest zapoznanie przedstawienie pod³o¿a teoretycznego trzech zagadnieñ: komputer rowerowy, GPS oraz GPX. Idee te stoj¹ u podstaw ca³ej pracy. Z tego te¿ wzglêdu, zaznajomienie siê z poni¿szymi informacjami jest wskazane przed przyst¹pieniem do lektury dalszych rozdzia³ów.
 
-\section{Architektura systemu}
-\subsection{Koncepcja pierwotna}
+\section{Komputer rowerowy}
+Rower to z definicji pojazd jedno- lub wieloœladowy, który napêdzany jest si³¹ miêœni osoby poruszaj¹cej siê na nim. Wynalazek ten siêga swoimi korzeniami do wieku XIX, zatem od niemal dwóch wieków podlega on nieustannej ewolucji technologicznej. Jednym z efektów tej ewolucji, powsta³ym w wyniku zetkniêcia z technik¹ cyfrow¹, jest elektroniczny komputer rowerowy. Pocz¹tkowo urz¹dzenia te, zwane równie¿ potocznie licznikami rowerowymi, mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
+Zasada dzia³ania prostego licznika rowerowego oparta jest na trzech g³ównych elementach:
+\begin{enumerate}
+    \item Magnes zamontowany na szprysze ko³a roweru;
+    \item Czujnik reaguj¹cy na magnes, zamontowany na ramie roweru tak, aby przy obrocie ko³a magnes przemieszcza³ siê w odleg³oœci ok. 1cm od czujnika;
+    \item Urz¹dzenie elektroniczne z wyœwietlaczem zamontowane najczêœciej na kierownicy.
+\end{enumerate}
 
-\subsection{Koncepcja finalna}
+Prêdkoœæ z jak¹ porusza siê rower obliczana jest przez mikroprocesor w urz¹dzeniu, na podstawie liczby obrotów ko³a zarejestrowanych przez czujnik w okreœlonej jednostce czasu oraz zadanej œrednicy ko³a. Inne dane pobierane s¹ z dodatkowych czujników np.:~temperatura --- wbudowany elektroniczny termometr, kadencja --- czujnik magnetyczny z magnesem zamontowanym do peda³ów, itp.
 
-\section{Baza danych}
+Za prze³om w dziedzinie komputerów rowerowych mo¿na uznaæ wyposa¿enie licznika w wydajny mikroprocesor, wiêkszy wyœwietlacz oraz modu³ GPS (ang.~\emph{Global Positioning System}). Znacz¹co rozszerzy³o to listê dostêpnych funkcji. Informacja o pozycji urz¹dzenia pozwoli³a na wykorzystanie map cyfrowych, na których w czasie rzeczywistym wyœwietlana jest obecna pozycja. W zwi¹zku z tym pojawi³a siê równie¿ mo¿liwoœæ uprzedniego wytyczania tras, a nastêpnie nawigowania rowerzysty w trakcie podró¿y. Ponadto na podstawie samych danych lokalizacyjnych mo¿na w prosty sposób, na bie¿¹co wyliczaæ szereg statystyk, jak np.:~prêdkoœæ, przejechany dystans, po³o¿enie geograficzne (szerokoœæ geograficzna, d³ugoœæ geograficzna, wysokoœæ nad poziomem morza), bez koniecznoœci stosowania dodatkowych czujników. Wszystkie te dane mog¹ zostaæ zapisane w celu archiwizacji oraz póŸniejszej analizy.
 
-\section{Hosting}
+Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
+\begin{enumerate}
+    \item wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona;
+    \item nie wymaga inwestycji finansowej.
+\end{enumerate}
+
+Aplikacji tego typu dostêpnych jest na rynku wiele. Do najpopularniejszych nale¿¹ m.in.:~\emph{Strava}, \emph{Cyclemeter}, \emph{MapMyRide}, \emph{Bikemap}, \emph{Komoot}, czy \emph{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ podstawowe mo¿liwoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcji dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\emph{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\emph{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\emph{Cyclemeter}).
+
+Zarówno dedykowane urz¹dzenia, jak i aplikacje na smartfony do eksportu oraz importu danych pos³uguj¹ siê zazwyczaj standardem GPX. Dziêki temu u¿ytkownicy w razie w³asnych upodobañ oraz potrzeb mog¹ w doœæ ³atwy sposób migrowaæ miêdzy poszczególnymi us³ugami.
+
+\section{GPS}
+Zarówno dedykowane komputery rowerowe, jak i smartfony z zainstalowanymi aplikacjami wykorzystuj¹ system GPS. GPS (ang. \emph{Global Positioning System}) jest to system nawigacji satelitarnej opracowany w latach 70. XX w. przez Departament Obrony Stanów Zjednoczonych, który swoim zasiêgiem obejmuje ca³¹ kulê ziemsk¹. Zadaniem GPSa jest dostarczanie do odbiornika informacji o jego obecnym po³o¿eniu. Na system sk³adaj¹ siê trzy g³ówne, œciœle wspó³pracuj¹ce ze sob¹ segmenty~\cite{gps}:
+\begin{enumerate}
+    \item segment naziemny --- naziemne stacje nadawcze;
+    \item segment kosmiczny --- satelity na orbicie Ziemi;
+    \item segment u¿ytkownika --- odbiorniki na powierzchni Ziemi lub w stosunkowo niewielkiej odleg³oœci niej.
+\end{enumerate}
+
+Stacje nadawacze na Ziemi rozmieszczone s¹ w taki sposób, aby ka¿dy satelita jest zawsze w zasiêgu minimum dwóch nadajników. Zadaniem stacji jest przesy³anie do satelitów sygna³ów korekcyjnych czasu oraz pozycji.
+
+Satelity rozmieszczone s¹ w taki sposób, aby w ka¿dym punkcie na Ziemi dostêpny by³ sygna³ z co najmniej czterech z nich. Na dzieñ 2 listopada 2021 roku w sk³ad konstelacji wchodzi 30 operacyjnych satelitów~\cite{gpsconstellation}. Ich zadaniem jest nadawanie sygna³u radiowego, który zawiera informacje o obecnym wzajemnym po³o¿eniu satelitów, o teoretycznej trajektorii lotu oraz odchyleñ od niej.
+
+Odbiornik na powierzchni ziemi na podstawie odebranych sygna³ów z minimum czterech satelitów okreœla odleg³oœæ od nich, a nastêpnie wylicza swoj¹ pozycjê geograficzn¹ --- standardowo w uk³adzie odniesienia WGS-84 (ang.~\emph{World Geodetic System '84}). Czynniki, które mog¹ zak³óciæ sygna³, a co za tym idzie wp³yn¹æ na jakoœæ okreœlenia pozycji, to m.in.:
+\begin{itemize}
+    \item opóŸnienia propagacji sygna³u spowodowane przez atmosferê ziemsk¹;
+    \item odbicia sygna³u od obiektów na Ziemi (np.~wysokie budynki w mieœcie);
+    \item ma³a liczba dostêpnych w zasiêgu satelitów (im wiêcej, tym lepiej);
+    \item wzajemne po³o¿enie satelitów (im ,,szerzej'' s¹ rozstawione satelity, tym lepiej);
+    \item odchylenie po³o¿enia satelitów od wyznaczonej trajektorii lotu;
+    \item b³êdy zegara (niedok³adne wskazanie czasu).
+\end{itemize}
+
+Pierwotnie system GPS utworzony zosta³ z myœl¹ o zastosowaniach militarnych, jednak ostatecznie sta³ siê otwarty i ogólnodostêpny równie¿ dla cywilów oraz do zastosowañ komercyjnych. Ponadto nale¿y zaznaczyæ, ¿e równolegle do systemu GPS funkcjonuj¹ analogiczne systemy nawigacji satelitarnej, jak np.:~rosyjski GLONASS~\cite{glonass}, europejski Galileo~\cite{galileo}, czy chiñski BeiDou~\cite{beidou}.
+
+
+\section{GPX}
+GPX (ang.~\emph{GPS Exchange Format})~\cite{gpxpage} to otwarty, ustandaryzowany schemat jêzyka XML (ang.~\emph{Extensible Markup Language}) opracowany w celu ujednolicenia procesu transferu danych pomiêdzy urz¹dzeniami, aplikacjami i us³ugami wykorzystuj¹cymi system GPS. Obecna wersja standardu to wydany 9 sierpnia 2004 GPX 1.1.
+
+Dziêki wykorzystaniu architektury XML poszczególne dane lokalizacyjne uzyskane z systemu GPS zapisywane s¹ w koresponduj¹cych tagach XML, a te z kolei stanowi¹ zawartoœæ plików, których domyœlnym rozszerzeniem jest \texttt{*.gpx}. Pliki te mo¿na w prosty sposób eksportowaæ, przenosiæ, udostêpniaæ i importowaæ pomiêdzy ró¿nymi urz¹dzeniami. Standard zapewnia, ¿e dane zawsze bêd¹ poprawne i jednakowo interpretowane na dowolnej platformie.
+
+W standardzie zdefiniowane zosta³y nastêpuj¹ce typy danych:
+\begin{itemize}
+    \item gpxType;
+    \item typy proste: latitudeType, longitudeType, degreesType, fixType, dgpsStationType;
+    \item typy z³o¿one: metadataType, wptType, rteType, trkType, extensionsType, trksegType, copyrightType, linkType, emailType, personType, ptType, ptsegType, boundsType.
+\end{itemize}
+Spoœród powy¿szej listy, na szczególne omówienie zas³uguj¹ trzy typy z³o¿one: wptType --- \emph{waypoint type}, rteType --- \emph{route type} oraz trkType --- \emph{track type}:
+\begin{enumerate}
+    \item \emph{Waypoint type} to pojedynczy punkt nale¿¹cy do kolekcji punktów, ale nieskorelowany z pozosta³ymi punktami tej kolekcji. Punkt taki zawiera w sobie dane o lokalizacji, tj.: szerokoœæ (latitudeType) i d³ugoœæ (longitudeType) geograficzn¹ oraz mo¿e zawieraæ dodatkowe informacje, jak np.:~wysokoœæ nad poziomem morza (elevation), czas, komentarz tekstowy i inne.
+    \item \emph{Route type}, co mo¿na przet³umaczyæ jako trasa lub droga. Jest to uporz¹dkowana lista punktów, które prowadz¹ do okreœlonego celu.
+    \item \emph{Track type}, czyli œcie¿ka, droga lub œlad, to lista zawieraj¹ca co najmniej jeden segment (pewien fragment œcie¿ki), który z kolei zawiera listê punktów. Punkty te odzwierciedlaj¹ realn¹ œcie¿kê, któr¹ przeby³ odbiornik GPS.
+\end{enumerate}
+
+Kluczowe jest rozró¿nienie miêdzy \emph{route type} i \emph{track type}, pierwszy z nich wytycza jedynie punkty poœrednie prowadz¹ce do celu, drugi z nich to zapis rzeczywistych danych zebranych przez fizyczne urz¹dzenie. Poniewa¿ polskie t³umaczenia tych angielskich terminów mog¹ nie byæ w pe³ni jednoznaczne, autor pracy sugeruje, aby w kontekœcie standardu GPX pos³ugiwaæ siê angielskimi formami. W zwi¹zku z tym, aby unikn¹æ nieporozumieñ, w dalszej treœci pracy terminy te zapisano w oryginalnej formie angielskiej (ewentualnie skróconej do \emph{route}  i \emph{track}).
+
+Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\ref{lst:gpxschema} natomiast na listingu~\ref{lst:gpxexample} pokazano zawartoœæ przyk³adowego pliku (fragment rzeczywistych danych zebranych przez autora pracy, wyeksportowanych z aplikacji mobilnej \emph{Komoot}). Z listingu mo¿na odczytaæ, ¿e plik zawiera jeden \emph{track}, która sk³ada siê z jednego segmentu (trkseg) z list¹ punktów (trkpt). Lista ta na potrzeby demonstracji zosta³a skrócona do trzech punktów, jednak w rzeczywistoœci, w zale¿noœci od d³ugoœci \emph{tracka}, mo¿e ona liczyæ setki, a nawet tysi¹ce punktów.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=XML, label=lst:gpxschema, caption=Struktura pliku GPX,
+    basicstyle=\footnotesize\ttfamily]
+<gpx
+ version="1.1 [1] ?"
+ creator="xsd:string [1] ?">
+    <metadata> metadataType </metadata> [0..1] ?
+    <wpt> wptType </wpt> [0..*] ?
+    <rte> rteType </rte> [0..*] ?
+    <trk> trkType </trk> [0..*] ?
+    <extensions> extensionsType </extensions> [0..1] ?
+</gpx>
+\end{lstlisting}
+}
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=XML, label=lst:gpxexample, caption=Przyk³adowy plik GPX,
+    basicstyle=\footnotesize\ttfamily]
+<?xml version='1.0' encoding='UTF-8'?>
+<gpx version="1.1" creator="https://www.komoot.de" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <metadata>
+    <name>This is the track name</name>
+    <author>
+        <link href="https://www.komoot.de">
+        <text>komoot</text>
+        <type>text/html</type>
+        </link>
+    </author>
+    </metadata>
+    <trk>
+        <name>This is the track name</name>
+        <trkseg>
+            <trkpt lat="51.191923" lon="17.014499">
+                <ele>156.033586</ele>
+                <time>2021-10-29T17:11:11.876Z</time>
+            </trkpt>
+            <trkpt lat="51.192004" lon="17.014368">
+                <ele>156.155631</ele>
+                <time>2021-10-29T17:11:13.870Z</time>
+            </trkpt>
+            <trkpt lat="51.192077" lon="17.014230">
+                <ele>156.275396</ele>
+                <time>2021-10-29T17:11:15.873Z</time>
+            </trkpt>
+            [...]
+        </trkseg>
+    </trk>
+</gpx>
+\end{lstlisting}
+}
