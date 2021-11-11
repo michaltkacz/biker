@@ -1,10 +1,88 @@
 \chapter{Decyzje projektowe}
 \label{chap:3}
+W tym rozdziale przedstawiono ...
 \section{Architektura systemu}
-\subsection{Koncepcja pierwotna}
+Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych aplikacji pod wspóln¹ nazw¹. Pierwsz¹ z nich mia³a byæ aplikacja internetowa (dostêp poprzez przegl¹darkê). W niej zawarte mia³y byæ wszystkie planowane funkcjonalnoœci za wyj¹tkiem jedynie nagrywania œladów z wykorzystaniem modu³u GPS. Za to zadanie mia³a byæ odpowiedzialna dedykowana aplikacja mobilna dla systemu Android. Ta wizja jednak uleg³a zmianie --- finalna wersja zak³ada wykonanie aplikacji internetowej w technice PWA. Pozwala ona na instalacjê aplikacji internetowej na urz¹dzeniu mobilnym i sprawienie wra¿enia aplikacji natywnej. Takie rozwi¹zanie posiada zarówno swoje zalety, jak i wady. Do korzyœci na pewno nale¿¹:
+\begin{enumerate}
+    \item Jedna aplikacja oznacza jedn¹ bazê kodu, któr¹ ³atwiej jest utrzymaæ i rozwijaæ w stosunku do dwóch osobnych baz.
+    \item Funkcjonalnoœci aplikacji mobilnej i internetowej s¹ identyczne.
+    \item Aplikacja mobilna nie jest ograniczona do dzia³ania jedynie na systemie Android.
+    \item Brak koniecznoœci rozprowadzania pakietu instalacyjnego aplikacji mobilnej.
+\end{enumerate}
+G³ównym problemem natomiast mo¿e okazaæ siê wydajnoœæ takiego rozwi¹zania. Dzia³anie PWA oparte jest na przegl¹darce internetowej. Z kolei aplikacje natywne dzia³aj¹ w systemie jako niezale¿ne instancje. W ogólnym ujêciu aplikacje natywne pozwalaj¹ na uzyskanie lepszej wydajnoœci, poniewa¿ maj¹ bezpoœredni dostêp do zasobów sprzêtowych.
 
-\subsection{Koncepcja finalna}
+Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów systemu zestawiono w tabeli~\ref{tab:koncepcje}. Wyjaœnienie oraz uzasadnienie tych wyborów zawarto w kolejnych podrozdzia³ach.
 
-\section{Baza danych}
+\begin{table}[htb] \small
+    \centering
+    \caption{Porównanie koncepcji architektury systemu i dobór technologii}
+    \label{tab:koncepcje}
+    \begin{tabularx}{\linewidth}{|l|l|X|} \hline
+        Zadanie               & Koncept pierwotny                        & Koncept finalny   \\ \hline\hline
+        Aplikacja internetowa & React                                    & React (PWA)       \\ \hline
+        Aplikacja mobilna     & React Native                             & React (PWA)       \\ \hline
+        Backend               & Firebase                                 & Firebase          \\ \hline
+        Baza danych           & Firebase Firestore lub Realtime Database & Realtime Database \\ \hline
+        Hosting               & Firebase Hosting                         & Firebase Hosting  \\ \hline
+    \end{tabularx}
+\end{table}
 
-\section{Hosting}
+\section{Warstwa backend}
+W tradycyjnym podejœciu tworzenia aplikacji internetowej lub mobilnej, poza wykonaniem oprogramowania klienckiego, zazwyczaj konieczne jest utworzenie serwera, bazy danych, magazynu plików, systemu uwierzytelniania oraz po³¹czenie tych (i wielu innych) elementów w dzia³aj¹c¹ ca³oœæ.
+
+Alternatyw¹ jest wykorzystanie modelu BaaS (ang.~\emph{Backend-as-a-Service}), który przenosi odpowiedzialnoœæ za funkcje backendowe na dostawcê BaaS. Poszczególne modu³y (np.:~baza danych czy system uwierzytelniania) do³¹czane s¹ do warstwy klienta z u¿yciem pakietów SDK (ang.~\emph{Software Development Kit}) oraz API (ang.~\emph{Application Programming Interface}). Obrazowo mo¿na przedstawiæ to tak: programista buduje system z gotowych, dostarczonych z zewn¹trz, konfigurowalnych klocków, zamiast tworzyæ swoje w³asne klocki od podstaw. Dziêki temu rozwój oprogramowania jest szybszy, tañszy, oraz mniej podatny na b³êdy, a samo oprogramowanie jest ³atwo skalowalne. Jednak w przypadku zapotrzebowania na unikalne funkcjonalnoœci warstwy backend, BaaS mo¿e siê nie sprawdziæ ze wzglêdu na ograniczone mo¿liwoœci~konfiguracyjne.
+
+BaaS jest technologi¹ stosunkowo now¹, poniewa¿ pierwsze projekty w tej dziedzinie siêgaj¹ zaledwie pocz¹tku drugiej dekady XX w. Obecnie na rynku dostêpnych jest wiele platform. Do najpopularniejszych mo¿na zaliczyæ (kolejnoœæ losowa): Google Firebase, Apple CloudKit, Amazon AWS Amplify, Microsoft Azure Mobile Apps, Back4App, Parse czy Backendless. Czêœæ z nich jest jest oprogramowaniem otwartym. Platformy komercyjne udostêpniaj¹ swoje us³ugi w chmurze, w ramach darmowych oraz p³atnych planów (np.:~Firebase, AWS Amplify). Niektóre platformy wymagaj¹ w³asnego hostowania (np.:~Parse).
+
+Ca³a warstwa backend realizowanego projektu oparta jest na platformie Google Firebase. W jej zakres wchodz¹ modu³y, które przedstawiono w tabeli~\ref{tab:firebase}. Szczegó³y mo¿na znaleŸæ w dokumentacji technicznej \cite{firebase}. G³ówne powody wybrania akurat tej platformy s¹ nastêpuj¹ce:
+\begin{itemize}
+    \item Podstawowe doœwiadczenie autora w integracji z platform¹, wynikaj¹ce z wykorzystania jej we wczeœniej realizowanych projektach.
+    \item Dostêpnoœæ platformy w chmurze (brak koniecznoœci samodzielnego hostowania backendu).
+    \item Dostêpnoœæ darmowego planu, pokrywaj¹cego zapotrzebowanie w ramach rozwoju i testowania tworzonego oprogramowania.
+    \item Pokrycie wszystkich wymagañ projektu przez udostêpniane us³ugi.
+\end{itemize}
+
+\begin{table}[htb] \small
+    \centering
+    \caption{Lista g³ównych modu³ów platformy Google Firebase}
+    \label{tab:firebase}
+    \begin{tabularx}{\linewidth}{|l|X|} \hline
+        Modu³              & Opis                                                                                                                                                                                     \\ \hline\hline
+        Authentication     & System uwierzytelniania (email i has³o, \emph{identity provider}, numer telefonu, \emph{custom}, sesja anonimowa). FirebaseUI --- gotowe rozwi¹zanie uwierzytelniania w warstwie klienta \\ \hline
+        Realtime Database  & Baza danych NoSQL (baza JSON)                                                                                                                                                            \\ \hline
+        Firestore Database & Baza danych NoSQL (baza dokumentowa)                                                                                                                                                     \\ \hline
+        Cloud Storage      & Przestrzeñ do przechowywania plików                                                                                                                                                      \\ \hline
+        Machine Learning   & Dostêp do wyuczonych modeli oraz mo¿liwoœæ szkolenia w³asnych modeli w chmurze lub na urz¹dzeniu u¿ytkownika                                                                             \\ \hline
+        Hosting            & Hosting aplikacji internetowych, statycznej i dynamicznej zawartoœci oraz mikroserwisów w sieci                                                                                          \\ \hline
+        Cloud Functions    & Framework umo¿liwiaj¹cy wykonanie zadanego kodu po stronie backendu w odpowiedzi na zdarzenie lub zapytanie HTTPS.                                                                       \\ \hline
+    \end{tabularx}
+\end{table}
+
+W ramach projektu wykorzystane zosta³y modu³y: Authentication, Realtime Database, Hosting. W kolejnych podrozdzia³ach opisano  zwi¹zane z nimi za³o¿enia.
+
+\subsection{Uwierzytelnianie}
+Implementacja w³asnego systemu uwierzytelniana jest procesem z³o¿onym, pracoch³onnym i wymagaj¹cym odpowiedniej wiedzy. Dlatego Firebase dostarcza modu³ Authentication odpowiedzialny za obs³ugê uwierzytelniania. Udostêpnia on cztery metody, którymi u¿ytkownik mo¿e potwierdziæ swoj¹ to¿samoœæ:
+\begin{enumerate}
+    \item Z u¿yciem emaila i has³a.
+    \item Z u¿yciem numeru telefonu.
+    \item Poprzez zewnêtrznego dostawcê: Google, Facebook, Play Games, Game Center, Apple, GitHub, Microsoft, Twitter, Yahoo.
+    \item Sesja anonimowa.
+\end{enumerate}
+
+Bazowa wersja projektu zak³ada wykorzystanie dwóch z powy¿szych metod: email i has³o oraz jeden zewnêtrzny dostawca --- Google. Natomiast wraz z rozwojem aplikacji przewidziane jest rozszerzenie listy zewnêtrznych dostawców oraz dodanie uwierzytelniania z wykorzystaniem numeru telefonu. Nie nale¿y to jednak do zadañ priorytetowych projektu.
+
+Firebase dostarcza równie¿ bibliotekê FirebaseUI, która posiada zaimplementowany interfejs u¿ytkownika oraz wiêkszoœæ logiki programowej wymaganej do uwierzytelnienia po stronie klienta. Interfejs ten osadza siê w aplikacji i konfiguruje wed³ug w³asnych preferencji. W projekcie wykorzystano tê bibliotekê.
+
+\subsection{Baza danych}
+Firebase oferuje dwa rodzaje baz danych hostowanych w chmurze: Realtime Database i Firestore Database. S¹ to bazy typu \emph{real-time} (nie myliæ z nazw¹ samej bazy danych), co oznacza ¿e s¹ one w stanie wydajnie przetwarzaæ dane w czasie rzeczywistym. Z ka¿d¹ zmian¹ danych w bazie, wszystkie aktywne, pod³¹czone urz¹dzenia otrzymuj¹ natychmiastow¹ aktualizacjê. Ponadto systemy te zaprojektowane s¹ w taki sposób, ¿e gdy urz¹dzenie utraci po³¹czenie z Internetem, aplikacja mo¿e pracowaæ dalej. Jest to mo¿liwe dziêki zachowaniu lokalnej kopii ostatnio u¿ywanych danych (\emph{data persistence}). Wszystkie operacje wykonane offline s¹ synchronizowane z baz¹ po odzyskaniu po³¹czenia, a powsta³e konflikty s¹ rozstrzygane automatycznie. Obydwie bazy s¹ bazami nierelacyjnymi (NoSQL) --- Realtime oparty jest na obiekcie JSON, natomiast Firestore to baza dokumentowa. Firestore jest rozwi¹zaniem nowszym, bazuj¹cym poniek¹d na Realtime, jednak nie oznacza to, ¿e Realtime jest bezu¿yteczny. Oba rozwi¹zania znajduj¹ swoje zastosowania w ró¿nych przypadkach. Na potrzeby projektu, jako bazê danych wybrano Realtime Database. Schemat struktury obiektu JSON stanowi¹cego bazê danych przedstawia pseudokod zawarty na listingu~\ref{lst:database}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, label=lst:database, caption=Pseudkod przedstawiaj¹cy strukturê zastosowanej bazy danych,
+    basicstyle=\footnotesize\ttfamily]
+aaaa
+\end{lstlisting}
+}
+
+\subsection{Hosting}
+
+\section{Warstwa frontend}

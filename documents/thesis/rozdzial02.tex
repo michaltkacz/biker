@@ -3,7 +3,7 @@
 Celem niniejszego rozdzia³u jest zapoznanie przedstawienie pod³o¿a teoretycznego trzech zagadnieñ: komputer rowerowy, GPS oraz GPX. Idee te stoj¹ u podstaw ca³ej pracy. Z tego te¿ wzglêdu, zaznajomienie siê z poni¿szymi informacjami jest wskazane przed przyst¹pieniem do lektury dalszych rozdzia³ów.
 
 \section{Komputer rowerowy}
-Rower to z definicji pojazd jedno- lub wieloœladowy, który napêdzany jest si³¹ miêœni osoby poruszaj¹cej siê na nim. Wynalazek ten siêga swoimi korzeniami do wieku XIX, zatem od niemal dwóch wieków podlega on nieustannej ewolucji technologicznej. Jednym z efektów tej ewolucji, powsta³ym w wyniku zetkniêcia z technik¹ cyfrow¹, jest elektroniczny komputer rowerowy. Pocz¹tkowo urz¹dzenia te, zwane równie¿ potocznie licznikami rowerowymi, mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
+Rower to z definicji pojazd jedno- lub wieloœladowy, który napêdzany jest si³¹ miêœni osoby poruszaj¹cej siê na nim. Wynalazek ten siêga swoimi korzeniami do wieku XIX, zatem od niemal dwóch wieków podlega on nieustannej ewolucji technologicznej. Jednym z efektów tej ewolucji, powsta³ym w wyniku zetkniêcia z technik¹ cyfrow¹, jest elektroniczny komputer rowerowy. Pocz¹tkowo urz¹dzenia te, zwane równie¿ potocznie licznikami rowerowymi, mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z~jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
 Zasada dzia³ania prostego licznika rowerowego oparta jest na trzech g³ównych elementach:
 \begin{enumerate}
     \item Magnes zamontowany na szprysze ko³a roweru;
@@ -15,7 +15,7 @@ Prêdkoœæ z jak¹ porusza siê rower obliczana jest przez mikroprocesor w urz¹dzeni
 
 Za prze³om w dziedzinie komputerów rowerowych mo¿na uznaæ wyposa¿enie licznika w wydajny mikroprocesor, wiêkszy wyœwietlacz oraz modu³ GPS (ang.~\emph{Global Positioning System}). Znacz¹co rozszerzy³o to listê dostêpnych funkcji. Informacja o pozycji urz¹dzenia pozwoli³a na wykorzystanie map cyfrowych, na których w czasie rzeczywistym wyœwietlana jest obecna pozycja. W zwi¹zku z tym pojawi³a siê równie¿ mo¿liwoœæ uprzedniego wytyczania tras, a nastêpnie nawigowania rowerzysty w trakcie podró¿y. Ponadto na podstawie samych danych lokalizacyjnych mo¿na w prosty sposób, na bie¿¹co wyliczaæ szereg statystyk, jak np.:~prêdkoœæ, przejechany dystans, po³o¿enie geograficzne (szerokoœæ geograficzna, d³ugoœæ geograficzna, wysokoœæ nad poziomem morza), bez koniecznoœci stosowania dodatkowych czujników. Wszystkie te dane mog¹ zostaæ zapisane w celu archiwizacji oraz póŸniejszej analizy.
 
-Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
+Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z~zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
 \begin{enumerate}
     \item wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona;
     \item nie wymaga inwestycji finansowej.
@@ -122,3 +122,5 @@ Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\r
 </gpx>
 \end{lstlisting}
 }
+
+Dziêki otwartoœci standardu mo¿liwe jest jego rozszerzanie. Jednym z popularnych rozszerzeñ jest \emph{Garmin GPX Schema Extension}. Dodaje ono nowe typy danych, które pozwalaj¹ zapisaæ w pliku dodatkowe informacje. Przyk³adowo, w omówionym wczeœniej \emph{waypoint type} mo¿na utrwaliæ zarejestrowan¹ w danym punkcie temperaturê lub kategoriê do której dany punkt nale¿y. Z kolei \emph{track type} zyskuje mo¿liwoœæ przechowywania koloru, w jakim œlad powinien zostaæ wyœwietlony na mapie. Pe³ny zakres rozszerzenia opisany jest w oficjalnym schemacie \cite{gpxgarmin}.
