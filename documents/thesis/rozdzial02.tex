@@ -21,7 +21,7 @@ Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatr
     \item nie wymaga inwestycji finansowej.
 \end{enumerate}
 
-Aplikacji tego typu dostêpnych jest na rynku wiele. Do najpopularniejszych nale¿¹ m.in.:~\emph{Strava}, \emph{Cyclemeter}, \emph{MapMyRide}, \emph{Bikemap}, \emph{Komoot}, czy \emph{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ podstawowe mo¿liwoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcji dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\emph{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\emph{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\emph{Cyclemeter}).
+Aplikacji tego typu dostêpnych jest na rynku wiele. Do najpopularniejszych nale¿¹ m.in.:~\texttt{Strava}, \texttt{Cyclemeter}, \texttt{MapMyRide}, \texttt{Bikemap}, \texttt{Komoot}, czy \texttt{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ podstawowe mo¿liwoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcji dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\texttt{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\texttt{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\texttt{Cyclemeter}).
 
 Zarówno dedykowane urz¹dzenia, jak i aplikacje na smartfony do eksportu oraz importu danych pos³uguj¹ siê zazwyczaj standardem GPX. Dziêki temu u¿ytkownicy w razie w³asnych upodobañ oraz potrzeb mog¹ w doœæ ³atwy sposób migrowaæ miêdzy poszczególnymi us³ugami.
 
@@ -58,19 +58,19 @@ Dziêki wykorzystaniu architektury XML poszczególne dane lokalizacyjne uzyskane z
 W standardzie zdefiniowane zosta³y nastêpuj¹ce typy danych:
 \begin{itemize}
     \item gpxType;
-    \item typy proste: latitudeType, longitudeType, degreesType, fixType, dgpsStationType;
-    \item typy z³o¿one: metadataType, wptType, rteType, trkType, extensionsType, trksegType, copyrightType, linkType, emailType, personType, ptType, ptsegType, boundsType.
+    \item typy proste: \texttt{latitudeType}, \texttt{longitudeType}, \texttt{degreesType}, \texttt{fixType}, \texttt{dgpsStationType};
+    \item typy z³o¿one: \texttt{metadataType}, \texttt{wptType}, \texttt{rteType}, \texttt{trkType}, \texttt{extensionsType}, \texttt{trksegType}, \texttt{copyrightType}, \texttt{linkType}, \texttt{emailType}, \texttt{personType}, \texttt{ptType},\texttt{ptsegType}, \texttt{boundsType}.
 \end{itemize}
-Spoœród powy¿szej listy, na szczególne omówienie zas³uguj¹ trzy typy z³o¿one: wptType --- \emph{waypoint type}, rteType --- \emph{route type} oraz trkType --- \emph{track type}:
+Spoœród powy¿szej listy, na szczególne omówienie zas³uguj¹ trzy typy z³o¿one: \texttt{wptType} --- \emph{waypoint type}, \texttt{rteType} --- \emph{route type} oraz \texttt{trkType} --- \emph{track type}:
 \begin{enumerate}
-    \item \emph{Waypoint type} to pojedynczy punkt nale¿¹cy do kolekcji punktów, ale nieskorelowany z pozosta³ymi punktami tej kolekcji. Punkt taki zawiera w sobie dane o lokalizacji, tj.: szerokoœæ (latitudeType) i d³ugoœæ (longitudeType) geograficzn¹ oraz mo¿e zawieraæ dodatkowe informacje, jak np.:~wysokoœæ nad poziomem morza (elevation), czas, komentarz tekstowy i inne.
+    \item \emph{Waypoint type} to pojedynczy punkt nale¿¹cy do kolekcji punktów, ale nieskorelowany z pozosta³ymi punktami tej kolekcji. Punkt taki zawiera w sobie dane o lokalizacji, tj.: szerokoœæ (\texttt{latitudeType}) i d³ugoœæ (\texttt{longitudeType}) geograficzn¹ oraz mo¿e zawieraæ dodatkowe informacje, jak np.:~wysokoœæ nad poziomem morza (elevation), czas, komentarz tekstowy i inne.
     \item \emph{Route type}, co mo¿na przet³umaczyæ jako trasa lub droga. Jest to uporz¹dkowana lista punktów, które prowadz¹ do okreœlonego celu.
     \item \emph{Track type}, czyli œcie¿ka, droga lub œlad, to lista zawieraj¹ca co najmniej jeden segment (pewien fragment œcie¿ki), który z kolei zawiera listê punktów. Punkty te odzwierciedlaj¹ realn¹ œcie¿kê, któr¹ przeby³ odbiornik GPS.
 \end{enumerate}
 
 Kluczowe jest rozró¿nienie miêdzy \emph{route type} i \emph{track type}, pierwszy z nich wytycza jedynie punkty poœrednie prowadz¹ce do celu, drugi z nich to zapis rzeczywistych danych zebranych przez fizyczne urz¹dzenie. Poniewa¿ polskie t³umaczenia tych angielskich terminów mog¹ nie byæ w pe³ni jednoznaczne, autor pracy sugeruje, aby w kontekœcie standardu GPX pos³ugiwaæ siê angielskimi formami. W zwi¹zku z tym, aby unikn¹æ nieporozumieñ, w dalszej treœci pracy terminy te zapisano w oryginalnej formie angielskiej (ewentualnie skróconej do \emph{route}  i \emph{track}).
 
-Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\ref{lst:gpxschema} natomiast na listingu~\ref{lst:gpxexample} pokazano zawartoœæ przyk³adowego pliku (fragment rzeczywistych danych zebranych przez autora pracy, wyeksportowanych z aplikacji mobilnej \emph{Komoot}). Z listingu mo¿na odczytaæ, ¿e plik zawiera jeden \emph{track}, która sk³ada siê z jednego segmentu (trkseg) z list¹ punktów (trkpt). Lista ta na potrzeby demonstracji zosta³a skrócona do trzech punktów, jednak w rzeczywistoœci, w zale¿noœci od d³ugoœci \emph{tracka}, mo¿e ona liczyæ setki, a nawet tysi¹ce punktów.
+Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\ref{lst:gpxschema} natomiast na listingu~\ref{lst:gpxexample} pokazano zawartoœæ przyk³adowego pliku (fragment rzeczywistych danych zebranych przez autora pracy, wyeksportowanych z aplikacji mobilnej \texttt{Komoot}). Z listingu mo¿na odczytaæ, ¿e plik zawiera jeden \emph{track}, która sk³ada siê z jednego segmentu (trkseg) z list¹ punktów (trkpt). Lista ta na potrzeby demonstracji zosta³a skrócona do trzech punktów, jednak w rzeczywistoœci, w zale¿noœci od d³ugoœci \emph{tracka}, mo¿e ona liczyæ setki, a nawet tysi¹ce punktów.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=XML, label=lst:gpxschema, caption=Struktura pliku GPX,
