@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Spin } from 'antd';
 
 import GpxParser from 'gpxparser';
 import he from 'he';
@@ -14,17 +13,19 @@ import {
 import './gpxToActivityParser.less';
 
 import Activity from '../activity/Activity';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
-import { useAuth } from '../../hooks/useAuth';
-import { User } from '@firebase/auth';
+import useUserId from '../../firebase/hooks/useUserId';
+import { useWriteActivity } from '../../firebase/hooks/useActivities';
 
 export type GpxToActivityParserProps = {
   file: File;
 };
 
 const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
-  const [activity, setActivity] = useState<ActivityType>();
-  const { currentUser } = useAuth();
+  const [activity, setActivity] = useState<ActivityType | null>(null);
+  const writeActivity = useWriteActivity();
+  const userId = useUserId();
 
   useEffect(() => {
     file.text().then((gpx) => {
@@ -48,29 +49,20 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
 
       const newActivity: ActivityType = {
         activityId: '',
-        creatorId: (currentUser as User).uid,
+        creatorId: userId,
         name: he.decode(gpxParser.metadata.name),
         createdAt: newTrack[0][0].time,
         lastModifiedAt: Date.now(),
         track: newTrack,
-        sport: null,
-        category: null,
-        shape: null,
-        statistics: null,
-        rating: null,
-        tags: ['tag1', 'tag2', 'Tag3'], //null,
       };
 
-      setActivity(newActivity);
+      const activityWithId = writeActivity(newActivity);
+      setActivity(activityWithId);
     });
-  }, [file, currentUser]);
+  }, [file, userId]);
 
   if (!activity) {
-    return (
-      <div className='loading-container'>
-        <Spin tip='Loading...' />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return <Activity activity={activity} />;

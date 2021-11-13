@@ -7,8 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import './tagList.less';
 
 export type TagListProps = {
-  tags: Array<string> | null;
-  onTagsChange: (newTags: Array<string> | null) => void;
+  tags: Array<string> | undefined;
+  onTagsChange: (newTags: Array<string>) => void;
 };
 
 const TagList: React.FC<TagListProps> = ({ tags, onTagsChange }) => {

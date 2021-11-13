@@ -16,5 +16,16 @@
     }
   }
   &-content {
+    overflow-x: clip;
+
+    & > * {
+      min-width: 400px;
+    }
+
+    @media (min-width: @screen-md-min) {
+      & > * {
+        min-width: unset;
+      }
+    }
   }
 }

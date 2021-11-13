@@ -39,7 +39,7 @@ export enum RatingTypes {
   Poor = 'poor',
   Fair = 'fair',
   Good = 'good',
-  Excelent = 'excelent',
+  Excelent = 'excellent',
 }
 
 export type ActivityShape = {
@@ -52,7 +52,7 @@ export type TrackPoint = {
   lat: number;
   lon: number;
   time: number;
-  ele: number | null;
+  ele?: number | null;
 };
 
 export type TrackSegment = Array<TrackPoint>;
@@ -60,12 +60,12 @@ export type TrackSegment = Array<TrackPoint>;
 export type Track = Array<TrackSegment>;
 
 export type ActivityStatistics = {
-  totalDistance: number | null;
-  totalDuration: number | null;
-  inMotionDuration: number | null;
-  maxSpeed: number | null;
-  elevationUp: number | null;
-  elevationDown: number | null;
+  totalDistance?: number;
+  totalDuration?: number;
+  inMotionDuration?: number;
+  maxSpeed?: number;
+  elevationUp?: number;
+  elevationDown?: number;
 };
 
 export type Activity = {
@@ -75,12 +75,12 @@ export type Activity = {
   createdAt: number;
   lastModifiedAt: number;
   track: Track;
-  sport: ActivitySportTypes | null;
-  category: ActivityCategoryTypes | null;
-  shape: ActivityShape | null;
-  statistics: ActivityStatistics | null;
-  rating: RatingTypes | null;
-  tags: Array<string> | null;
+  sport?: ActivitySportTypes;
+  category?: ActivityCategoryTypes;
+  shape?: ActivityShape;
+  statistics?: ActivityStatistics;
+  rating?: RatingTypes;
+  tags?: Array<string>;
 };
 
 export type UserStatistics = {
@@ -128,14 +128,13 @@ export type UserProfile = {
 
 export type User = {
   userId: string;
-  profile: UserProfile | null;
-  statistics: UserStatistics | null;
-  activities: { [activityId: string]: Activity } | null;
-  // tracks: { [activityId: string]: Track } | null;
+  profile?: UserProfile;
+  statistics?: UserStatistics;
+  activities?: { [activityId: string]: Activity };
 };
 
 type DatabaseSchema = {
-  users: { [userId: string]: User } | null;
+  users?: { [userId: string]: User };
 };
 
 export default DatabaseSchema;

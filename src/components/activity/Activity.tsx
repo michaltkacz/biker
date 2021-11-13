@@ -15,7 +15,7 @@ import {
 
 import Map from '../map/Map';
 import MapCanvas from '../mapCanvas/MapCanvas';
-import TagList from '../TagList/TagList';
+import TagList from '../tagList/TagList';
 
 import useActivityStatistics from '../../hooks/useActivityStatistics';
 import ActivityStatisticsDashboard from '../activityStatisticsDashboard/ActivityStatisticsDashboard';
@@ -23,12 +23,17 @@ import ActivityTitle from '../activityTitle/ActivityTitle';
 import LabeledEnumSelect from '../labeledEnumSelect/LabeledEnumSelect';
 import ActivityShaper from '../activityShaper/ActivityShaper';
 import ActivityCharts from '../activityCharts/ActivityCharts';
+import {
+  useDeleteActivity,
+  useEditActivity,
+} from '../../firebase/hooks/useActivities';
 
 export type ActivityProps = {
   activity: ActivityType;
 };
 
 const Activity: React.FC<ActivityProps> = ({ activity }) => {
+  const deleteActivity = useDeleteActivity();
   const statistics = useActivityStatistics(activity.track);
 
   const [firstRender, setFirstRender] = useState<boolean>(true);
@@ -44,28 +49,24 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const [shape, setShape] = useState<ActivityShape>(
     activity.shape || { isLoop: false, from: 'unknown', to: 'unknown' }
   );
-  const [rating, setRating] = useState<RatingTypes | null>(activity.rating);
-  const [tags, setTags] = useState<Array<string> | null>(activity.tags);
+  const [rating, setRating] = useState<RatingTypes | undefined>(
+    activity.rating
+  );
+  const [tags, setTags] = useState<Array<string> | undefined>(activity.tags);
 
   useEffect(() => {
-    // setActivity({...activity, name, sport, category, shape, rating, tags, lastModifiedAt: Date.now()});
     if (!firstRender) {
       setActivityModified(true);
     } else {
       setFirstRender(false);
     }
-  }, [firstRender, name, sport, category, shape, rating, tags]);
-
-  useEffect(() => {
-    console.log(activityModified);
-  }, [activityModified]);
+  }, [name, sport, category, shape, rating, tags]);
 
   const onDeleteActivity = () => {
-    console.log('delete');
-    //todo delete this...
+    deleteActivity(activity.activityId);
   };
 
-  const onConfirmEdit = () => {
+  const onEditActivity = () => {
     console.log('edit');
     setActivityModified(false);
     //todo edit this...
@@ -78,7 +79,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
           tooltips={Object.values(RatingTypes)}
           onChange={(value) => {
             value === 0
-              ? setRating(null)
+              ? setRating(undefined)
               : setRating(Object.values(RatingTypes)[value]);
           }}
           className='rating'
@@ -119,8 +120,9 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const ActionConfirmEdit = (
     <Button
       block
+      type='primary'
       disabled={!activityModified}
-      onClick={onConfirmEdit}
+      onClick={onEditActivity}
       className='action-button'
     >
       Confirm Changes
@@ -138,7 +140,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
       okText='Yes'
       cancelText='No'
     >
-      <Button block danger className='action-button'>
+      <Button block danger type='primary' className='action-button'>
         Delete Activity
         <DeleteOutlined className='action-button-icon' />
       </Button>

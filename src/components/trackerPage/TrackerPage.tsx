@@ -18,6 +18,12 @@ import {
   AimOutlined,
 } from '@ant-design/icons';
 
+import { Activity } from '../../database/schema';
+import Pages from '../../global/pages';
+import { useHistory } from 'react-router';
+import { useWriteActivity } from '../../firebase/hooks/useActivities';
+import useUserId from '../../firebase/hooks/useUserId';
+
 const TrackerPage: React.FC = () => {
   const {
     latestPosition,
@@ -27,6 +33,9 @@ const TrackerPage: React.FC = () => {
     stopTracking,
     isTracking,
   } = useTracker();
+  const history = useHistory();
+  const writeActivity = useWriteActivity();
+  const userId = useUserId();
 
   const activityStatistics = useActivityStatistics(track);
 
@@ -43,8 +52,17 @@ const TrackerPage: React.FC = () => {
 
   const handleStopTracking = (): void => {
     stopTracking();
-    console.log(track);
-    // todo: save to database, redirect to track saving screen
+
+    const activity: Activity = {
+      activityId: '',
+      creatorId: userId,
+      name: 'Activity ' + new Date().toLocaleString(),
+      createdAt: Date.now(),
+      lastModifiedAt: Date.now(),
+      track: track,
+    };
+    writeActivity(activity);
+    history.push(Pages.ActivitiesHistory);
   };
 
   const handleFollowPosition = (): void => {

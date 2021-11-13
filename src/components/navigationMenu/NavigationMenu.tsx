@@ -6,7 +6,7 @@ import Pages from '../../global/pages';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 import { useHistory } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../firebase/hooks/useAuth';
 
 import './navigationMenu.less';
 

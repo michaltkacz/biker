@@ -9,7 +9,7 @@ import './activitiesTransferPage.less';
 const ActivitiesTransferPage = () => {
   return (
     <div className='activity-page'>
-      <Typography.Title level={1}>Activities</Typography.Title>
+      <Typography.Title level={1}>Activities Transfer</Typography.Title>
       <GpxImporter />
       <GpxExporter />
     </div>

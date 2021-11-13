@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Collapse, Spin, Typography } from 'antd';
+import { Collapse, Typography } from 'antd';
 
 import {
   FlexibleWidthXYPlot,
@@ -15,6 +15,8 @@ import 'react-vis/dist/style.css';
 
 import './activityCharts.less';
 
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+
 import { Track } from '../../database/schema';
 
 import { geoMove } from '../../global/geolocationMath';
@@ -24,18 +26,25 @@ export type ActivityChartsProps = {
 };
 
 const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
+  const [expanded, setExpanded] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [distanceData, setDistanceData] = useState<Array<AreaSeriesPoint>>([]);
+
   const [speedData, setSpeedData] = useState<Array<AreaSeriesPoint>>([]);
+  const [distanceData, setDistanceData] = useState<Array<AreaSeriesPoint>>([]);
   const [elevationData, setElevationData] = useState<Array<AreaSeriesPoint>>(
     []
   );
-  const [gainElevationData, setGainElevationData] = useState<
-    Array<AreaSeriesPoint>
-  >([]);
-  const [maxElevation, setMaxElevation] = useState<number>(0);
   const [maxSpeed, setMaxSpeed] = useState<number>(0);
-  const [crosshair, setCrosshair] = useState<AreaSeriesPoint | null>(null);
+  const [maxDistance, setMaxDistance] = useState<number>(0);
+  const [maxElevation, setMaxElevation] = useState<number>(0);
+
+  const [speedCrosshair, setSpeedCrosshair] = useState<AreaSeriesPoint | null>(
+    null
+  );
+  const [distanceCrosshair, setDistanceCrosshair] =
+    useState<AreaSeriesPoint | null>(null);
+  const [elevationCrosshair, setElevationCrosshair] =
+    useState<AreaSeriesPoint | null>(null);
 
   const parseData = async () => {
     const flatTrack = track.flat();
@@ -47,95 +56,67 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
     let newSpeedData: Array<AreaSeriesPoint> = [];
     let newDistanceData: Array<AreaSeriesPoint> = [];
     let newElevationData: Array<AreaSeriesPoint> = [];
-    let newGainElevationData: Array<AreaSeriesPoint> = [];
+
+    let newMaxSpeed: number = 0;
+    let newMaxDistance: number = 0;
     let newMaxElevation: number = 0;
 
     let newDistance: number = 0;
-    let newGainElevation: number = 0;
     let newSpeed: number = 0;
 
     flatTrack.forEach((point, index) => {
       const newElevation = Math.round(point.ele || 0);
 
+      if (index !== 0) {
+        const prevPoint = flatTrack[index - 1];
+        const { distance, speed } = geoMove(
+          point.lat,
+          point.lon,
+          point.time,
+          prevPoint.lat,
+          prevPoint.lon,
+          prevPoint.time
+        );
+
+        if (distance > 0.001) {
+          newDistance += distance / 1000;
+          newSpeed = speed * 3.6;
+        }
+      }
+
+      newMaxSpeed = Math.max(newSpeed, newMaxSpeed);
+      newMaxDistance = Math.max(newDistance, newMaxDistance);
       newMaxElevation = Math.max(newElevation, newMaxElevation);
+
+      newDistanceData.push({ x: point.time, y: newDistance });
+      newSpeedData.push({ x: point.time, y: newSpeed });
       newElevationData.push({
         x: point.time,
         y: newElevation,
       });
-
-      if (index === 0) {
-        newDistanceData.push({ x: point.time, y: 0 });
-        newSpeedData.push({ x: point.time, y: 0 });
-        newGainElevationData.push({ x: point.time, y: 0 });
-        return;
-      }
-      const prevPoint = flatTrack[index - 1];
-      const { distance, speed, dElevation } = geoMove(
-        point.lat,
-        point.lon,
-        point.time,
-        prevPoint.lat,
-        prevPoint.lon,
-        prevPoint.time,
-        point.ele,
-        prevPoint.ele
-      );
-
-      if (newDistance > 0.001) {
-        newSpeed = Math.round(speed * 3.6);
-      } else {
-        newSpeed = 0;
-      }
-
-      newDistance += Math.round(distance * 100) / 100;
-      newGainElevation += dElevation || 0;
-
-      newDistanceData.push({ x: point.time, y: newDistance });
-      newSpeedData.push({ x: point.time, y: newSpeed });
-      newGainElevationData.push({ x: point.time, y: newGainElevation });
     });
-
-    // console.log(newGainElevationData);
-    // console.log(newElevationData);
-    // console.log(newSpeedData);
-    // console.log(newDistanceData);
 
     setDistanceData(newDistanceData);
     setSpeedData(newSpeedData);
     setElevationData(newElevationData);
-    setGainElevationData(newGainElevationData);
+    setMaxSpeed(newMaxSpeed);
+    setMaxDistance(newMaxDistance);
     setMaxElevation(newMaxElevation);
   };
 
   useEffect(() => {
-    parseData().then(() => setLoading(false));
-    // let totalDistance: number = 0;
-    // const newDistanceData = flatTrack.map((point, index) => {
-    //   if (index !== 0) {
-    //     const prevPoint = flatTrack[index - 1];
-    //     totalDistance +=
-    //       geoDistance(point.lat, point.lon, prevPoint.lat, prevPoint.lon) /
-    //       1000;
-    //   }
-    //   return {
-    //     time: point.time,
-    //     distance: totalDistance,
-    //   };
-    // });
-    // console.log(newDistanceData);
-    // setDistanceData(newDistanceData);
-  }, [track]);
+    if (!expanded) {
+      return;
+    }
 
-  if (loading) {
-    return (
-      <div className='loading-container'>
-        <Spin tip='Loading...' />
-      </div>
-    );
-  }
+    parseData().then(() => setLoading(false));
+  }, [track, expanded]);
 
   return (
-    <Collapse className='activity-charts'>
+    <Collapse
+      className='activity-charts'
+      onChange={() => setExpanded(!expanded)}
+    >
       <Collapse.Panel
         className='activity-charts-header'
         header={
@@ -145,102 +126,136 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
         }
         key='charts'
       >
-        <FlexibleWidthXYPlot
-          height={300}
-          xType='time-utc'
-          onMouseLeave={() => setCrosshair(null)}
-        >
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis
-            title='Time'
-            tickFormat={(value) => {
-              return new Date(value).toLocaleTimeString().substr(0, 5);
-            }}
-          />
-          <YAxis
-            title='Speed [km/h]'
-            tickFormat={(value) => {
-              return value;
-            }}
-          />
-          <AreaSeries
-            fill='#bdb2ffaa'
-            stroke='#bdb2ff'
-            data={speedData}
-            onNearestX={(value) => setCrosshair(value)}
-            curve='curveStepBefore'
-          />
-          {crosshair && (
-            <Crosshair values={[crosshair]}>
-              <div className='crosshair'>
-                <div>
-                  Time:{' '}
-                  {new Date(crosshair.x).toLocaleTimeString().substr(0, 5)}
-                </div>
-                <div>Elevation: {crosshair.y}m</div>
-              </div>
-            </Crosshair>
-          )}
-        </FlexibleWidthXYPlot>
-        <FlexibleWidthXYPlot
-          height={300}
-          xType='time-utc'
-          yDomain={[0, maxElevation * 1.5]}
-          onMouseLeave={() => setCrosshair(null)}
-        >
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis
-            title='Time'
-            tickFormat={(value) => {
-              return new Date(value).toLocaleTimeString().substr(0, 5);
-            }}
-          />
-          <YAxis
-            title='Elevation [m]'
-            tickFormat={(value) => {
-              return value;
-            }}
-          />
-          <AreaSeries
-            fill='#bdb2ffaa'
-            stroke='#bdb2ff'
-            data={elevationData}
-            onNearestX={(value) => setCrosshair(value)}
-          />
-          {crosshair && (
-            <Crosshair values={[crosshair]}>
-              <div className='crosshair'>
-                <div>
-                  Time:{' '}
-                  {new Date(crosshair.x).toLocaleTimeString().substr(0, 5)}
-                </div>
-                <div>Elevation: {crosshair.y}m</div>
-              </div>
-            </Crosshair>
-          )}
-        </FlexibleWidthXYPlot>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <FlexibleWidthXYPlot
+              height={300}
+              xType='time-utc'
+              yDomain={[0, maxSpeed * 1.1]}
+              onMouseLeave={() => setSpeedCrosshair(null)}
+            >
+              <VerticalGridLines />
+              <HorizontalGridLines />
+              <XAxis
+                title='Time'
+                tickFormat={(value) => {
+                  return new Date(value).toLocaleTimeString().substr(0, 5);
+                }}
+              />
+              <YAxis
+                title='Speed [km/h]'
+                tickFormat={(value) => {
+                  return value;
+                }}
+              />
+              <AreaSeries
+                fill='#36cfc999'
+                stroke='#36cfc9aa'
+                data={speedData}
+                onNearestX={(value) => setSpeedCrosshair(value)}
+                curve='curveStepBefore'
+              />
+              {speedCrosshair && (
+                <Crosshair values={[speedCrosshair]}>
+                  <div className='chart-crosshair'>
+                    <div>
+                      Time:{' '}
+                      {new Date(speedCrosshair.x)
+                        .toLocaleTimeString()
+                        .substr(0, 5)}
+                    </div>
+                    <div>Speed: {speedCrosshair.y.toFixed(2)}km/h</div>
+                  </div>
+                </Crosshair>
+              )}
+            </FlexibleWidthXYPlot>
+            <FlexibleWidthXYPlot
+              height={300}
+              xType='time-utc'
+              yDomain={[0, maxDistance * 1.1]}
+              onMouseLeave={() => setDistanceCrosshair(null)}
+            >
+              <VerticalGridLines />
+              <HorizontalGridLines />
+              <XAxis
+                title='Time'
+                tickFormat={(value) => {
+                  return new Date(value).toLocaleTimeString().substr(0, 5);
+                }}
+              />
+              <YAxis
+                title='Distance [km]'
+                tickFormat={(value) => {
+                  return value;
+                }}
+              />
+              <AreaSeries
+                fill='#597ef799'
+                stroke='#597ef7aa'
+                data={distanceData}
+                onNearestX={(value) => setDistanceCrosshair(value)}
+              />
+              {distanceCrosshair && (
+                <Crosshair values={[distanceCrosshair]}>
+                  <div className='chart-crosshair'>
+                    <div>
+                      Time:{' '}
+                      {new Date(distanceCrosshair.x)
+                        .toLocaleTimeString()
+                        .substr(0, 5)}
+                    </div>
+                    <div>Distance: {distanceCrosshair.y.toFixed(2)}km</div>
+                  </div>
+                </Crosshair>
+              )}
+            </FlexibleWidthXYPlot>
+            <FlexibleWidthXYPlot
+              height={300}
+              xType='time-utc'
+              yDomain={[0, maxElevation * 1.1]}
+              onMouseLeave={() => setElevationCrosshair(null)}
+            >
+              <VerticalGridLines />
+              <HorizontalGridLines />
+              <XAxis
+                title='Time'
+                tickFormat={(value) => {
+                  return new Date(value).toLocaleTimeString().substr(0, 5);
+                }}
+              />
+              <YAxis
+                title='Elevation [m]'
+                tickFormat={(value) => {
+                  return value;
+                }}
+              />
+              <AreaSeries
+                fill='#9254de99'
+                stroke='#9254deaa'
+                data={elevationData}
+                onNearestX={(value) => setElevationCrosshair(value)}
+              />
+              {elevationCrosshair && (
+                <Crosshair values={[elevationCrosshair]}>
+                  <div className='chart-crosshair'>
+                    <div>
+                      Time:{' '}
+                      {new Date(elevationCrosshair.x)
+                        .toLocaleTimeString()
+                        .substr(0, 5)}
+                    </div>
+                    <div>Elevation: {elevationCrosshair.y}m</div>
+                  </div>
+                </Crosshair>
+              )}
+            </FlexibleWidthXYPlot>
+          </>
+        )}
       </Collapse.Panel>
     </Collapse>
   );
 };
-
-// export type ChartContainerProps = {
-//   width: number;
-//   height: number;
-// };
-
-// export const ChartContainer: React.FC<ChartContainerProps> = ({
-//   width,
-//   height,
-//   children,
-// }) => {
-//   return (
-//     <div style={{ width, height }} className='chart-container'>
-//       {children}
-//     </div>
-//   );
-// };
 
 export default ActivityCharts;

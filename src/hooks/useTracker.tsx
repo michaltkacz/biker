@@ -60,7 +60,7 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
     const newTrackPoint: TrackPoint = {
       lat: latestPosition.coords.latitude,
       lon: latestPosition.coords.longitude,
-      ele: latestPosition.coords.altitude,
+      ele: latestPosition.coords.altitude || null,
       time: Date.now(),
     };
 

@@ -1,9 +1,11 @@
-export const validateValue = (value: number | null): number | string => {
-  if (value === null) return '-';
+export const validateValue = (value: number | undefined): number | string => {
+  if (!value) return '-';
   return value;
 };
 
-export const formatDistanceValue = (value: number | null): number | string => {
+export const formatDistanceValue = (
+  value: number | undefined
+): number | string => {
   const validatedValue = validateValue(value);
   if (typeof validatedValue === 'string') {
     return validatedValue;
@@ -11,7 +13,9 @@ export const formatDistanceValue = (value: number | null): number | string => {
   return validatedValue / 1000; // m -> km
 };
 
-export const formatSpeedValue = (value: number | null): number | string => {
+export const formatSpeedValue = (
+  value: number | undefined
+): number | string => {
   const validatedValue = validateValue(value);
   if (typeof validatedValue === 'string') {
     return validatedValue;
@@ -20,8 +24,8 @@ export const formatSpeedValue = (value: number | null): number | string => {
 };
 
 export const formatAverageSpeedValue = (
-  distance: number | null,
-  time: number | null
+  distance: number | undefined,
+  time: number | undefined
 ): number | string => {
   const validatedDistance = validateValue(distance); //m
   const validatedTime = validateValue(time); //ms
@@ -39,7 +43,7 @@ export const formatAverageSpeedValue = (
   return (validatedDistance / validatedTime) * 3600; // km/h
 };
 
-export const formatDurationValue = (value: number | null): string => {
+export const formatDurationValue = (value: number | undefined): string => {
   const validatedValue = validateValue(value);
   if (typeof validatedValue === 'string') {
     return validatedValue;
@@ -49,7 +53,7 @@ export const formatDurationValue = (value: number | null): string => {
     : new Date(validatedValue).toISOString().substr(11, 8);
 };
 
-export const formatDateValue = (value: number | null): string => {
+export const formatDateValue = (value: number | undefined): string => {
   const validatedValue = validateValue(value);
   if (typeof validatedValue === 'string') {
     return validatedValue;

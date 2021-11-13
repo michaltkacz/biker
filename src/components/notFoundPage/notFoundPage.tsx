@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Result } from 'antd';
 
 import { useHistory } from 'react-router-dom';
-import { useAuth } from './../../hooks/useAuth';
+import { useAuth } from '../../firebase/hooks/useAuth';
 
 import Pages from '../../global/pages';
 

@@ -4,7 +4,7 @@ import { UserOutlined } from '@ant-design/icons';
 
 import './userCard.less';
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../firebase/hooks/useAuth';
 
 const UserCard = () => {
   const { currentUser } = useAuth();

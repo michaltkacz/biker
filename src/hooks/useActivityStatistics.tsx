@@ -3,20 +3,20 @@ import { Track, ActivityStatistics } from '../database/schema';
 import { geoSpeed2, geoMove, deltaTime } from '../global/geolocationMath';
 
 export type ActivityStatisticsExtended = {
-  latestSpeed: number | null;
-  latestElevation: number | null;
+  latestSpeed?: number;
+  latestElevation?: number;
 } & ActivityStatistics;
 
 const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
-  const [latestSpeed, setLatestSpeed] = useState<number | null>(null);
-  const [latestElevation, setLatestElevation] = useState<number | null>(null);
+  const [latestSpeed, setLatestSpeed] = useState<number>();
+  const [latestElevation, setLatestElevation] = useState<number>();
 
-  const [totalDistance, setTotalDistance] = useState<number | null>(null);
-  const [totalDuration, setTotalDuration] = useState<number | null>(null);
-  const [inMotionDuration, setInMotionDuration] = useState<number | null>(null);
-  const [maxSpeed, setMaxSpeed] = useState<number | null>(null);
-  const [elevationUp, setElevationUp] = useState<number | null>(null);
-  const [elevationDown, setElevationDown] = useState<number | null>(null);
+  const [totalDistance, setTotalDistance] = useState<number>();
+  const [totalDuration, setTotalDuration] = useState<number>();
+  const [inMotionDuration, setInMotionDuration] = useState<number>();
+  const [maxSpeed, setMaxSpeed] = useState<number>();
+  const [elevationUp, setElevationUp] = useState<number>();
+  const [elevationDown, setElevationDown] = useState<number>();
 
   useEffect(() => {
     // there must be at least one segment
@@ -31,13 +31,13 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
     const firstTrackPoint = trackFlat[0];
     const lastTrackPoint = trackFlat[lpi];
 
-    const newLatestElevation = lastTrackPoint.ele; // meters
+    const newLatestElevation = lastTrackPoint.ele || undefined; // meters
     const newTotalDuration = deltaTime(
       firstTrackPoint.time,
       lastTrackPoint.time
     ); // miliseconds
-    let newLatestSpeed: null | number = null;
-    let newMaxSpeed: null | number = null;
+    let newLatestSpeed: number | undefined;
+    let newMaxSpeed: number | undefined;
     let newTotalDistance: number = 0;
     let newInMotionDuration: number = 0;
     let newElevationUp: number = 0;
@@ -71,8 +71,8 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
         currPoint.lat,
         currPoint.lon,
         currPoint.time,
-        prevPoint.ele,
-        currPoint.ele
+        prevPoint.ele || null,
+        currPoint?.ele || null
       );
 
       // greater than one meter

@@ -47,13 +47,13 @@ export const geoMove = (
   lat2: number,
   lon2: number,
   time2: number,
-  ele1: number | null,
-  ele2: number | null
+  ele1?: number | null,
+  ele2?: number | null
 ): {
   distance: number;
   speed: number;
   dTime: number;
-  dElevation: number | null;
+  dElevation: number | undefined;
 } => {
   const distance = geoDistance(lat1, lon1, lat2, lon2);
   const dTime = deltaTime(time1, time2);
@@ -64,11 +64,11 @@ export const geoMove = (
 };
 
 export const deltaElevation = (
-  ele1: number | null,
-  ele2: number | null
-): number | null => {
+  ele1?: number | null,
+  ele2?: number | null
+): number | undefined => {
   if (!ele1 || !ele2) {
-    return null;
+    return undefined;
   }
   return ele1 - ele2;
 };
