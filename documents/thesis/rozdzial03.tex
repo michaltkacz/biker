@@ -1,6 +1,6 @@
 \chapter{Decyzje projektowe}
 \label{chap:3}
-Na pocz¹tku rozdzia³u dokonano porównania miêdzy koncepcj¹ pierwotn¹, a finaln¹ architektury systemu. W kolejnych podrozdzia³ach zawarto uzasadnienie decyzji projektowych finalnej struktury systemu oraz wyjaœniono podstawy technologii wybranych do realizacji poszczególnych zadañ. Praktyczne implementacje nie s¹ zawarte w tym rozdziale --- jest to treœæ rozdzia³u~\ref{chap:5}
+Na pocz¹tku rozdzia³u dokonano porównania miêdzy koncepcj¹ pierwotn¹, a finaln¹ architektury systemu. W kolejnych podrozdzia³ach zawarto uzasadnienie decyzji projektowych finalnej struktury systemu oraz wyjaœniono podstawy technologii wybranych do realizacji poszczególnych zadañ. Praktyczne implementacje przedstawiono w treœci rozdzia³u~\ref{chap:5}
 
 \section{Architektura systemu}
 Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych aplikacji pod wspóln¹ nazw¹. Pierwsz¹ z nich mia³a byæ aplikacja internetowa (dostêp poprzez przegl¹darkê). W niej zawarte mia³y byæ wszystkie planowane funkcjonalnoœci za wyj¹tkiem jedynie nagrywania œladów z wykorzystaniem modu³u GPS. Za to zadanie mia³a byæ odpowiedzialna dedykowana aplikacja mobilna dla systemu \texttt{Android}. Ta wizja jednak uleg³a zmianie --- finalna wersja zak³ada wykonanie aplikacji internetowej w technice PWA. Pozwala ona na instalacjê aplikacji internetowej na urz¹dzeniu mobilnym i sprawienie wra¿enia aplikacji natywnej. Takie rozwi¹zanie posiada zarówno swoje zalety, jak i wady. Do korzyœci na pewno nale¿¹:
@@ -40,7 +40,7 @@ Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Go
   \item Podstawowe doœwiadczenie autora w integracji z platform¹, wynikaj¹ce z wykorzystania jej we wczeœniej realizowanych projektach.
   \item Dostêpnoœæ platformy w chmurze (brak koniecznoœci samodzielnego hostowania backendu).
   \item Dostêpnoœæ darmowego planu, pokrywaj¹cego zapotrzebowanie w ramach rozwoju i testowania tworzonego oprogramowania.
-  \item Pokrycie wszystkich wymagañ projektu przez udostêpniane us³ugi.
+  \item Pokrycie wszystkich wymagañ projektu przez udostêpniane przez platformê us³ugi.
 \end{itemize}
 
 \begin{table}[htb] \small
@@ -91,62 +91,63 @@ CATEGORIES  = 'commute' | 'casual' | 'training' | 'race' | 'bikepacking' | 'othe
 
 // W³aœciwa struktura
 database_root: {
-  <unique(userId)>?: {
-    userId: string;
-    profile?: {
-      gender?: valueOf(GENDERS)
-      birthday?: Date;
-      weight?: number;
-      height?: number;
-      country?: string;
-      city?: string;
-      description?: string;
-    }
-    statistics?: {
-      minDistance?: number;
-      minElevation?: number;
-      minDuration?: number;
-      maxSpeed?: number;
-      maxDistance?: number;
-      maxElevation?: number;
-      maxDuration?: number;
-      totalDistance?: number;
-      totalElevationUp?: number;
-      totalElevationDown?: number;
-      totalDuration?: number;
-      totalInMotionDuration?: number;
-      longestUphill?: number;
-      longestDownhill?: number;
-      firstActivityAt?: number;
-      lastActivityAt?: number;
-      ratingStatistics?: { <valueOf(RATINGS)>: number; };
-      sportStatistics?: { <valueOf(SPORTS)>?: number; };
-      categoryStatistics?: { <valueOf(CATEGORIES)>?: number; };
-    };
-    activities?:{
-      <unique(activityId)>: {
-        activityId: string;
-        creatorId: string;
-        name: string;
-        createdAt: number;
-        lastModifiedAt: number;
-        sport?: valueOf(SPORTS);
-        category?: valueOf(CATEGORIES);
-        rating?: valueOf(RATINGS);
-        tags?: string[];
-        shape?: { isLoop: boolean; from: string; to: string; };
-        statistics?: {
-          totalDistance?: number;
-          totalDuration?: number;
-          inMotionDuration?: number;
-          maxSpeed?: number;
-          elevationUp?: number;
-          elevationDown?: number;
-        };
-        track: (
-            { lat: number; lon: number; time: number; ele?: number; }[]
-        )[];
+  users: {
+    <unique(userId)>?: {
+      profile?: {
+        gender?: valueOf(GENDERS)
+        birthday?: Date;
+        weight?: number;
+        height?: number;
+        country?: string;
+        city?: string;
+        description?: string;
       }
+      statistics?: {
+        minDistance?: number;
+        minElevation?: number;
+        minDuration?: number;
+        maxSpeed?: number;
+        maxDistance?: number;
+        maxElevation?: number;
+        maxDuration?: number;
+        totalDistance?: number;
+        totalElevationUp?: number;
+        totalElevationDown?: number;
+        totalDuration?: number;
+        totalInMotionDuration?: number;
+        longestUphill?: number;
+        longestDownhill?: number;
+        firstActivityAt?: number;
+        lastActivityAt?: number;
+        ratingStatistics?: { <valueOf(RATINGS)>: number; };
+        sportStatistics?: { <valueOf(SPORTS)>?: number; };
+        categoryStatistics?: { <valueOf(CATEGORIES)>?: number; };
+      };
+      activities?:{
+        <unique(activityId)>: {
+          activityId: string;
+          creatorId: string;
+          name: string;
+          createdAt: number;
+          lastModifiedAt: number;
+          sport?: valueOf(SPORTS);
+          category?: valueOf(CATEGORIES);
+          rating?: valueOf(RATINGS);
+          tags?: string[];
+          shape?: { isLoop: boolean; from: string; to: string; };
+          statistics?: {
+            totalDistance?: number;
+            totalDuration?: number;
+            inMotionDuration?: number;
+            maxSpeed?: number;
+            elevationUp?: number;
+            elevationDown?: number;
+          };
+          track: (
+              { lat: number; lon: number; time: number; ele?: number; }[]
+          )[];
+        }
+      };
     };
   };
 };
@@ -176,11 +177,11 @@ W zakresie us³ug \texttt{Firebase'a} jest równie¿ mo¿liwoœæ hostowania aplikacji
 Aplikacje hostowane s¹ w standardzie SSL, co pozwala na wykorzystanie protoko³u HTTPS. Jest to o tyle istotne, ¿e w przypadku braku protoko³u HTTPS przegl¹darki internetowe blokuj¹ dostêp do pewnych funkcjonalnoœci. W kontekœcie projektu ma to fundamentalne znaczenie, poniewa¿ jedn¹ z blokowanych funkcjonalnoœci jest lokalizacja GPS, na którym oparta jest ca³a koncepcja projektu.
 
 \section{Warstwa frontend}
-Aplikacjê klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React} \cite{react} oraz jêzyka \texttt{TypeScript}. Jest to darmowa i otwarta biblioteka jêzyka \texttt{JavaScript}, która przeznaczona jest do budowania interfejsów u¿ytkownika aplikacji internetowych typu SPA (ang~\emph{Single-page Application}). SPA, jest to aplikacja jednostronicowa (posiada tylko jeden plik HTML), która dynamicznie aktualizuje swoj¹ zawartoœæ, zamiast dokonywaæ prze³adowania ca³ej strony. Aplikacje SPA zapewniaj¹ bardzo dobre doœwiadczenie u¿ytkownika (ang~\emph{user experience}) i wyznaczaj¹ standard tworzenia wspó³czesnych aplikacji internetowych. W zestawieniu z \texttt{Reactem} wykorzystano dodatkowe narzêdzia. Najwa¿niejsze z nich przedstawiono w tabeli~\ref{tab:biblioteki}
+Aplikacjê klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React} \cite{react} oraz jêzyka \texttt{TypeScript}. React to darmowa i otwarta biblioteka jêzyka \texttt{JavaScript}, która przeznaczona jest do budowania interfejsów u¿ytkownika aplikacji internetowych typu SPA (ang~\emph{Single-page Application}). SPA, jest to aplikacja jednostronicowa (posiada tylko jeden plik HTML), która dynamicznie aktualizuje swoj¹ zawartoœæ, zamiast dokonywaæ prze³adowania ca³ej strony. Aplikacje SPA zapewniaj¹ bardzo dobre doœwiadczenie u¿ytkownika (ang~\emph{user experience}) i wyznaczaj¹ standard tworzenia wspó³czesnych aplikacji internetowych. W zestawieniu z \texttt{Reactem} wykorzystano dodatkowe narzêdzia. Najwa¿niejsze z nich przedstawiono w tabeli~\ref{tab:biblioteki}
 
 \begin{table}[htb] \small
   \centering
-  \caption{Lista g³ównych modu³ów platformy Google Firebase}
+  \caption{Lista g³ównych bibliotek wykorzystanych przy tworzeniu aplikacji klienta}
   \label{tab:biblioteki}
   \begin{tabularx}{\linewidth}{|l|X|X|} \hline
     Nazwa                                     & Zastosowanie                                                                                                          & Link                                                                  \\      \hline\hline
@@ -196,7 +197,6 @@ Aplikacjê klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React} \c
     \texttt{react-vis}                        & Reactowe komponenty wykresów                                                                                          & \url{uber.github.io/react-vis/}                                       \\      \hline
     \texttt{react-icons}                      & Reactowe komponenty ikon                                                                                              & \url{react-icons.github.io/react-icons/}                              \\      \hline
     \texttt{react-resize-detector}            & API obserwacji zmiany rozmiaru elementów na stronie                                                                   & \url{github.com/maslianok/react-resize-detector}                      \\      \hline
-    \texttt{react-responsive}                 & API obserwacji zmiany rozmiaru okna aplikacji                                                                         & \url{github.com/yocontra/react-responsive}                            \\      \hline
     \texttt{GPXParser}                        & Parser standardu GPX na obiekty javascriptowe                                                                         & \url{github.com/Luuka/GPXParser.js}                                   \\      \hline
     \texttt{GPX builder}                      & Parser obiektów javascriptowych na standard GPX                                                                       & \url{github.com/Luuka/GPXParser.js}                                   \\      \hline
     \texttt{nosleep.js}                       & Mechanizm blokady wygaszania ekranu urz¹dzenia                                                                        & \url{github.com/richtr/NoSleep.js}                                    \\      \hline

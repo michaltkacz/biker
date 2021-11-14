@@ -1,39 +1,39 @@
 \chapter{Pod³o¿e teoretyczne}
 \label{chap:2}
-Celem niniejszego rozdzia³u jest zapoznanie przedstawienie pod³o¿a teoretycznego trzech zagadnieñ: komputer rowerowy, GPS oraz GPX. Idee te stoj¹ u podstaw ca³ej pracy. Z tego te¿ wzglêdu, zaznajomienie siê z poni¿szymi informacjami jest wskazane przed przyst¹pieniem do lektury dalszych rozdzia³ów.
+Celem niniejszego rozdzia³u jest przedstawienie pod³o¿a teoretycznego trzech zagadnieñ: komputer rowerowy, GPS oraz GPX. Koncepcje te stoj¹ u podstaw ca³ej pracy. Z tego te¿ wzglêdu, zaznajomienie siê z poni¿szymi informacjami jest wskazane przed przyst¹pieniem do lektury dalszych rozdzia³ów.
 
 \section{Komputer rowerowy}
 Rower to z definicji pojazd jedno- lub wieloœladowy, który napêdzany jest si³¹ miêœni osoby poruszaj¹cej siê na nim. Wynalazek ten siêga swoimi korzeniami do wieku XIX, zatem od niemal dwóch wieków podlega on nieustannej ewolucji technologicznej. Jednym z efektów tej ewolucji, powsta³ym w wyniku zetkniêcia z technik¹ cyfrow¹, jest elektroniczny komputer rowerowy. Pocz¹tkowo urz¹dzenia te, zwane równie¿ potocznie licznikami rowerowymi, mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z~jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
 Zasada dzia³ania prostego licznika rowerowego oparta jest na trzech g³ównych elementach:
 \begin{enumerate}
-    \item Magnes zamontowany na szprysze ko³a roweru;
-    \item Czujnik reaguj¹cy na magnes, zamontowany na ramie roweru tak, aby przy obrocie ko³a magnes przemieszcza³ siê w odleg³oœci ok. 1cm od czujnika;
+    \item Magnes zamontowany na szprysze ko³a roweru.
+    \item Czujnik reaguj¹cy na magnes, zamontowany na ramie roweru tak, aby przy obrocie ko³a magnes przemieszcza³ siê w odleg³oœci ok. 1cm od czujnika.
     \item Urz¹dzenie elektroniczne z wyœwietlaczem zamontowane najczêœciej na kierownicy.
 \end{enumerate}
 
-Prêdkoœæ z jak¹ porusza siê rower obliczana jest przez mikroprocesor w urz¹dzeniu, na podstawie liczby obrotów ko³a zarejestrowanych przez czujnik w okreœlonej jednostce czasu oraz zadanej œrednicy ko³a. Inne dane pobierane s¹ z dodatkowych czujników np.:~temperatura --- wbudowany elektroniczny termometr, kadencja --- czujnik magnetyczny z magnesem zamontowanym do peda³ów, itp.
+Prêdkoœæ z jak¹ porusza siê rower obliczana jest przez urz¹dzenie na podstawie liczby obrotów ko³a zarejestrowanych przez czujnik w okreœlonej jednostce czasu oraz zadanej œrednicy ko³a. Inne dane pobierane s¹ z dodatkowych czujników np.:~temperatura --- wbudowany elektroniczny termometr, kadencja --- czujnik magnetyczny z magnesem zamontowanym do peda³ów,~itp.
 
 Za prze³om w dziedzinie komputerów rowerowych mo¿na uznaæ wyposa¿enie licznika w wydajny mikroprocesor, wiêkszy wyœwietlacz oraz modu³ GPS (ang.~\emph{Global Positioning System}). Znacz¹co rozszerzy³o to listê dostêpnych funkcji. Informacja o pozycji urz¹dzenia pozwoli³a na wykorzystanie map cyfrowych, na których w czasie rzeczywistym wyœwietlana jest obecna pozycja. W zwi¹zku z tym pojawi³a siê równie¿ mo¿liwoœæ uprzedniego wytyczania tras, a nastêpnie nawigowania rowerzysty w trakcie podró¿y. Ponadto na podstawie samych danych lokalizacyjnych mo¿na w prosty sposób, na bie¿¹co wyliczaæ szereg statystyk, jak np.:~prêdkoœæ, przejechany dystans, po³o¿enie geograficzne (szerokoœæ geograficzna, d³ugoœæ geograficzna, wysokoœæ nad poziomem morza), bez koniecznoœci stosowania dodatkowych czujników. Wszystkie te dane mog¹ zostaæ zapisane w celu archiwizacji oraz póŸniejszej analizy.
 
 Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z~zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
 \begin{enumerate}
-    \item wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona;
-    \item nie wymaga inwestycji finansowej.
+    \item Wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona.
+    \item Nie wymaga inwestycji finansowej.
 \end{enumerate}
 
-Aplikacji tego typu dostêpnych jest na rynku wiele. Do najpopularniejszych nale¿¹ m.in.:~\texttt{Strava}, \texttt{Cyclemeter}, \texttt{MapMyRide}, \texttt{Bikemap}, \texttt{Komoot}, czy \texttt{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ podstawowe mo¿liwoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcji dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\texttt{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\texttt{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\texttt{Cyclemeter}).
+Aplikacji tego typu dostêpnych na rynku jest wiele. Do najpopularniejszych nale¿¹ m.in.:~\texttt{Strava}, \texttt{Cyclemeter}, \texttt{MapMyRide}, \texttt{Bikemap}, \texttt{Komoot}, czy \texttt{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ fundamentalne funkcjonalnoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcjonalnoœci dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\texttt{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\texttt{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\texttt{Cyclemeter}).
 
 Zarówno dedykowane urz¹dzenia, jak i aplikacje na smartfony do eksportu oraz importu danych pos³uguj¹ siê zazwyczaj standardem GPX. Dziêki temu u¿ytkownicy w razie w³asnych upodobañ oraz potrzeb mog¹ w doœæ ³atwy sposób migrowaæ miêdzy poszczególnymi us³ugami.
 
 \section{GPS}
 Zarówno dedykowane komputery rowerowe, jak i smartfony z zainstalowanymi aplikacjami wykorzystuj¹ system GPS. GPS (ang. \emph{Global Positioning System}) jest to system nawigacji satelitarnej opracowany w latach 70. XX w. przez Departament Obrony Stanów Zjednoczonych, który swoim zasiêgiem obejmuje ca³¹ kulê ziemsk¹. Zadaniem GPSa jest dostarczanie do odbiornika informacji o jego obecnym po³o¿eniu. Na system sk³adaj¹ siê trzy g³ówne, œciœle wspó³pracuj¹ce ze sob¹ segmenty~\cite{gps}:
 \begin{enumerate}
-    \item segment naziemny --- naziemne stacje nadawcze;
-    \item segment kosmiczny --- satelity na orbicie Ziemi;
-    \item segment u¿ytkownika --- odbiorniki na powierzchni Ziemi lub w stosunkowo niewielkiej odleg³oœci niej.
+    \item Segment naziemny --- naziemne stacje nadawcze.
+    \item Segment kosmiczny --- satelity na orbicie Ziemi.
+    \item Segment u¿ytkownika --- odbiorniki na powierzchni Ziemi lub w stosunkowo niewielkiej odleg³oœci niej.
 \end{enumerate}
 
-Stacje nadawacze na Ziemi rozmieszczone s¹ w taki sposób, aby ka¿dy satelita jest zawsze w zasiêgu minimum dwóch nadajników. Zadaniem stacji jest przesy³anie do satelitów sygna³ów korekcyjnych czasu oraz pozycji.
+Stacje nadawacze na Ziemi rozmieszczone s¹ w taki sposób, aby ka¿dy satelita jest zawsze w zasiêgu minimum dwóch nadajników. Zadaniem stacji jest przesy³anie do satelitów sygna³ów korekcyjnych czasu i~pozycji.
 
 Satelity rozmieszczone s¹ w taki sposób, aby w ka¿dym punkcie na Ziemi dostêpny by³ sygna³ z co najmniej czterech z nich. Na dzieñ 2 listopada 2021 roku w sk³ad konstelacji wchodzi 30 operacyjnych satelitów~\cite{gpsconstellation}. Ich zadaniem jest nadawanie sygna³u radiowego, który zawiera informacje o obecnym wzajemnym po³o¿eniu satelitów, o teoretycznej trajektorii lotu oraz odchyleñ od niej.
 
@@ -47,7 +47,7 @@ Odbiornik na powierzchni ziemi na podstawie odebranych sygna³ów z minimum cztere
     \item b³êdy zegara (niedok³adne wskazanie czasu).
 \end{itemize}
 
-Pierwotnie system GPS utworzony zosta³ z myœl¹ o zastosowaniach militarnych, jednak ostatecznie sta³ siê otwarty i ogólnodostêpny równie¿ dla cywilów oraz do zastosowañ komercyjnych. Ponadto nale¿y zaznaczyæ, ¿e równolegle do systemu GPS funkcjonuj¹ analogiczne systemy nawigacji satelitarnej, jak np.:~rosyjski GLONASS~\cite{glonass}, europejski Galileo~\cite{galileo}, czy chiñski BeiDou~\cite{beidou}.
+Pierwotnie system GPS utworzony zosta³ z myœl¹ o zastosowaniach militarnych, jednak ostatecznie zosta³ udostêpniony równie¿ dla cywilów oraz do zastosowañ komercyjnych. Ponadto nale¿y zaznaczyæ, ¿e równolegle do systemu GPS funkcjonuj¹ analogiczne systemy nawigacji satelitarnej, jak np.:~rosyjski GLONASS~\cite{glonass}, europejski Galileo~\cite{galileo}, czy chiñski BeiDou~\cite{beidou}.
 
 
 \section{GPX}
@@ -58,7 +58,7 @@ Dziêki wykorzystaniu architektury XML poszczególne dane lokalizacyjne uzyskane z
 W standardzie zdefiniowane zosta³y nastêpuj¹ce typy danych:
 \begin{itemize}
     \item gpxType;
-    \item typy proste: \texttt{latitudeType}, \texttt{longitudeType}, \texttt{degreesType}, \texttt{fixType}, \texttt{dgpsStationType};
+    \item typy proste: \texttt{latitudeType}, \texttt{longitudeType}, \texttt{degreesType},  \texttt{dgpsStationType}, \texttt{fixType};
     \item typy z³o¿one: \texttt{metadataType}, \texttt{wptType}, \texttt{rteType}, \texttt{trkType}, \texttt{extensionsType}, \texttt{trksegType}, \texttt{copyrightType}, \texttt{linkType}, \texttt{emailType}, \texttt{personType}, \texttt{ptType},\texttt{ptsegType}, \texttt{boundsType}.
 \end{itemize}
 Spoœród powy¿szej listy, na szczególne omówienie zas³uguj¹ trzy typy z³o¿one: \texttt{wptType} --- \emph{waypoint type}, \texttt{rteType} --- \emph{route type} oraz \texttt{trkType} --- \emph{track type}:
