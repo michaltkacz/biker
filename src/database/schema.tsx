@@ -1,3 +1,12 @@
+export type ActivityUpdate = {
+  name: boolean;
+  sport: boolean;
+  category: boolean;
+  shape: boolean;
+  rating: boolean;
+  tags: boolean;
+};
+
 export type EnumTypes =
   | ActivitySportTypes
   | ActivityCategoryTypes
@@ -75,10 +84,10 @@ export type Activity = {
   createdAt: number;
   lastModifiedAt: number;
   track: Track;
-  sport?: ActivitySportTypes;
-  category?: ActivityCategoryTypes;
-  shape?: ActivityShape;
-  statistics?: ActivityStatistics;
+  sport: ActivitySportTypes;
+  category: ActivityCategoryTypes;
+  shape: ActivityShape;
+  statistics: ActivityStatistics;
   rating?: RatingTypes;
   tags?: Array<string>;
 };

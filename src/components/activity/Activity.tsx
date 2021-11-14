@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Rate, Popconfirm, Button } from 'antd';
+import { Card, Col, Row, Rate, Popconfirm, Button, message } from 'antd';
 
-import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  ConsoleSqlOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 
 import './activity.less';
 
@@ -10,6 +14,7 @@ import {
   ActivityCategoryTypes,
   ActivityShape,
   ActivitySportTypes,
+  ActivityUpdate,
   RatingTypes,
 } from '../../database/schema';
 
@@ -17,7 +22,6 @@ import Map from '../map/Map';
 import MapCanvas from '../mapCanvas/MapCanvas';
 import TagList from '../tagList/TagList';
 
-import useActivityStatistics from '../../hooks/useActivityStatistics';
 import ActivityStatisticsDashboard from '../activityStatisticsDashboard/ActivityStatisticsDashboard';
 import ActivityTitle from '../activityTitle/ActivityTitle';
 import LabeledEnumSelect from '../labeledEnumSelect/LabeledEnumSelect';
@@ -25,51 +29,75 @@ import ActivityShaper from '../activityShaper/ActivityShaper';
 import ActivityCharts from '../activityCharts/ActivityCharts';
 import {
   useDeleteActivity,
-  useEditActivity,
+  useUpdateActivity,
 } from '../../firebase/hooks/useActivities';
 
 export type ActivityProps = {
   activity: ActivityType;
 };
 
+const ActivityNotUpdated: ActivityUpdate = {
+  name: false,
+  sport: false,
+  category: false,
+  shape: false,
+  rating: false,
+  tags: false,
+};
+
 const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const deleteActivity = useDeleteActivity();
-  const statistics = useActivityStatistics(activity.track);
+  const updateActivity = useUpdateActivity();
 
-  const [firstRender, setFirstRender] = useState<boolean>(true);
+  // const [firstRender, setFirstRender] = useState<boolean>(true);
   const [activityModified, setActivityModified] = useState<boolean>(false);
 
   const [name, setName] = useState<string>(activity.name);
-  const [sport, setSport] = useState<ActivitySportTypes>(
-    activity.sport || ActivitySportTypes.Other
-  );
+  const [sport, setSport] = useState<ActivitySportTypes>(activity.sport);
   const [category, setCategory] = useState<ActivityCategoryTypes>(
-    activity.category || ActivityCategoryTypes.Other
+    activity.category
   );
-  const [shape, setShape] = useState<ActivityShape>(
-    activity.shape || { isLoop: false, from: 'unknown', to: 'unknown' }
-  );
+  const [shape, setShape] = useState<ActivityShape>(activity.shape);
   const [rating, setRating] = useState<RatingTypes | undefined>(
     activity.rating
   );
   const [tags, setTags] = useState<Array<string> | undefined>(activity.tags);
 
+  const [updates, setUpdates] = useState<ActivityUpdate>(ActivityNotUpdated);
+
   useEffect(() => {
-    if (!firstRender) {
-      setActivityModified(true);
-    } else {
-      setFirstRender(false);
-    }
-  }, [name, sport, category, shape, rating, tags]);
+    const isModified = Object.values(updates).includes(true);
+    setActivityModified(isModified);
+
+    //   forEach((value) => {
+    //   if (value) {
+    //     setActivityModified(true);
+    //     return;
+    //   }
+    // });
+  }, [updates]);
 
   const onDeleteActivity = () => {
     deleteActivity(activity.activityId);
+    message.success('Activity deleted');
   };
 
   const onEditActivity = () => {
-    console.log('edit');
+    const payload: { [filed: string]: any } = {};
+    payload['/lastModifiedAt'] = Date.now();
+
+    updates.name && (payload['/name'] = name);
+    updates.sport && (payload['/sport'] = sport);
+    updates.category && (payload['/category'] = category);
+    updates.shape && (payload['/shape'] = shape);
+    updates.rating && (payload['/rating'] = rating || null);
+    updates.tags && (payload['/tags'] = tags || null);
+
+    updateActivity(activity.activityId, payload);
+    message.success('Activity updated');
+
+    setUpdates(ActivityNotUpdated);
     setActivityModified(false);
-    //todo edit this...
   };
 
   const ActivityHeader = (
@@ -77,19 +105,33 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
       <div className='first-row'>
         <Rate
           tooltips={Object.values(RatingTypes)}
+          defaultValue={
+            rating ? Object.values(RatingTypes).indexOf(rating) + 1 : 0
+          }
           onChange={(value) => {
+            console.log(value);
             value === 0
               ? setRating(undefined)
-              : setRating(Object.values(RatingTypes)[value]);
+              : setRating(Object.values(RatingTypes)[value - 1]);
+            setUpdates({ ...updates, rating: true });
           }}
           className='rating'
         />
-        <TagList tags={tags} onTagsChange={(newTags) => setTags(newTags)} />
+        <TagList
+          tags={tags}
+          onTagsChange={(newTags) => {
+            setTags(newTags);
+            setUpdates({ ...updates, tags: true });
+          }}
+        />
         <ActivityTitle
           name={name}
           createdAt={activity.createdAt}
           lastModifiedAt={activity.lastModifiedAt}
-          onNameChange={(newName) => setName(newName)}
+          onNameChange={(newName) => {
+            setName(newName);
+            setUpdates({ ...updates, name: true });
+          }}
         />
       </div>
       <div className='second-row'>
@@ -97,6 +139,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
           label='Sport'
           onChange={(value) => {
             setSport(value);
+            setUpdates({ ...updates, sport: true });
           }}
           values={Object.values(ActivitySportTypes)}
           defaultValue={sport}
@@ -105,13 +148,17 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
           label='Category'
           onChange={(value) => {
             setCategory(value);
+            setUpdates({ ...updates, category: true });
           }}
           values={Object.values(ActivityCategoryTypes)}
           defaultValue={category}
         />
         <ActivityShaper
           shape={shape}
-          onChange={(newShape) => setShape(newShape)}
+          onChange={(newShape) => {
+            setShape(newShape);
+            setUpdates({ ...updates, shape: true });
+          }}
         />
       </div>
     </div>
@@ -170,7 +217,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
           />
         </Col>
         <Col xs={24} md={8} xl={8} xxl={6}>
-          <ActivityStatisticsDashboard {...statistics} />
+          <ActivityStatisticsDashboard {...activity.statistics} />
         </Col>
         <Col xs={24}>
           <ActivityCharts track={activity.track} />

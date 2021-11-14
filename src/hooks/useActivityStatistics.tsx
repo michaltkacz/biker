@@ -19,34 +19,59 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
   const [elevationDown, setElevationDown] = useState<number>();
 
   useEffect(() => {
-    // there must be at least one segment
-    // there must be at least one point in segment
-    const trackFlat = track.flat();
-    if (trackFlat.length === 0) {
-      return;
-    }
+    // maxSpeed
+    const s = calculateStatistics(track);
 
+    setMaxSpeed(s.maxSpeed); // m/s
+    setLatestSpeed(s.latestSpeed);
+    setLatestElevation(s.latestElevation);
+    setTotalDuration(s.totalDuration);
+    setTotalDistance(s.totalDistance);
+    setInMotionDuration(s.inMotionDuration);
+    setElevationUp(s.elevationUp);
+    setElevationDown(s.elevationDown);
+  }, [track]);
+
+  return {
+    latestSpeed,
+    latestElevation,
+    totalDistance,
+    totalDuration,
+    inMotionDuration,
+    maxSpeed,
+    elevationUp,
+    elevationDown,
+  };
+};
+
+export const calculateStatistics = (
+  track: Track
+): ActivityStatisticsExtended => {
+  // there must be at least one segment
+  // there must be at least one point in segment
+  let latestElevation: number = 0;
+  let totalDuration: number = 0;
+  let latestSpeed: number = 0;
+  let maxSpeed: number = 0;
+  let totalDistance: number = 0;
+  let inMotionDuration: number = 0;
+  let elevationUp: number = 0;
+  let elevationDown: number = 0;
+
+  const trackFlat = track.flat();
+  if (trackFlat.length !== 0) {
     // index of last segment and last point
     const lpi = trackFlat.length - 1;
     const firstTrackPoint = trackFlat[0];
     const lastTrackPoint = trackFlat[lpi];
 
-    const newLatestElevation = lastTrackPoint.ele || undefined; // meters
-    const newTotalDuration = deltaTime(
-      firstTrackPoint.time,
-      lastTrackPoint.time
-    ); // miliseconds
-    let newLatestSpeed: number | undefined;
-    let newMaxSpeed: number | undefined;
-    let newTotalDistance: number = 0;
-    let newInMotionDuration: number = 0;
-    let newElevationUp: number = 0;
-    let newElevationDown: number = 0;
+    latestElevation = lastTrackPoint.ele || 0; // meters
+    totalDuration = deltaTime(firstTrackPoint.time, lastTrackPoint.time); // miliseconds
 
     // latestSpeed
     if (lpi >= 1) {
       const secondLastPoint = trackFlat[lpi - 1];
-      newLatestSpeed = geoSpeed2(
+      latestSpeed = geoSpeed2(
         secondLastPoint.lat,
         secondLastPoint.lon,
         secondLastPoint.time,
@@ -75,35 +100,21 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
         currPoint?.ele || null
       );
 
-      // greater than one meter
       if (speed > 1) {
-        newTotalDistance += distance; // m
-        newInMotionDuration += dTime; // miliseconds
+        totalDistance += distance; // m
+        inMotionDuration += dTime; // miliseconds
 
-        if (!newMaxSpeed || speed > newMaxSpeed) {
-          newMaxSpeed = speed;
+        if (!maxSpeed || speed > maxSpeed) {
+          maxSpeed = speed;
         }
 
         dElevation &&
           (dElevation > 0
-            ? (newElevationDown += dElevation)
-            : (newElevationUp += -dElevation));
+            ? (elevationDown += dElevation)
+            : (elevationUp += -dElevation));
       }
     });
-
-    // maxSpeed
-    if (!maxSpeed || (newMaxSpeed && newMaxSpeed > maxSpeed)) {
-      setMaxSpeed(newMaxSpeed); // m/s
-    }
-
-    setLatestSpeed(newLatestSpeed);
-    setLatestElevation(newLatestElevation);
-    setTotalDuration(newTotalDuration);
-    setTotalDistance(newTotalDistance);
-    setInMotionDuration(newInMotionDuration);
-    setElevationUp(newElevationUp);
-    setElevationDown(newElevationDown);
-  }, [track]);
+  }
 
   return {
     latestSpeed,

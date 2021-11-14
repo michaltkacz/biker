@@ -3,21 +3,17 @@ import {
   ref,
   set,
   onValue,
-  query,
-  onChildAdded,
-  onChildChanged,
-  onChildRemoved,
-  orderByChild,
   push,
   child,
   remove,
+  update,
 } from 'firebase/database';
 
 import { database } from '../firebase';
 
 import useUserId from './useUserId';
 
-import { Activity } from '../../database/schema';
+import { Activity, ActivityUpdate } from '../../database/schema';
 
 export const useReadActivites = () => {
   const [activities, setActivities] = useState<Array<Activity>>([]);
@@ -39,23 +35,6 @@ export const useReadActivites = () => {
       }
     });
   }, []);
-
-  // useEffect(() => {
-  //   const path = 'users/' + userId + '/activities';
-  //   const dataRef = query(ref(database, path), orderByChild("createdAt"));
-
-  //   onChildAdded(dataRef, (data) => {setActivities([...activities])});
-
-  //   onChildChanged(dataRef, (data) => {});
-
-  //   onChildRemoved(dataRef, (data) => {});
-
-  //   // if (newActivities) {
-  //   //   setActivities(Object.values(newActivities));
-  //   // } else {
-  //   //   setActivities([]);
-  //   // }
-  // }, []);
 
   return activities;
 };
@@ -89,6 +68,16 @@ export const useDeleteActivity = () => {
   return deleteActivity;
 };
 
-export const useEditActivity = () => {
-  return null;
+export const useUpdateActivity = () => {
+  const userId = useUserId();
+
+  const updateActivity = (
+    activityId: string,
+    payload: { [filed: string]: any }
+  ): void => {
+    const path = 'users/' + userId + '/activities/' + activityId;
+    update(ref(database, path), payload);
+  };
+
+  return updateActivity;
 };

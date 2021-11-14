@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Checkbox, message } from 'antd';
+import { Checkbox, message, Statistic } from 'antd';
 
 import MapCanvas from '../mapCanvas/MapCanvas';
 import Map from '../map/Map';
@@ -18,7 +18,11 @@ import {
   AimOutlined,
 } from '@ant-design/icons';
 
-import { Activity } from '../../database/schema';
+import {
+  Activity,
+  ActivityCategoryTypes,
+  ActivitySportTypes,
+} from '../../database/schema';
 import Pages from '../../global/pages';
 import { useHistory } from 'react-router';
 import { useWriteActivity } from '../../firebase/hooks/useActivities';
@@ -52,15 +56,20 @@ const TrackerPage: React.FC = () => {
 
   const handleStopTracking = (): void => {
     stopTracking();
-
+    const { latestSpeed, latestElevation, ...statistics } = activityStatistics;
     const activity: Activity = {
       activityId: '',
       creatorId: userId,
       name: 'Activity ' + new Date().toLocaleString(),
       createdAt: Date.now(),
       lastModifiedAt: Date.now(),
+      sport: ActivitySportTypes.Other,
+      category: ActivityCategoryTypes.Other,
+      shape: { isLoop: false, from: 'unknown', to: 'unknown' },
+      statistics: statistics,
       track: track,
     };
+
     writeActivity(activity);
     history.push(Pages.ActivitiesHistory);
   };
