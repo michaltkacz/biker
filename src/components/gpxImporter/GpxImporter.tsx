@@ -6,7 +6,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import './gpxImporter.less';
 
 import FileButton from '../fileButton/FileButton';
-import ImportActivityList from '../importActivityList/ImportActivityList';
+import ActivityImportList from '../activityImportList/ActivityImportList';
 
 const GpxImporter = () => {
   const [files, setFiles] = useState<Array<File>>([]);
@@ -26,8 +26,9 @@ const GpxImporter = () => {
     );
   }, [files]);
 
+  //defaultActiveKey='gpx-importer'
   return (
-    <Collapse className='gpx-importer' defaultActiveKey='gpx-importer'>
+    <Collapse className='gpx-importer'>
       <Collapse.Panel
         key='gpx-importer'
         header={
@@ -41,7 +42,7 @@ const GpxImporter = () => {
           </FileButton>
         }
       >
-        <ImportActivityList files={files} />
+        <ActivityImportList files={files} />
       </Collapse.Panel>
     </Collapse>
   );

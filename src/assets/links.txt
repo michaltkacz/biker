@@ -5,19 +5,4 @@ https://www.flaticon.com/premium-icon/segmented-circle-arrow_1853281?term=circle
 
 https://www.1001fonts.com/road-rage-font.html
 
-
-
-  "shortcuts": [
-    {
-      "name": "Profile",
-      "url": "/profile"
-    },
-    {
-      "name": "Tracker",
-      "url": "/tracker"
-    },
-    {
-      "name": "Activity",
-      "url": "/activity"
-    }
-  ],
+https://unsplash.com/photos/Qw6ij_rMxyU?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink

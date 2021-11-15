@@ -13,45 +13,57 @@ import { database } from '../firebase';
 
 import useUserId from './useUserId';
 
-import { Activity, ActivityUpdate } from '../../database/schema';
+import { Activity } from '../../database/schema';
 
 export const useReadActivites = () => {
   const [activities, setActivities] = useState<Array<Activity>>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
 
   const userId = useUserId();
 
   useEffect(() => {
     const path = 'users/' + userId + '/activities';
-    onValue(ref(database, path), (snapshot) => {
-      const newData = snapshot.val();
-      if (newData) {
-        const arrayData: Array<Activity> = Object.values(newData);
-        arrayData.sort((a, b) => {
-          return b.createdAt - a.createdAt;
-        });
-        setActivities(arrayData);
-      } else {
-        setActivities([]);
-      }
-    });
-  }, []);
+    try {
+      onValue(ref(database, path), (snapshot) => {
+        const newData = snapshot.val();
+        if (newData) {
+          const arrayData: Array<Activity> = Object.values(newData);
+          arrayData.sort((a, b) => {
+            return b.createdAt - a.createdAt;
+          });
+          setActivities(arrayData);
+        } else {
+          setActivities([]);
+        }
+        setLoading(false);
+      });
+    } catch (er) {
+      setActivities([]);
+      setLoading(false);
+      setError(true);
+    }
+  }, [userId]);
 
-  return activities;
+  return { activities, loading, error };
 };
 
 export const useWriteActivity = () => {
   const userId = useUserId();
 
-  const writeActivity = (activity: Activity): Activity => {
+  const writeActivity = async (
+    activity: Activity
+  ): Promise<{ activity: Activity; error: boolean }> => {
     const parentPath = 'users/' + userId + '/activities';
-    const activityId = push(child(ref(database), parentPath)).key || '';
-
-    const targetPath = parentPath + '/' + activityId;
-    const activityWithId = { ...activity, activityId };
-
-    set(ref(database, targetPath), activityWithId);
-
-    return activityWithId;
+    try {
+      const activityId = push(child(ref(database), parentPath)).key || '';
+      const targetPath = parentPath + '/' + activityId;
+      const newActivity = { ...activity, activityId };
+      set(ref(database, targetPath), newActivity);
+      return { activity: newActivity, error: false };
+    } catch (er) {
+      return { activity, error: true };
+    }
   };
 
   return writeActivity;
@@ -60,9 +72,16 @@ export const useWriteActivity = () => {
 export const useDeleteActivity = () => {
   const userId = useUserId();
 
-  const deleteActivity = (activityId: string): void => {
+  const deleteActivity = async (
+    activityId: string
+  ): Promise<{ error: boolean }> => {
     const path = 'users/' + userId + '/activities/' + activityId;
-    remove(ref(database, path));
+    try {
+      remove(ref(database, path));
+      return { error: false };
+    } catch (er) {
+      return { error: true };
+    }
   };
 
   return deleteActivity;
@@ -71,12 +90,17 @@ export const useDeleteActivity = () => {
 export const useUpdateActivity = () => {
   const userId = useUserId();
 
-  const updateActivity = (
+  const updateActivity = async (
     activityId: string,
     payload: { [filed: string]: any }
-  ): void => {
+  ): Promise<{ error: boolean }> => {
     const path = 'users/' + userId + '/activities/' + activityId;
-    update(ref(database, path), payload);
+    try {
+      update(ref(database, path), payload);
+      return { error: false };
+    } catch (er) {
+      return { error: true };
+    }
   };
 
   return updateActivity;

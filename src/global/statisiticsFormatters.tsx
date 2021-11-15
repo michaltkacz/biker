@@ -60,3 +60,14 @@ export const formatDateValue = (value: number | undefined): string => {
   }
   return new Date(validatedValue).toDateString();
 };
+
+export const formatTimeValue = (value: number | undefined): string => {
+  const validatedValue = validateValue(value);
+  if (typeof validatedValue === 'string') {
+    return validatedValue;
+  }
+  return new Date(validatedValue).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};

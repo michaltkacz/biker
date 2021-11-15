@@ -3,8 +3,6 @@ enum Pages {
   Profile = 'profile',
   Tracker = 'tracker',
   Activities = 'activities',
-  ActivitiesHistory = 'activities/history',
-  ActivitiesTransfer = 'activities/transfer',
   Logout = 'logout',
 }
 

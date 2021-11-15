@@ -6,7 +6,7 @@ import { useLocation } from 'react-router';
 import './pageLayout.less';
 
 import Brand from '../brand/Brand';
-import UserCard from '../userCard/UserCard';
+import ProfilePreview from './../profilePreview/ProfilePreview';
 import NavigationMenu from '../navigationMenu/NavigationMenu';
 
 import Pages from '../../global/pages';
@@ -31,7 +31,7 @@ const PageLayout: React.FC = ({ children }) => {
               <Brand />
             </Layout.Header>
             <Layout.Content className='page-sider-layout-content'>
-              <UserCard />
+              <ProfilePreview />
               <NavigationMenu />
             </Layout.Content>
           </Layout>

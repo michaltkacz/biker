@@ -8,22 +8,21 @@ export const geoDistance = (
   lat2: number,
   lon2: number
 ) => {
-  var R = 6371 * 1000; // Radius of the earth in m
-  var dLat = toRad(lat2 - lat1);
-  var dLon = toRad(lon2 - lon1);
-  var a =
+  const R = 6371 * 1000; // Radius of the earth in m
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRad(lat1)) *
       Math.cos(toRad(lat2)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in m
-  return d;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in m
 };
 
 export const geoSpeed1 = (deltaDistance: number, deltaTime: number): number => {
-  return (deltaDistance / deltaTime) * 1000; // km/h
+  return (deltaDistance / deltaTime) * 1000; // m/ms * 1000 == m/s
 };
 
 export const geoSpeed2 = (
@@ -52,15 +51,15 @@ export const geoMove = (
 ): {
   distance: number;
   speed: number;
-  dTime: number;
+  time: number;
   dElevation: number | undefined;
 } => {
-  const distance = geoDistance(lat1, lon1, lat2, lon2);
-  const dTime = deltaTime(time1, time2);
-  const speed = geoSpeed1(distance, dTime);
-  const dElevation = deltaElevation(ele1, ele2);
+  const distance = geoDistance(lat1, lon1, lat2, lon2); // m
+  const time = deltaTime(time1, time2); // ms
+  const speed = geoSpeed1(distance, time); // m/s
+  const dElevation = deltaElevation(ele1, ele2); // m
 
-  return { distance, speed, dTime, dElevation };
+  return { distance, speed, time, dElevation };
 };
 
 export const deltaElevation = (
@@ -75,4 +74,6 @@ export const deltaElevation = (
 
 export const deltaTime = (time1: number, time2: number) => {
   return Math.abs(time2 - time1);
+  // const time = Math.abs(time2 - time1);
+  // return time < 1000 ? 1000 : time;
 };

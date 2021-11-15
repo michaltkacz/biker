@@ -4,7 +4,7 @@ import GpxParser from 'gpxparser';
 import he from 'he';
 
 import {
-  Activity as ActivityType,
+  Activity,
   ActivityCategoryTypes,
   ActivitySportTypes,
   Track,
@@ -14,7 +14,6 @@ import {
 
 import './gpxToActivityParser.less';
 
-import Activity from '../activity/Activity';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
 import useUserId from '../../firebase/hooks/useUserId';
@@ -23,10 +22,14 @@ import { calculateStatistics } from '../../hooks/useActivityStatistics';
 
 export type GpxToActivityParserProps = {
   file: File;
+  render: (activity: Activity) => React.ReactNode;
 };
 
-const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
-  const [activity, setActivity] = useState<ActivityType | null>(null);
+const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
+  file,
+  render,
+}) => {
+  const [activity, setActivity] = useState<Activity | null>(null);
   const writeActivity = useWriteActivity();
   const userId = useUserId();
 
@@ -35,14 +38,17 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
       const gpxParser = new GpxParser();
       gpxParser.parse(gpx);
 
+      let lastTime = 0;
+
       const newTrack: Track = gpxParser.tracks.map((parsedTrackSegment) => {
         const newTrackSegment: TrackSegment = parsedTrackSegment.points.map(
           (parsedTrackPoint) => {
+            lastTime = parsedTrackPoint.time.getTime();
             const newTrackPoint: TrackPoint = {
               lat: parsedTrackPoint.lat,
               lon: parsedTrackPoint.lon,
               ele: parsedTrackPoint.ele,
-              time: parsedTrackPoint.time.getTime(),
+              time: lastTime,
             };
             return newTrackPoint;
           }
@@ -53,12 +59,14 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
       const { latestSpeed, latestElevation, ...statistics } =
         calculateStatistics(newTrack);
 
-      const newActivity: ActivityType = {
+      const newActivity: Activity = {
         activityId: '',
         creatorId: userId,
         name: he.decode(gpxParser.metadata.name),
         createdAt: newTrack[0][0].time,
         lastModifiedAt: Date.now(),
+        startTime: newTrack[0][0].time,
+        endTime: lastTime,
         sport: ActivitySportTypes.Other,
         category: ActivityCategoryTypes.Other,
         shape: { isLoop: false, from: 'unknown', to: 'unknown' },
@@ -66,8 +74,13 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
         track: newTrack,
       };
 
-      const activityWithId = writeActivity(newActivity);
-      setActivity(activityWithId);
+      writeActivity(newActivity).then(({ activity: activityWithId, error }) => {
+        if (error) {
+          setActivity(null);
+        } else {
+          setActivity(activityWithId);
+        }
+      });
     });
   }, [file, userId]);
 
@@ -75,7 +88,7 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
     return <LoadingSpinner />;
   }
 
-  return <Activity activity={activity} />;
+  return <>{render(activity)}</>;
 };
 
 export default GpxToActivityParser;

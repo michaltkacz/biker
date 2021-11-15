@@ -3,8 +3,8 @@ import { Card, Col, Row, Rate, Popconfirm, Button, message } from 'antd';
 
 import {
   CheckOutlined,
-  ConsoleSqlOutlined,
   DeleteOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons';
 
 import './activity.less';
@@ -27,10 +27,12 @@ import ActivityTitle from '../activityTitle/ActivityTitle';
 import LabeledEnumSelect from '../labeledEnumSelect/LabeledEnumSelect';
 import ActivityShaper from '../activityShaper/ActivityShaper';
 import ActivityCharts from '../activityCharts/ActivityCharts';
+
 import {
   useDeleteActivity,
   useUpdateActivity,
 } from '../../firebase/hooks/useActivities';
+import useGpxBuilder from '../../hooks/useGpxBuilder';
 
 export type ActivityProps = {
   activity: ActivityType;
@@ -48,6 +50,7 @@ const ActivityNotUpdated: ActivityUpdate = {
 const Activity: React.FC<ActivityProps> = ({ activity }) => {
   const deleteActivity = useDeleteActivity();
   const updateActivity = useUpdateActivity();
+  const { buildGpxAndSaveFile } = useGpxBuilder();
 
   // const [firstRender, setFirstRender] = useState<boolean>(true);
   const [activityModified, setActivityModified] = useState<boolean>(false);
@@ -68,18 +71,16 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   useEffect(() => {
     const isModified = Object.values(updates).includes(true);
     setActivityModified(isModified);
-
-    //   forEach((value) => {
-    //   if (value) {
-    //     setActivityModified(true);
-    //     return;
-    //   }
-    // });
   }, [updates]);
 
   const onDeleteActivity = () => {
-    deleteActivity(activity.activityId);
-    message.success('Activity deleted');
+    deleteActivity(activity.activityId).then(({ error }) => {
+      if (error) {
+        message.error("Activity coludn't be deleted");
+      } else {
+        message.success('Activity deleted');
+      }
+    });
   };
 
   const onEditActivity = () => {
@@ -93,11 +94,20 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
     updates.rating && (payload['/rating'] = rating || null);
     updates.tags && (payload['/tags'] = tags || null);
 
-    updateActivity(activity.activityId, payload);
-    message.success('Activity updated');
+    updateActivity(activity.activityId, payload).then(({ error }) => {
+      if (error) {
+        message.error("Activity coludn't be updated");
+      } else {
+        message.success('Activity updated');
+      }
+    });
 
     setUpdates(ActivityNotUpdated);
     setActivityModified(false);
+  };
+
+  const onExportActivity = () => {
+    buildGpxAndSaveFile(activity.track, activity.name);
   };
 
   const ActivityHeader = (
@@ -160,46 +170,39 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             setUpdates({ ...updates, shape: true });
           }}
         />
+        <div className='action-buttons'>
+          <Popconfirm
+            title='Do you want to delete this activity?'
+            onConfirm={onDeleteActivity}
+            okText='Yes'
+            cancelText='No'
+          >
+            <Button type='text' size='small'>
+              Delete
+              <DeleteOutlined />
+            </Button>
+          </Popconfirm>
+          <Button type='text' size='small' onClick={onExportActivity}>
+            Export GPX
+            <DownloadOutlined />
+          </Button>
+          <Button
+            type='primary'
+            size='small'
+            disabled={!activityModified}
+            onClick={onEditActivity}
+          >
+            Update
+            <CheckOutlined />
+          </Button>
+        </div>
       </div>
     </div>
   );
 
-  const ActionConfirmEdit = (
-    <Button
-      block
-      type='primary'
-      disabled={!activityModified}
-      onClick={onEditActivity}
-      className='action-button'
-    >
-      Confirm Changes
-      <CheckOutlined
-        className='action-button-icon'
-        style={{ marginLeft: '0.5em' }}
-      />
-    </Button>
-  );
-
-  const ActionDelete = (
-    <Popconfirm
-      title='Do you want to delete this activity?'
-      onConfirm={onDeleteActivity}
-      okText='Yes'
-      cancelText='No'
-    >
-      <Button block danger type='primary' className='action-button'>
-        Delete Activity
-        <DeleteOutlined className='action-button-icon' />
-      </Button>
-    </Popconfirm>
-  );
-
   return (
     <Card className='activity' title={ActivityHeader} size='small'>
-      <Row gutter={[4, 4]}></Row>
       <Row gutter={[{ xs: 0, sm: 16 }, 16]}>
-        <Col xs={12}>{ActionDelete}</Col>
-        <Col xs={12}>{ActionConfirmEdit}</Col>
         <Col xs={24} md={16} xl={16} xxl={18} style={{ minHeight: 400 }}>
           <MapCanvas
             render={(height) => (
@@ -217,7 +220,11 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
           />
         </Col>
         <Col xs={24} md={8} xl={8} xxl={6}>
-          <ActivityStatisticsDashboard {...activity.statistics} />
+          <ActivityStatisticsDashboard
+            {...activity.statistics}
+            startTime={activity.startTime}
+            endTime={activity.endTime}
+          />
         </Col>
         <Col xs={24}>
           <ActivityCharts track={activity.track} />

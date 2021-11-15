@@ -11,8 +11,9 @@ import AuthPage from './authPage/AuthPage';
 import TrackerPage from './trackerPage/TrackerPage';
 import ProfilePage from './profilePage/ProfilePage';
 import NotFoundPage from './notFoundPage/notFoundPage';
-import ActivitiesTransferPage from './activitiesTransferPage/ActivitiesTransferPage';
-import ActivitiesHistoryPage from './activitiesHistoryPage/ActivitiesHistoryPage';
+import ActivitiesPage from './activitiesPage/ActivitiesPage';
+import RoutePublic from './routePublic/RoutePublic';
+import RoutePrivate from './routePrivate/RoutePrivate';
 
 const App: React.FC = () => {
   return (
@@ -20,19 +21,18 @@ const App: React.FC = () => {
       <Router>
         <PageLayout>
           <Switch>
-            <Route exact path={`/${Pages.Authorize}`} component={AuthPage} />
-            <Route exact path={`/${Pages.Profile}`} component={ProfilePage} />
-            <Route exact path={`/${Pages.Tracker}`} component={TrackerPage} />
-            <Route
-              exact
-              path={`/${Pages.ActivitiesHistory}`}
-              component={ActivitiesHistoryPage}
-            />
-            <Route
-              exact
-              path={`/${Pages.ActivitiesTransfer}`}
-              component={ActivitiesTransferPage}
-            />
+            <RoutePublic exact path={`/${Pages.Authorize}`}>
+              <AuthPage />
+            </RoutePublic>
+            <RoutePrivate exact path={`/${Pages.Profile}`}>
+              <ProfilePage />
+            </RoutePrivate>
+            <RoutePrivate exact path={`/${Pages.Tracker}`}>
+              <TrackerPage />
+            </RoutePrivate>
+            <RoutePrivate exact path={`/${Pages.Activities}`}>
+              <ActivitiesPage />
+            </RoutePrivate>
             <Route path='/*' component={NotFoundPage} />
           </Switch>
         </PageLayout>

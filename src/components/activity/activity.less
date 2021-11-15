@@ -12,8 +12,6 @@
       white-space: normal;
     }
   }
-  .ant-card-body {
-  }
 
   .header {
     width: 100%;
@@ -32,9 +30,12 @@
     padding: 4px 8px 4px 0px;
   }
 
-  .action-button {
-    &-icon {
-      margin-left: 0.5em;
-    }
+  .action-buttons {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    place-content: flex-end;
+    gap: @margin-xs;
+    padding: @margin-xs;
   }
 }

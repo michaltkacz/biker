@@ -78,10 +78,8 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
           prevPoint.time
         );
 
-        if (distance > 0.001) {
-          newDistance += distance / 1000;
-          newSpeed = speed * 3.6;
-        }
+        newDistance += distance / 1000;
+        newSpeed = speed * 3.6;
       }
 
       newMaxSpeed = Math.max(newSpeed, newMaxSpeed);
@@ -116,6 +114,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
     <Collapse
       className='activity-charts'
       onChange={() => setExpanded(!expanded)}
+      destroyInactivePanel
     >
       <Collapse.Panel
         className='activity-charts-header'

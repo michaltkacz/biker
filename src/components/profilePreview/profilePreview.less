@@ -1,0 +1,27 @@
+@import '~antd/es/style/themes/default.less';
+
+.profile {
+  background: #e0eafc;
+  background: linear-gradient(to top, #cfdef3, #e0eafc);
+  padding: @padding-md;
+  border-right: 1px solid @layout-header-background;
+
+  .profile-wrapper {
+    display: flex;
+    flex-flow: column;
+    place-items: center;
+    place-content: center;
+    cursor: pointer;
+
+    transition: transform 0.1s ease-in;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &-username {
+    font-size: 2em;
+    text-align: center;
+  }
+}

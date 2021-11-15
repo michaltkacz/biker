@@ -89,7 +89,7 @@ export const calculateStatistics = (
 
       const prevPoint = trackFlat[index - 1];
 
-      const { distance, speed, dTime, dElevation } = geoMove(
+      const { distance, speed, time, dElevation } = geoMove(
         prevPoint.lat,
         prevPoint.lon,
         prevPoint.time,
@@ -100,9 +100,10 @@ export const calculateStatistics = (
         currPoint?.ele || null
       );
 
+      // sensitivity
       if (speed > 1) {
         totalDistance += distance; // m
-        inMotionDuration += dTime; // miliseconds
+        inMotionDuration += time; // miliseconds
 
         if (!maxSpeed || speed > maxSpeed) {
           maxSpeed = speed;

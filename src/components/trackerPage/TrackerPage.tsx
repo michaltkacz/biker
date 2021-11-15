@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Checkbox, message, Statistic } from 'antd';
+import { Checkbox, message } from 'antd';
 
 import MapCanvas from '../mapCanvas/MapCanvas';
 import Map from '../map/Map';
@@ -37,8 +37,8 @@ const TrackerPage: React.FC = () => {
     stopTracking,
     isTracking,
   } = useTracker();
-  const history = useHistory();
   const writeActivity = useWriteActivity();
+  const history = useHistory();
   const userId = useUserId();
 
   const activityStatistics = useActivityStatistics(track);
@@ -63,6 +63,8 @@ const TrackerPage: React.FC = () => {
       name: 'Activity ' + new Date().toLocaleString(),
       createdAt: Date.now(),
       lastModifiedAt: Date.now(),
+      startTime: track[0][0].time,
+      endTime: Date.now(),
       sport: ActivitySportTypes.Other,
       category: ActivityCategoryTypes.Other,
       shape: { isLoop: false, from: 'unknown', to: 'unknown' },
@@ -70,8 +72,15 @@ const TrackerPage: React.FC = () => {
       track: track,
     };
 
-    writeActivity(activity);
-    history.push(Pages.ActivitiesHistory);
+    message.info('Saving activity');
+    writeActivity(activity).then(({ error }) => {
+      if (error) {
+        message.error("Activity coludn't be saved");
+      } else {
+        message.success('Activity saved');
+        history.push(Pages.Activities);
+      }
+    });
   };
 
   const handleFollowPosition = (): void => {

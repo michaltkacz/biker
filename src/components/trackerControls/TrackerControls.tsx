@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <AntdButton
       block
-      // type='primary'
+      type='primary'
       size='large'
       icon={icon}
       onClick={() => {

@@ -6,6 +6,8 @@ import {
   ClockCircleOutlined,
   FallOutlined,
   HistoryOutlined,
+  LoginOutlined,
+  LogoutOutlined,
   RiseOutlined,
   SwapOutlined,
   VerticalLeftOutlined,
@@ -17,16 +19,22 @@ import {
   formatDurationValue,
   formatSpeedValue,
   validateValue,
+  formatTimeValue,
 } from '../../global/statisiticsFormatters';
 
 import { ActivityStatistics } from '../../database/schema';
 
 import './activityStatisticsDashboard.less';
 
-export type ActivityStatisticsDashboardProps = {} & ActivityStatistics;
+export type ActivityStatisticsDashboardProps = {
+  startTime?: number;
+  endTime?: number;
+} & ActivityStatistics;
 
 const ActivityStatisticsDashboard: React.FC<ActivityStatisticsDashboardProps> =
   ({
+    startTime,
+    endTime,
     totalDistance,
     totalDuration,
     inMotionDuration,
@@ -36,6 +44,26 @@ const ActivityStatisticsDashboard: React.FC<ActivityStatisticsDashboardProps> =
   }) => {
     return (
       <div className='activity-statistics-dashboard'>
+        <Statistic
+          title='Start Time'
+          value={formatTimeValue(startTime)}
+          prefix={<LogoutOutlined />}
+        />
+        <Statistic
+          title='End Time'
+          value={formatTimeValue(endTime)}
+          prefix={<LoginOutlined />}
+        />
+        <Statistic
+          title='In Motion Time'
+          value={formatDurationValue(inMotionDuration)}
+          prefix={<HistoryOutlined />}
+        />
+        <Statistic
+          title='Total Time'
+          value={formatDurationValue(totalDuration)}
+          prefix={<ClockCircleOutlined />}
+        />
         <Statistic
           title='Distance'
           value={formatDistanceValue(totalDistance)}
@@ -49,16 +77,6 @@ const ActivityStatisticsDashboard: React.FC<ActivityStatisticsDashboardProps> =
           prefix={<VerticalLeftOutlined />}
           suffix='km/h'
           precision={1}
-        />
-        <Statistic
-          title='In Motion Time'
-          value={formatDurationValue(inMotionDuration)}
-          prefix={<HistoryOutlined />}
-        />
-        <Statistic
-          title='Total Time'
-          value={formatDurationValue(totalDuration)}
-          prefix={<ClockCircleOutlined />}
         />
         <Statistic
           title='Average Speed (Motion)'

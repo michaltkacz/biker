@@ -29,9 +29,9 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
 
   const [track, setTrack] = useState<Track>(emptyTrack);
 
-  useEffect(() => {
-    console.log(track);
-  }, [track]);
+  // useEffect(() => {
+  //   console.log(track);
+  // }, [track]);
 
   useEffect(() => {
     startWatchingPosition();

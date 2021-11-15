@@ -83,6 +83,8 @@ export type Activity = {
   name: string;
   createdAt: number;
   lastModifiedAt: number;
+  startTime: number;
+  endTime: number;
   track: Track;
   sport: ActivitySportTypes;
   category: ActivityCategoryTypes;
