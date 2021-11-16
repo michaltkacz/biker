@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Collapse, Typography } from 'antd';
+import { AreaChartOutlined } from '@ant-design/icons';
 
 import {
   FlexibleWidthXYPlot,
@@ -120,10 +121,11 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
         className='activity-charts-header'
         header={
           <Typography.Title className='activity-charts-header-title' level={5}>
-            Charts
+            Charts <AreaChartOutlined />
           </Typography.Title>
         }
         key='charts'
+        // extra={}
       >
         {loading ? (
           <LoadingSpinner />

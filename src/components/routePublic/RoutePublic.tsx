@@ -7,7 +7,7 @@ import './routePublic.less';
 
 const RoutePublic: React.FC<RouteProps> = ({ children, ...rest }) => {
   const { currentUser } = useAuth();
-  console.log(currentUser);
+
   return (
     <Route
       {...rest}

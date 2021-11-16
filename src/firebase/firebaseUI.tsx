@@ -2,15 +2,12 @@ import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
-import Pages from '../global/pages';
-
 import { auth } from './firebase';
 
 const firebaseUI = new firebaseui.auth.AuthUI(auth);
 
 export const firebaseUiDefaultConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
-  signInSuccessUrl: `/${Pages.Profile}`,
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
     GoogleAuthProvider.PROVIDER_ID,

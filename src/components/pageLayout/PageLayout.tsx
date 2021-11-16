@@ -23,14 +23,14 @@ const PageLayout: React.FC = ({ children }) => {
           collapsedWidth={0}
           theme='dark'
           style={{ zIndex: 999 }}
-          zeroWidthTriggerStyle={{ top: '80%' }}
+          zeroWidthTriggerStyle={{ top: 'calc(100% - 80px)', opacity: '75%' }}
           className='page-sider'
         >
           <Layout className='page-sider-layout'>
             <Layout.Header className='page-sider-layout-header'>
               <Brand />
             </Layout.Header>
-            <Layout.Content className='page-sider-layout-content'>
+            <Layout.Content>
               <ProfilePreview />
               <NavigationMenu />
             </Layout.Content>

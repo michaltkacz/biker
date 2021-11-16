@@ -24,7 +24,7 @@ import TagList from '../tagList/TagList';
 
 import ActivityStatisticsDashboard from '../activityStatisticsDashboard/ActivityStatisticsDashboard';
 import ActivityTitle from '../activityTitle/ActivityTitle';
-import LabeledEnumSelect from '../labeledEnumSelect/LabeledEnumSelect';
+import EnumSelect from '../enumSelect/EnumSelect';
 import ActivityShaper from '../activityShaper/ActivityShaper';
 import ActivityCharts from '../activityCharts/ActivityCharts';
 
@@ -33,6 +33,7 @@ import {
   useUpdateActivity,
 } from '../../firebase/hooks/useActivities';
 import useGpxBuilder from '../../hooks/useGpxBuilder';
+import WithLabel from '../withLabel/WithLabel';
 
 export type ActivityProps = {
   activity: ActivityType;
@@ -145,24 +146,28 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
         />
       </div>
       <div className='second-row'>
-        <LabeledEnumSelect
-          label='Sport'
-          onChange={(value) => {
-            setSport(value);
-            setUpdates({ ...updates, sport: true });
-          }}
-          values={Object.values(ActivitySportTypes)}
-          defaultValue={sport}
-        />
-        <LabeledEnumSelect
-          label='Category'
-          onChange={(value) => {
-            setCategory(value);
-            setUpdates({ ...updates, category: true });
-          }}
-          values={Object.values(ActivityCategoryTypes)}
-          defaultValue={category}
-        />
+        <WithLabel label='Sport'>
+          <EnumSelect
+            onChange={(value) => {
+              setSport(value);
+              setUpdates({ ...updates, sport: true });
+            }}
+            values={Object.values(ActivitySportTypes)}
+            defaultValue={sport}
+            editable
+          />
+        </WithLabel>
+        <WithLabel label='Category'>
+          <EnumSelect
+            onChange={(value) => {
+              setCategory(value);
+              setUpdates({ ...updates, category: true });
+            }}
+            values={Object.values(ActivityCategoryTypes)}
+            defaultValue={category}
+            editable
+          />
+        </WithLabel>
         <ActivityShaper
           shape={shape}
           onChange={(newShape) => {
@@ -202,8 +207,13 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
 
   return (
     <Card className='activity' title={ActivityHeader} size='small'>
-      <Row gutter={[{ xs: 0, sm: 16 }, 16]}>
-        <Col xs={24} md={16} xl={16} xxl={18} style={{ minHeight: 400 }}>
+      <Row
+        gutter={[
+          { xs: 0, sm: 8, md: 16, lg: 24, xxl: 32 },
+          { xs: 0, sm: 8, md: 16, lg: 24, xxl: 32 },
+        ]}
+      >
+        <Col xs={24} lg={15} xxl={18} style={{ minHeight: 400 }}>
           <MapCanvas
             render={(height) => (
               <Map
@@ -219,7 +229,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             )}
           />
         </Col>
-        <Col xs={24} md={8} xl={8} xxl={6}>
+        <Col xs={24} lg={9} xxl={6}>
           <ActivityStatisticsDashboard
             {...activity.statistics}
             startTime={activity.startTime}

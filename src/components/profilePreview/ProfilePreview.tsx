@@ -5,25 +5,34 @@ import { UserOutlined } from '@ant-design/icons';
 import './profilePreview.less';
 
 import { useAuth } from '../../firebase/hooks/useAuth';
+// import { useHistory } from 'react-router';
+
+// import Pages from '../../global/pages';
 
 const ProfilePreview = () => {
   const { currentUser } = useAuth();
+  // const history = useHistory();
 
   if (!currentUser) {
     return null;
   }
 
   return (
-    <div className='profile'>
-      <div className='profile-wrapper'>
+    <div className='profile-preview'>
+      <div
+        className='profile-preview-wrapper'
+        // onClick={() => {
+        //   history.push(Pages.Profile);
+        // }}
+      >
         <Avatar
           size={111}
           alt='User profile avatar'
           icon={<UserOutlined />}
-          src='https://images.unsplash.com/photo-1574158622682-e40e69881006?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80'
-          // src={currentUser.photoURL}
+          src={currentUser.photoURL}
+          className='profile-preview-avatar'
         />
-        <Typography.Text strong className='profile-username'>
+        <Typography.Text strong className='profile-preview-username'>
           {currentUser.displayName}
         </Typography.Text>
       </div>

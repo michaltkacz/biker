@@ -16,8 +16,8 @@ import './gpxToActivityParser.less';
 
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
-import useUserId from '../../firebase/hooks/useUserId';
 import { useWriteActivity } from '../../firebase/hooks/useActivities';
+import { useAuth } from '../../firebase/hooks/useAuth';
 import { calculateStatistics } from '../../hooks/useActivityStatistics';
 
 export type GpxToActivityParserProps = {
@@ -31,7 +31,7 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
 }) => {
   const [activity, setActivity] = useState<Activity | null>(null);
   const writeActivity = useWriteActivity();
-  const userId = useUserId();
+  const { currentUserId } = useAuth();
 
   useEffect(() => {
     file.text().then((gpx) => {
@@ -61,7 +61,7 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
 
       const newActivity: Activity = {
         activityId: '',
-        creatorId: userId,
+        creatorId: currentUserId,
         name: he.decode(gpxParser.metadata.name),
         createdAt: newTrack[0][0].time,
         lastModifiedAt: Date.now(),
@@ -82,7 +82,7 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
         }
       });
     });
-  }, [file, userId]);
+  }, [file, currentUserId]);
 
   if (!activity) {
     return <LoadingSpinner />;

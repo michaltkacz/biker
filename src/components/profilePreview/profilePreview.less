@@ -1,23 +1,26 @@
 @import '~antd/es/style/themes/default.less';
 
-.profile {
-  background: #e0eafc;
-  background: linear-gradient(to top, #cfdef3, #e0eafc);
+.profile-preview {
   padding: @padding-md;
-  border-right: 1px solid @layout-header-background;
+  background: #ace0f9;
 
-  .profile-wrapper {
+  &-wrapper {
     display: flex;
     flex-flow: column;
     place-items: center;
     place-content: center;
-    cursor: pointer;
 
-    transition: transform 0.1s ease-in;
+    // cursor: pointer;
+    // transition: transform 0.1s ease-in;
 
-    &:hover {
-      transform: scale(1.1);
-    }
+    // &:hover {
+    //   transform: scale(1.1);
+    // }
+  }
+
+  &-avatar {
+    // border: 2px solid @layout-header-background;
+    border-radius: 50%;
   }
 
   &-username {

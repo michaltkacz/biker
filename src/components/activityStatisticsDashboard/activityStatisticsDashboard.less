@@ -5,6 +5,14 @@
   flex: 1;
   padding: @padding-xs;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10em, auto));
-  row-gap: @padding-xs;
+  grid-template-columns: 1fr 1fr;
+  row-gap: @margin-xs;
+
+  @media (min-width: @screen-md-min) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @media (min-width: @screen-lg-min) {
+    grid-template-columns: 1fr 1fr;
+  }
 }

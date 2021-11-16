@@ -17,8 +17,8 @@ import RoutePrivate from './routePrivate/RoutePrivate';
 
 const App: React.FC = () => {
   return (
-    <AuthContextProvider>
-      <Router>
+    <Router>
+      <AuthContextProvider>
         <PageLayout>
           <Switch>
             <RoutePublic exact path={`/${Pages.Authorize}`}>
@@ -36,8 +36,8 @@ const App: React.FC = () => {
             <Route path='/*' component={NotFoundPage} />
           </Switch>
         </PageLayout>
-      </Router>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </Router>
   );
 };
 

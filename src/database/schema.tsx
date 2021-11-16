@@ -129,7 +129,7 @@ export type UserStatistics = {
 
 export type UserProfile = {
   gender?: GenderTypes;
-  birthday?: Date;
+  birthday?: string;
   weight?: number;
   height?: number;
   country?: string;

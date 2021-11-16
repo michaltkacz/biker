@@ -32,7 +32,7 @@ const GpxImporter = () => {
       <Collapse.Panel
         key='gpx-importer'
         header={
-          <Typography.Title level={3} className='gpx-importer-header'>
+          <Typography.Title level={4} className='gpx-importer-header'>
             Import
           </Typography.Title>
         }

@@ -1,0 +1,13 @@
+@import '~antd/es/style/themes/default.less';
+
+.profile-data {
+  display: flex;
+  flex-flow: column;
+
+  &-grid-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, fit-content);
+    gap: @margin-xs;
+  }
+}

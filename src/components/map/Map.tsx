@@ -78,7 +78,7 @@ const Map: React.FC<MapProps> = ({
         panToPosition={panToPosition}
       />
       <ZoomControl position='bottomright' />
-      <ScaleControl position='bottomleft' />
+      <ScaleControl position='topleft' />
       <LayersControl position='topright'>
         <LayersControl.BaseLayer checked name='OpenStreetMap.Mapnik'>
           <TileLayer

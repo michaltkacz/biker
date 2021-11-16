@@ -24,9 +24,9 @@ import {
   ActivitySportTypes,
 } from '../../database/schema';
 import Pages from '../../global/pages';
+import { useAuth } from '../../firebase/hooks/useAuth';
 import { useHistory } from 'react-router';
 import { useWriteActivity } from '../../firebase/hooks/useActivities';
-import useUserId from '../../firebase/hooks/useUserId';
 
 const TrackerPage: React.FC = () => {
   const {
@@ -39,7 +39,7 @@ const TrackerPage: React.FC = () => {
   } = useTracker();
   const writeActivity = useWriteActivity();
   const history = useHistory();
-  const userId = useUserId();
+  const { currentUserId } = useAuth();
 
   const activityStatistics = useActivityStatistics(track);
 
@@ -59,7 +59,7 @@ const TrackerPage: React.FC = () => {
     const { latestSpeed, latestElevation, ...statistics } = activityStatistics;
     const activity: Activity = {
       activityId: '',
-      creatorId: userId,
+      creatorId: currentUserId,
       name: 'Activity ' + new Date().toLocaleString(),
       createdAt: Date.now(),
       lastModifiedAt: Date.now(),
