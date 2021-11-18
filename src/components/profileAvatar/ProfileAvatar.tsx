@@ -22,31 +22,31 @@ const ProfileAvatar: React.FC = () => {
       return;
     }
 
-    updateUser({ displayName: newName }).then(({ error }) => {
-      if (error) {
-        message.error("Name couldn't be updated");
-      } else {
+    updateUser({ displayName: newName })
+      .then(() => {
         message.success('Name updated');
         setName(newName);
-      }
-    });
+      })
+      .catch(() => {
+        message.error("Name couldn't be updated");
+      });
   };
 
   const onUrlChange = (newUrl: string) => {
-    updateUser({ photoURL: newUrl }).then(({ error }) => {
-      if (error) {
-        message.error("Photo couldn't be updated");
-      } else {
+    updateUser({ photoURL: newUrl })
+      .then(() => {
         message.success('Photo updated');
         setUrl(newUrl);
-      }
-    });
+      })
+      .catch(() => {
+        message.error("Photo couldn't be updated");
+      });
   };
 
   return (
     <div className='profile-avatar'>
       <EditableAvatar
-        size={111}
+        size={150}
         alt='User profile avatar'
         icon={<UserOutlined />}
         src={url}

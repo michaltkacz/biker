@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Rate, Popconfirm, Button, message } from 'antd';
+import {
+  Card,
+  Col,
+  Row,
+  Rate,
+  Popconfirm,
+  Button,
+  message,
+  Result,
+} from 'antd';
 
 import {
   CheckOutlined,
@@ -22,18 +31,21 @@ import Map from '../map/Map';
 import MapCanvas from '../mapCanvas/MapCanvas';
 import TagList from '../tagList/TagList';
 
-import ActivityStatisticsDashboard from '../activityStatisticsDashboard/ActivityStatisticsDashboard';
+import ActivityDashboard from '../activityDashboard/ActivityDashboard';
 import ActivityTitle from '../activityTitle/ActivityTitle';
 import EnumSelect from '../enumSelect/EnumSelect';
 import ActivityShaper from '../activityShaper/ActivityShaper';
 import ActivityCharts from '../activityCharts/ActivityCharts';
+import WithLabel from '../withLabel/WithLabel';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
 import {
-  useDeleteActivity,
-  useUpdateActivity,
-} from '../../firebase/hooks/useActivities';
-import useGpxBuilder from '../../hooks/useGpxBuilder';
-import WithLabel from '../withLabel/WithLabel';
+  useReadTrack,
+  deleteActivityWithTrack,
+  updateActivity,
+} from '../../firebase/hooks/useDatabase';
+import { useAuth } from '../../firebase/hooks/useAuth';
+import { buildGpxAndSaveFile } from '../../global/gpxBuilder';
 
 export type ActivityProps = {
   activity: ActivityType;
@@ -49,9 +61,12 @@ const ActivityNotUpdated: ActivityUpdate = {
 };
 
 const Activity: React.FC<ActivityProps> = ({ activity }) => {
-  const deleteActivity = useDeleteActivity();
-  const updateActivity = useUpdateActivity();
-  const { buildGpxAndSaveFile } = useGpxBuilder();
+  const { currentUserId } = useAuth();
+  const {
+    track,
+    loading: trackLoading,
+    error: trackError,
+  } = useReadTrack(currentUserId, activity.activityId);
 
   // const [firstRender, setFirstRender] = useState<boolean>(true);
   const [activityModified, setActivityModified] = useState<boolean>(false);
@@ -75,16 +90,16 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
   }, [updates]);
 
   const onDeleteActivity = () => {
-    deleteActivity(activity.activityId).then(({ error }) => {
-      if (error) {
-        message.error("Activity coludn't be deleted");
-      } else {
+    deleteActivityWithTrack(currentUserId, activity.activityId)
+      .then(() => {
         message.success('Activity deleted');
-      }
-    });
+      })
+      .catch(() => {
+        message.error("Activity coludn't be deleted");
+      });
   };
 
-  const onEditActivity = () => {
+  const onUpdateActivity = () => {
     const payload: { [filed: string]: any } = {};
     payload['/lastModifiedAt'] = Date.now();
 
@@ -95,20 +110,25 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
     updates.rating && (payload['/rating'] = rating || null);
     updates.tags && (payload['/tags'] = tags || null);
 
-    updateActivity(activity.activityId, payload).then(({ error }) => {
-      if (error) {
-        message.error("Activity coludn't be updated");
-      } else {
+    updateActivity(currentUserId, activity.activityId, payload)
+      .then(() => {
         message.success('Activity updated');
-      }
-    });
+      })
+      .catch(() => {
+        message.error("Activity coludn't be updated");
+      });
 
     setUpdates(ActivityNotUpdated);
     setActivityModified(false);
   };
 
   const onExportActivity = () => {
-    buildGpxAndSaveFile(activity.track, activity.name);
+    if (!track) {
+      message.error("Activity coludn't be exported");
+      return;
+    }
+
+    buildGpxAndSaveFile(track, activity.name);
   };
 
   const ActivityHeader = (
@@ -195,7 +215,7 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             type='primary'
             size='small'
             disabled={!activityModified}
-            onClick={onEditActivity}
+            onClick={onUpdateActivity}
           >
             Update
             <CheckOutlined />
@@ -207,38 +227,44 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
 
   return (
     <Card className='activity' title={ActivityHeader} size='small'>
+      {trackLoading && <LoadingSpinner />}
+      {trackError && <Result status='error' title='Something has gone wrong' />}
       <Row
         gutter={[
           { xs: 0, sm: 8, md: 16, lg: 24, xxl: 32 },
           { xs: 0, sm: 8, md: 16, lg: 24, xxl: 32 },
         ]}
       >
-        <Col xs={24} lg={15} xxl={18} style={{ minHeight: 400 }}>
-          <MapCanvas
-            render={(height) => (
-              <Map
-                height={height}
-                track={activity.track}
-                position={{
-                  lat: activity.track[0][0].lat,
-                  lon: activity.track[0][0].lon,
-                }}
-                followPosition={false}
-                panToPosition={true}
+        {track && (
+          <>
+            <Col xs={24} lg={15} xxl={18} style={{ minHeight: 400 }}>
+              <MapCanvas
+                render={(height) => (
+                  <Map
+                    height={height}
+                    track={track}
+                    position={{
+                      lat: track.segments[0][0].lat,
+                      lon: track.segments[0][0].lon,
+                    }}
+                    followPosition={false}
+                    panToPosition={true}
+                  />
+                )}
               />
-            )}
-          />
-        </Col>
-        <Col xs={24} lg={9} xxl={6}>
-          <ActivityStatisticsDashboard
-            {...activity.statistics}
-            startTime={activity.startTime}
-            endTime={activity.endTime}
-          />
-        </Col>
-        <Col xs={24}>
-          <ActivityCharts track={activity.track} />
-        </Col>
+            </Col>
+            <Col xs={24} lg={9} xxl={6}>
+              <ActivityDashboard
+                {...activity.statistics}
+                startTime={activity.startTime}
+                endTime={activity.endTime}
+              />
+            </Col>
+            <Col xs={24}>
+              <ActivityCharts track={track} />
+            </Col>
+          </>
+        )}
       </Row>
     </Card>
   );

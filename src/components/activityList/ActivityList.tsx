@@ -5,13 +5,16 @@ import { v4 as uuidv4 } from 'uuid';
 import './activityList.less';
 
 import Activity from '../activity/Activity';
-import { useReadActivites } from '../../firebase/hooks/useActivities';
 import LoadingSpinner from './../loadingSpinner/LoadingSpinner';
+
+import { useReadAllActivities } from '../../firebase/hooks/useDatabase';
+import { useAuth } from '../../firebase/hooks/useAuth';
 
 export type ActivityListProps = {};
 
 const ActivityList: React.FC<ActivityListProps> = () => {
-  const { activities, loading, error } = useReadActivites();
+  const { currentUserId } = useAuth();
+  const { activities, loading, error } = useReadAllActivities(currentUserId);
 
   if (loading) {
     return <LoadingSpinner />;

@@ -58,7 +58,7 @@ export const calculateStatistics = (
   let elevationUp: number = 0;
   let elevationDown: number = 0;
 
-  const trackFlat = track.flat();
+  const trackFlat = track.segments.flat();
   if (trackFlat.length !== 0) {
     // index of last segment and last point
     const lpi = trackFlat.length - 1;

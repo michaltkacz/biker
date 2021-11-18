@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Result, Row } from 'antd';
+import { Button, Card, Col, Result, Row, Typography } from 'antd';
 
 import './profilePage.less';
 
@@ -7,6 +7,8 @@ import { useAuth } from '../../firebase/hooks/useAuth';
 
 import ProfileAvatar from '../profileAvatar/ProfileAvatar';
 import ProfileData from '../profileData/ProfileData';
+import { AreaChartOutlined, MonitorOutlined } from '@ant-design/icons';
+import { updateStatistics } from '../../firebase/hooks/useDatabase';
 
 const ProfilePage = () => {
   const { currentUser } = useAuth();
@@ -30,10 +32,47 @@ const ProfilePage = () => {
           <ProfileData />
         </Col>
         <Col xs={24}>
-          <div>stats and charts</div>
+          <ProfileDashboard />
+        </Col>
+        <Col xs={24}>
+          <ProfileCharts />
         </Col>
       </Row>
     </div>
+  );
+};
+
+export const ProfileDashboard = () => {
+  const { currentUserId } = useAuth();
+  return (
+    <Card
+      size='small'
+      title={
+        <Typography.Title className='' level={5}>
+          Statistics <MonitorOutlined />
+        </Typography.Title>
+      }
+    >
+      DASHBOARD
+      <Button onClick={() => updateStatistics(currentUserId)}>
+        updateStatistics
+      </Button>
+    </Card>
+  );
+};
+
+export const ProfileCharts = () => {
+  return (
+    <Card
+      size='small'
+      title={
+        <Typography.Title className='' level={5}>
+          Charts <AreaChartOutlined />
+        </Typography.Title>
+      }
+    >
+      CHARTS
+    </Card>
   );
 };
 

@@ -48,7 +48,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
     useState<AreaSeriesPoint | null>(null);
 
   const parseData = async () => {
-    const flatTrack = track.flat();
+    const flatTrack = track.segments.flat();
 
     if (flatTrack.length === 0) {
       return;
@@ -125,7 +125,6 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
           </Typography.Title>
         }
         key='charts'
-        // extra={}
       >
         {loading ? (
           <LoadingSpinner />

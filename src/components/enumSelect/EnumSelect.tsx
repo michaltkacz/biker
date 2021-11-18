@@ -22,7 +22,6 @@ const EnumSelect: React.FC<EnumSelectProps> = ({
   editable,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
-  console.log(editable);
   if (!editMode && editable) {
     return (
       <Typography.Paragraph>

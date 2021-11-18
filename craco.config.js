@@ -1,4 +1,5 @@
 const CracoLessPlugin = require('craco-less');
+const WorkerLoaderPlugin = require('craco-worker-loader');
 
 module.exports = {
   plugins: [
@@ -12,6 +13,9 @@ module.exports = {
           },
         },
       },
+    },
+    {
+      plugin: WorkerLoaderPlugin,
     },
   ],
   babel: {

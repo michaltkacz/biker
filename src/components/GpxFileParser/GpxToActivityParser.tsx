@@ -16,21 +16,20 @@ import './gpxToActivityParser.less';
 
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
-import { useWriteActivity } from '../../firebase/hooks/useActivities';
 import { useAuth } from '../../firebase/hooks/useAuth';
 import { calculateStatistics } from '../../hooks/useActivityStatistics';
+import { writeActivityWithTrack } from '../../firebase/hooks/useDatabase';
+import { Typography } from 'antd';
+import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
 export type GpxToActivityParserProps = {
   file: File;
-  render: (activity: Activity) => React.ReactNode;
 };
 
-const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
-  file,
-  render,
-}) => {
+const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({ file }) => {
   const [activity, setActivity] = useState<Activity | null>(null);
-  const writeActivity = useWriteActivity();
+  const [error, setError] = useState<boolean>(false);
+
   const { currentUserId } = useAuth();
 
   useEffect(() => {
@@ -40,47 +39,50 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
 
       let lastTime = 0;
 
-      const newTrack: Track = gpxParser.tracks.map((parsedTrackSegment) => {
-        const newTrackSegment: TrackSegment = parsedTrackSegment.points.map(
-          (parsedTrackPoint) => {
-            lastTime = parsedTrackPoint.time.getTime();
-            const newTrackPoint: TrackPoint = {
-              lat: parsedTrackPoint.lat,
-              lon: parsedTrackPoint.lon,
-              ele: parsedTrackPoint.ele,
-              time: lastTime,
-            };
-            return newTrackPoint;
-          }
-        );
-        return newTrackSegment;
-      });
-
+      const newTrack: Track = {
+        activityId: '',
+        segments: gpxParser.tracks.map((parsedTrackSegment) => {
+          const newTrackSegment: TrackSegment = parsedTrackSegment.points.map(
+            (parsedTrackPoint) => {
+              lastTime = parsedTrackPoint.time.getTime();
+              const newTrackPoint: TrackPoint = {
+                lat: parsedTrackPoint.lat,
+                lon: parsedTrackPoint.lon,
+                ele: parsedTrackPoint.ele,
+                time: lastTime,
+              };
+              return newTrackPoint;
+            }
+          );
+          return newTrackSegment;
+        }),
+      };
       const { latestSpeed, latestElevation, ...statistics } =
         calculateStatistics(newTrack);
 
       const newActivity: Activity = {
         activityId: '',
-        creatorId: currentUserId,
+        creatorId: currentUserId || '',
         name: he.decode(gpxParser.metadata.name),
-        createdAt: newTrack[0][0].time,
+        createdAt: newTrack.segments[0][0].time,
         lastModifiedAt: Date.now(),
-        startTime: newTrack[0][0].time,
+        startTime: newTrack.segments[0][0].time,
         endTime: lastTime,
         sport: ActivitySportTypes.Other,
         category: ActivityCategoryTypes.Other,
         shape: { isLoop: false, from: 'unknown', to: 'unknown' },
         statistics: statistics,
-        track: newTrack,
       };
 
-      writeActivity(newActivity).then(({ activity: activityWithId, error }) => {
-        if (error) {
-          setActivity(null);
-        } else {
-          setActivity(activityWithId);
-        }
-      });
+      writeActivityWithTrack(currentUserId, newActivity, newTrack)
+        .then(({ updatedActivity }) => {
+          setActivity(updatedActivity);
+          setError(false);
+        })
+        .catch(() => {
+          setActivity(newActivity);
+          setError(true);
+        });
     });
   }, [file, currentUserId]);
 
@@ -88,7 +90,16 @@ const GpxToActivityParser: React.FC<GpxToActivityParserProps> = ({
     return <LoadingSpinner />;
   }
 
-  return <>{render(activity)}</>;
+  return (
+    <Typography.Title level={5}>
+      {error ? (
+        <WarningOutlined style={{ color: 'red' }} />
+      ) : (
+        <CheckCircleOutlined style={{ color: 'green' }} />
+      )}
+      {activity.name}
+    </Typography.Title>
+  );
 };
 
 export default GpxToActivityParser;

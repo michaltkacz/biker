@@ -3,7 +3,7 @@ import { Checkbox, message } from 'antd';
 
 import MapCanvas from '../mapCanvas/MapCanvas';
 import Map from '../map/Map';
-import TrackerStatisticsDashboard from '../trackerStatisticsDashboard/TrackerStatisticsDashboard';
+import TrackerDashboard from '../trackerDashboard/TrackerDashboard';
 import TrackerControls from '../trackerControls/TrackerControls';
 
 import useTracker from '../../hooks/useTracker';
@@ -26,7 +26,7 @@ import {
 import Pages from '../../global/pages';
 import { useAuth } from '../../firebase/hooks/useAuth';
 import { useHistory } from 'react-router';
-import { useWriteActivity } from '../../firebase/hooks/useActivities';
+import { writeActivityWithTrack } from '../../firebase/hooks/useDatabase';
 
 const TrackerPage: React.FC = () => {
   const {
@@ -37,7 +37,6 @@ const TrackerPage: React.FC = () => {
     stopTracking,
     isTracking,
   } = useTracker();
-  const writeActivity = useWriteActivity();
   const history = useHistory();
   const { currentUserId } = useAuth();
 
@@ -59,28 +58,26 @@ const TrackerPage: React.FC = () => {
     const { latestSpeed, latestElevation, ...statistics } = activityStatistics;
     const activity: Activity = {
       activityId: '',
-      creatorId: currentUserId,
+      creatorId: currentUserId || '',
       name: 'Activity ' + new Date().toLocaleString(),
       createdAt: Date.now(),
       lastModifiedAt: Date.now(),
-      startTime: track[0][0].time,
+      startTime: track.segments[0][0].time,
       endTime: Date.now(),
       sport: ActivitySportTypes.Other,
       category: ActivityCategoryTypes.Other,
       shape: { isLoop: false, from: 'unknown', to: 'unknown' },
       statistics: statistics,
-      track: track,
     };
 
-    message.info('Saving activity');
-    writeActivity(activity).then(({ error }) => {
-      if (error) {
-        message.error("Activity coludn't be saved");
-      } else {
+    writeActivityWithTrack(currentUserId, activity, track)
+      .then(() => {
         message.success('Activity saved');
         history.push(Pages.Activities);
-      }
-    });
+      })
+      .catch(() => {
+        message.error("Activity coludn't be saved");
+      });
   };
 
   const handleFollowPosition = (): void => {
@@ -97,7 +94,7 @@ const TrackerPage: React.FC = () => {
 
   return (
     <div className='tracker-page'>
-      <TrackerStatisticsDashboard show={isTracking} {...activityStatistics} />
+      <TrackerDashboard show={isTracking} {...activityStatistics} />
       <MapCanvas
         render={(height) => (
           <Map

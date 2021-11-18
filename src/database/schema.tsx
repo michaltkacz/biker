@@ -66,7 +66,10 @@ export type TrackPoint = {
 
 export type TrackSegment = Array<TrackPoint>;
 
-export type Track = Array<TrackSegment>;
+export type Track = {
+  activityId: string;
+  segments: Array<TrackSegment>;
+};
 
 export type ActivityStatistics = {
   totalDistance?: number;
@@ -85,7 +88,6 @@ export type Activity = {
   lastModifiedAt: number;
   startTime: number;
   endTime: number;
-  track: Track;
   sport: ActivitySportTypes;
   category: ActivityCategoryTypes;
   shape: ActivityShape;
@@ -142,6 +144,7 @@ export type User = {
   profile?: UserProfile;
   statistics?: UserStatistics;
   activities?: { [activityId: string]: Activity };
+  tracks?: { [trackId: string]: Track };
 };
 
 type DatabaseSchema = {

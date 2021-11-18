@@ -11,16 +11,22 @@ import { Result, Spin } from 'antd';
 
 export type IAuthContext = {
   currentUser: User | null;
-  currentUserId: string;
-  updateUser: (payload: UpdateUserPayload) => Promise<{
-    error: boolean;
-  }>;
+  currentUserId: string | null;
+  updateUser: (payload: UpdateUserPayload) => Promise<void>;
   logoutUser: () => void;
 };
 
 export type UpdateUserPayload = {
   displayName?: string;
   photoURL?: string;
+};
+
+const style = {
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  placeContent: 'center',
+  placeItems: 'center',
 };
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -39,6 +45,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         setAuthError(false);
       },
       (error) => {
+        console.log(error);
         setCurrentUser(null);
         setAuthLoading(false);
         setAuthError(true);
@@ -48,37 +55,24 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   }, []);
 
   if (authLoading) {
-    return (
-      <Spin
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          placeContent: 'center',
-          placeItems: 'center',
-        }}
-      />
-    );
+    return <Spin style={style} />;
   }
 
   if (authError) {
-    return <Result status='error' title='Authorization failed' />;
+    return <Result status='error' title='Authorization failed' style={style} />;
   }
 
-  const updateUser = async (
-    payload: UpdateUserPayload
-  ): Promise<{
-    error: boolean;
-  }> => {
-    if (!currentUser) {
-      return { error: true };
-    }
-
+  const updateUser = async (payload: UpdateUserPayload): Promise<void> => {
     try {
+      if (!currentUser) {
+        throw new Error('UserID cannot be null');
+      }
+
       updateProfile(currentUser, payload).then(() => currentUser.reload());
-      return { error: false };
+      return;
     } catch (er) {
-      return { error: true };
+      console.error(er);
+      throw new Error(`updateUser failed. ${er}`);
     }
   };
 
@@ -86,7 +80,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     signOut(auth);
   };
 
-  const currentUserId = currentUser ? currentUser.uid : '';
+  const currentUserId = currentUser ? currentUser.uid : null;
 
   const value: IAuthContext = {
     currentUser,

@@ -1,9 +1,15 @@
 @import '~antd/es/style/themes/default.less';
 
 .profile-avatar {
+  height: 100%;
   display: flex;
   flex-flow: column;
   place-items: center;
+  place-content: center;
+
+  @media (min-width: @screen-lg-min) {
+    flex-flow: row;
+  }
 
   &-image {
     cursor: pointer;

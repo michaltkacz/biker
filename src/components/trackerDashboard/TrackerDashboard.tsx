@@ -1,7 +1,7 @@
 import React from 'react';
 import { Statistic } from 'antd';
 
-import './trackerStatisticsDashboard.less';
+import './trackerDashboard.less';
 
 import {
   ArrowRightOutlined,
@@ -29,7 +29,7 @@ type TrackerDashboardProps = {
   show: boolean;
 } & ActivityStatisticsExtended;
 
-const TrackerStatisticsDashboard: React.FC<TrackerDashboardProps> = ({
+const TrackerDashboard: React.FC<TrackerDashboardProps> = ({
   show,
   latestSpeed,
   latestElevation,
@@ -45,7 +45,7 @@ const TrackerStatisticsDashboard: React.FC<TrackerDashboardProps> = ({
   }
 
   return (
-    <div className='tracker-statistics-dashboard'>
+    <div className='tracker-dashboard'>
       <Statistic
         title='Speed'
         value={formatSpeedValue(latestSpeed)}
@@ -109,4 +109,4 @@ const TrackerStatisticsDashboard: React.FC<TrackerDashboardProps> = ({
   );
 };
 
-export default TrackerStatisticsDashboard;
+export default TrackerDashboard;

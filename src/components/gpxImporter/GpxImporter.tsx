@@ -21,9 +21,7 @@ const GpxImporter = () => {
     if (files.length === 0) {
       return;
     }
-    message.success(
-      'Your activities are uploaded. You can modify them, if you want.'
-    );
+    message.success('Importing...');
   }, [files]);
 
   //defaultActiveKey='gpx-importer'
@@ -41,6 +39,7 @@ const GpxImporter = () => {
             <UploadOutlined className='icon' />
           </FileButton>
         }
+        forceRender
       >
         <ActivityImportList files={files} />
       </Collapse.Panel>

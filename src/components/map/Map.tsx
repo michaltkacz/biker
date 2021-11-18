@@ -104,7 +104,7 @@ const TrackPolyline: React.FC<TrackPolylineProps> = ({ track }) => {
 
   return (
     <>
-      {track.map((segment) => (
+      {track.segments.map((segment) => (
         <Polyline
           positions={segment.map((point) => [point.lat, point.lon])}
           pathOptions={{ color: 'purple' }}

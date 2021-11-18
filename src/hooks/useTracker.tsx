@@ -13,7 +13,10 @@ export type TrackRecorder = {
 } & Geolocation;
 
 const emptySegment: TrackSegment = [];
-const emptyTrack: Track = [emptySegment];
+const emptyTrack: Track = {
+  activityId: '',
+  segments: [emptySegment],
+};
 
 const useTracker = (interval: number = 2000): TrackRecorder => {
   const { enableNoSleep, disableNoSleep } = useNoSleep();
@@ -51,8 +54,8 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
   const updateTrack = () => {
     if (!latestPosition) {
       // if last track segment is not empty, add new empty track segment
-      if (track[track.length - 1].length === 0) {
-        setTrack([...track, emptySegment]);
+      if (track.segments[track.segments.length - 1].length === 0) {
+        setTrack({ ...track, segments: [...track.segments, emptySegment] });
       }
       return;
     }
@@ -65,8 +68,8 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
     };
 
     // add new track point to last track segment
-    const newTrack = [...track];
-    newTrack[newTrack.length - 1].push(newTrackPoint);
+    const newTrack = { ...track, segments: [...track.segments] };
+    newTrack.segments[newTrack.segments.length - 1].push(newTrackPoint);
 
     setTrack(newTrack);
   };
