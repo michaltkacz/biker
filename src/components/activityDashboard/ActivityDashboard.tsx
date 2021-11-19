@@ -10,6 +10,8 @@ import {
   LogoutOutlined,
   RiseOutlined,
   SwapOutlined,
+  VerticalAlignBottomOutlined,
+  VerticalAlignTopOutlined,
   VerticalLeftOutlined,
 } from '@ant-design/icons';
 
@@ -40,6 +42,8 @@ const ActivityDashboard: React.FC<ActivityDashboardProps> = ({
   maxSpeed,
   elevationUp,
   elevationDown,
+  minElevation,
+  maxElevation,
 }) => {
   return (
     <div className='activity-dashboard'>
@@ -102,6 +106,20 @@ const ActivityDashboard: React.FC<ActivityDashboardProps> = ({
         title='Elevation Down'
         value={validateValue(elevationDown)}
         prefix={<FallOutlined />}
+        suffix='m'
+        precision={0}
+      />
+      <Statistic
+        title='Lowest Elevation'
+        value={validateValue(minElevation)}
+        prefix={<VerticalAlignBottomOutlined />}
+        suffix='m'
+        precision={0}
+      />
+      <Statistic
+        title='Highest Elevation'
+        value={validateValue(maxElevation)}
+        prefix={<VerticalAlignTopOutlined />}
         suffix='m'
         precision={0}
       />

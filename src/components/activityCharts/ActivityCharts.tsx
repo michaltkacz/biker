@@ -28,7 +28,7 @@ export type ActivityChartsProps = {
 
 const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [parsing, setParsing] = useState<boolean>(true);
 
   const [speedData, setSpeedData] = useState<Array<AreaSeriesPoint>>([]);
   const [distanceData, setDistanceData] = useState<Array<AreaSeriesPoint>>([]);
@@ -108,7 +108,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
       return;
     }
 
-    parseData().then(() => setLoading(false));
+    parseData().then(() => setParsing(false));
   }, [track, expanded]);
 
   return (
@@ -126,7 +126,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
         }
         key='charts'
       >
-        {loading ? (
+        {parsing ? (
           <LoadingSpinner />
         ) : (
           <>

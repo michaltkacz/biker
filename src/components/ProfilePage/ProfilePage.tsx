@@ -1,20 +1,28 @@
 import React from 'react';
-import { Button, Card, Col, Result, Row, Typography } from 'antd';
+import { Col, Result, Row } from 'antd';
 
 import './profilePage.less';
 
-import { useAuth } from '../../firebase/hooks/useAuth';
-
 import ProfileAvatar from '../profileAvatar/ProfileAvatar';
 import ProfileData from '../profileData/ProfileData';
-import { AreaChartOutlined, MonitorOutlined } from '@ant-design/icons';
-import { updateStatistics } from '../../firebase/hooks/useDatabase';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+
+import { useAuth } from '../../firebase/hooks/useAuth';
+import { useReadActivities } from '../../firebase/hooks/useDatabase';
+
+import ProfileDashboard from '../profileDashboard/ProfileDashboard';
+import ProfileCharts from '../profileCharts/ProfileCharts';
 
 const ProfilePage = () => {
-  const { currentUser } = useAuth();
+  const { currentUserId } = useAuth();
+  const { activities, loading, error } = useReadActivities(currentUserId);
 
-  if (!currentUser) {
+  if (!currentUserId) {
     return <Result status='error' title='No profile data' />;
+  }
+
+  if (loading) {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -25,54 +33,28 @@ const ProfilePage = () => {
           { xs: 0, sm: 8, md: 16, lg: 24, xxl: 32 },
         ]}
       >
-        <Col xs={24} sm={12}>
+        <Col xs={24} lg={12}>
           <ProfileAvatar />
         </Col>
-        <Col xs={24} sm={12}>
+        <Col xs={24} lg={12}>
           <ProfileData />
         </Col>
-        <Col xs={24}>
-          <ProfileDashboard />
+        <Col xs={24} lg={12}>
+          <ProfileDashboard
+            activities={activities}
+            loading={loading}
+            error={error}
+          />
         </Col>
-        <Col xs={24}>
-          <ProfileCharts />
+        <Col xs={24} lg={12}>
+          <ProfileCharts
+            activities={activities}
+            loading={loading}
+            error={error}
+          />
         </Col>
       </Row>
     </div>
-  );
-};
-
-export const ProfileDashboard = () => {
-  const { currentUserId } = useAuth();
-  return (
-    <Card
-      size='small'
-      title={
-        <Typography.Title className='' level={5}>
-          Statistics <MonitorOutlined />
-        </Typography.Title>
-      }
-    >
-      DASHBOARD
-      <Button onClick={() => updateStatistics(currentUserId)}>
-        updateStatistics
-      </Button>
-    </Card>
-  );
-};
-
-export const ProfileCharts = () => {
-  return (
-    <Card
-      size='small'
-      title={
-        <Typography.Title className='' level={5}>
-          Charts <AreaChartOutlined />
-        </Typography.Title>
-      }
-    >
-      CHARTS
-    </Card>
   );
 };
 

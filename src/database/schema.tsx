@@ -78,6 +78,8 @@ export type ActivityStatistics = {
   maxSpeed?: number;
   elevationUp?: number;
   elevationDown?: number;
+  minElevation?: number;
+  maxElevation?: number;
 };
 
 export type Activity = {
@@ -98,26 +100,36 @@ export type Activity = {
 
 export type UserStatistics = {
   minDistance?: number;
-  minElevation?: number;
-  minDuration?: number;
-  maxSpeed?: number;
   maxDistance?: number;
-  maxElevation?: number;
-  maxDuration?: number;
   totalDistance?: number;
+  // averageDistance?: number;
+
+  minElevation?: number;
+  maxElevation?: number;
   totalElevationUp?: number;
   totalElevationDown?: number;
-  totalDuration?: number;
-  totalInMotionDuration?: number;
-  // averageSpeed?: number; //! can be calcualted just in time
-  // averageDistance?: number;
   // averageElevation?: number;
-  // averageDuration?: number;
-  // averageInMotionDuration?: number;
+
   longestUphill?: number;
   longestDownhill?: number;
+
+  maxSpeed?: number;
+  // averageSpeed?: number;
+  // averageSpeedInMotion?: number;
+
+  totalDuration?: number;
+  minDuration?: number;
+  maxDuration?: number;
+  // averageDuration?: number;
+
+  inMotionDuration?: number;
+  minInMotionDuration?: number;
+  maxInMotionDuration?: number;
+  // averageInMotionDuration?: number;
+
   firstActivityAt?: number;
   lastActivityAt?: number;
+
   ratingStatistics?: {
     [key in RatingTypes]?: number;
   };

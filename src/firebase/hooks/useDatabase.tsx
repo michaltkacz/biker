@@ -23,7 +23,7 @@ import {
 // * READ
 // *
 
-export const useReadAllActivities = (userId: string | null) => {
+export const useReadActivities = (userId: string | null) => {
   const [activities, setActivities] = useState<Array<Activity>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);

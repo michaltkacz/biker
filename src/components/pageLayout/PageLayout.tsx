@@ -11,15 +11,20 @@ import NavigationMenu from '../navigationMenu/NavigationMenu';
 
 import Pages from '../../global/pages';
 
+import { useMediaQuery } from 'react-responsive';
+
 const PageLayout: React.FC = ({ children }) => {
   const location = useLocation();
+  const isSiderCollapsible = useMediaQuery({
+    query: '(max-width: 1200px)',
+  });
 
   return (
     <Layout className='page'>
       {location.pathname !== `/${Pages.Authorize}` && (
         <Layout.Sider
-          breakpoint='md'
-          collapsible
+          breakpoint='xl'
+          collapsible={isSiderCollapsible}
           collapsedWidth={0}
           theme='dark'
           style={{ zIndex: 999 }}

@@ -58,15 +58,21 @@ export const calculateStatistics = (
   let elevationUp: number = 0;
   let elevationDown: number = 0;
 
+  let minElevation: number = 0;
+  let maxElevation: number = 0;
+
   const trackFlat = track.segments.flat();
-  if (trackFlat.length !== 0) {
-    // index of last segment and last point
+  if (trackFlat.length > 0) {
+    // index of last last point
     const lpi = trackFlat.length - 1;
     const firstTrackPoint = trackFlat[0];
     const lastTrackPoint = trackFlat[lpi];
 
     latestElevation = lastTrackPoint.ele || 0; // meters
     totalDuration = deltaTime(firstTrackPoint.time, lastTrackPoint.time); // miliseconds
+
+    minElevation = firstTrackPoint.ele || 0;
+    maxElevation = firstTrackPoint.ele || 0;
 
     // latestSpeed
     if (lpi >= 1) {
@@ -105,6 +111,11 @@ export const calculateStatistics = (
         totalDistance += distance; // m
         inMotionDuration += time; // miliseconds
 
+        if (currPoint.ele) {
+          if (currPoint.ele > maxElevation) maxElevation = currPoint.ele;
+          if (currPoint.ele < minElevation) minElevation = currPoint.ele;
+        }
+
         if (!maxSpeed || speed > maxSpeed) {
           maxSpeed = speed;
         }
@@ -126,6 +137,8 @@ export const calculateStatistics = (
     maxSpeed,
     elevationUp,
     elevationDown,
+    minElevation,
+    maxElevation,
   };
 };
 
