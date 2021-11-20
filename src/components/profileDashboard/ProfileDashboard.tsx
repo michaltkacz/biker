@@ -177,7 +177,7 @@ const ProfileDashboard: React.FC<ProfileDashboardProps> = ({
             suffix='h'
           />
           <Statistic
-            title='Total Duration (In Motion)'
+            title='Total Duration (Motion)'
             value={formatDurationValue(userStatistics.inMotionDuration)}
             suffix='h'
           />
@@ -189,7 +189,7 @@ const ProfileDashboard: React.FC<ProfileDashboardProps> = ({
             suffix='h'
           />
           <Statistic
-            title='Average Duration (In Motion)'
+            title='Average Duration (Motion)'
             value={formatDurationValue(
               (userStatistics.inMotionDuration || 0) / numberOfActivities
             )}
@@ -201,7 +201,7 @@ const ProfileDashboard: React.FC<ProfileDashboardProps> = ({
             suffix='h'
           />
           <Statistic
-            title='Min Duration (In Motion)'
+            title='Min Duration (Motion)'
             value={formatDurationValue(userStatistics.minInMotionDuration)}
             suffix='h'
           />
@@ -211,7 +211,7 @@ const ProfileDashboard: React.FC<ProfileDashboardProps> = ({
             suffix='h'
           />
           <Statistic
-            title='Max Duration (In Motion)'
+            title='Max Duration (Motion)'
             value={formatDurationValue(userStatistics.maxInMotionDuration)}
             suffix='h'
           />
@@ -229,7 +229,7 @@ const ProfileDashboard: React.FC<ProfileDashboardProps> = ({
             precision={1}
           />
           <Statistic
-            title='Average Speed (In Motion)'
+            title='Average Speed (Motion)'
             value={formatAverageSpeedValue(
               userStatistics.totalDistance,
               userStatistics.inMotionDuration

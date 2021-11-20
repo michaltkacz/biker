@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Card, message, Result, Typography } from 'antd';
-
-import EnumSelect from '../enumSelect/EnumSelect';
-import WithLabel from '../withLabel/WithLabel';
-
-import { GenderTypes } from '../../database/schema';
+import { SolutionOutlined } from '@ant-design/icons';
 
 import './profileData.less';
 
+import EnumSelect from '../enumSelect/EnumSelect';
+import WithLabel from '../withLabel/WithLabel';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+
+import { GenderTypes } from '../../database/schema';
+
 import {
   updateProfile,
   useReadProfile,
@@ -125,7 +126,15 @@ const ProfileData: React.FC = () => {
   }
 
   return (
-    <Card title='Personal Data' size='small' className='profile-data'>
+    <Card
+      title={
+        <Typography.Title className='' level={5}>
+          Bio <SolutionOutlined />
+        </Typography.Title>
+      }
+      size='small'
+      className='profile-data'
+    >
       <WithLabel label='Description'>
         <Typography.Paragraph
           editable={{

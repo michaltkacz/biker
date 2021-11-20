@@ -11,6 +11,7 @@ import {
   AreaSeries,
   Crosshair,
   AreaSeriesPoint,
+  DiscreteColorLegend,
 } from 'react-vis';
 import 'react-vis/dist/style.css';
 
@@ -151,8 +152,8 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
                 }}
               />
               <AreaSeries
-                fill='#36cfc999'
-                stroke='#36cfc9aa'
+                fill='#13c2c299'
+                stroke='#13c2c2aa'
                 data={speedData}
                 onNearestX={(value) => setSpeedCrosshair(value)}
                 curve='curveStepBefore'
@@ -192,8 +193,8 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
                 }}
               />
               <AreaSeries
-                fill='#597ef799'
-                stroke='#597ef7aa'
+                fill='#1890ff99'
+                stroke='#1890ffaa'
                 data={distanceData}
                 onNearestX={(value) => setDistanceCrosshair(value)}
               />
@@ -232,8 +233,8 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
                 }}
               />
               <AreaSeries
-                fill='#9254de99'
-                stroke='#9254deaa'
+                fill='#2f54eb99'
+                stroke='#2f54ebaa'
                 data={elevationData}
                 onNearestX={(value) => setElevationCrosshair(value)}
               />

@@ -58,7 +58,7 @@ export const formatDateValue = (value: number | undefined): string => {
   if (typeof validatedValue === 'string') {
     return validatedValue;
   }
-  return new Date(validatedValue).toDateString();
+  return new Date(validatedValue).toDateString().substr(4);
 };
 
 export const formatTimeValue = (value: number | undefined): string => {
