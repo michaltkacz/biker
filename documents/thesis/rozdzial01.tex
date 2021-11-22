@@ -3,14 +3,15 @@
 Niniejszy rozdzia³ stanowi wstêp do pracy. W najbli¿szej sekcji przedstawiono genezê projektu oraz motywacjê autora do podjêcia jego realizacji. Nastêpnie wyjaœniono cel, który przyœwieca³ autorowi oraz przewidziany zakres zadañ, które powinny zostaæ wykonane w ramach pracy. Na koñcu rozdzia³u opisano strukturê tego dokumentu oraz zawartoœæ poszczególnych rozdzia³ów.
 
 \section{Wprowadzenie}
-Autorem pracy jest m³ody mê¿czyzna, który od dzieciñstwa silnie zwi¹zany jest z rowerami i~kolarstwem rekreacyjnym. W wieku nastoletnim wiêŸ ta przerodzi³a siê w hobby, którego najsilniejszy rozkwit przypad³ na okres jego studiów in¿ynierskich. Dlatego te¿ w obliczu zbli¿aj¹cej siê pracy in¿ynierskiej, autor wykorzysta³ sytuacjê, aby po³¹czyæ dwie pasje --- rowerow¹ oraz programistyczn¹ --- i samodzielnie zrealizowaæ w³asn¹ ideê aplikacji dla rowerzystów.
+G³ównymi inspiracjami niniejszej pracy s¹ przede wszystkim dwie aplikacje (dostêpne w wersjach mobilnych oraz przegl¹darkowych)  --- \texttt{Komoot} oraz \texttt{Strava}. Aplikacje te udostêpniaj¹ funkcjonalnoœci komputera rowerowego i pozwalaj¹ na m.in.: nawigacjê rowerow¹, zapisywanie œladów GPS przejechanych tras rowerowych oraz analizê statystyk. Bazuj¹c na doœwiadczeniu zebranym podczas u¿ytkowania tych oraz podobnych aplikacji dostêpnych na rynku, w ramach tego projektu powstanie nowa aplikacja, udostêpniaj¹ca podobne mo¿liwoœci.
 
-G³ównymi inspiracjami podjêtego projektu (który opisany zosta³ w nastêpnym podrozdziale) by³y przede wszystkim dwie u¿ywane przez niego aplikacje --- \texttt{Komoot} oraz \texttt{Strava}. G³ównymi zadaniami tego typu aplikacji (dostêpnych w wersjach mobilnych oraz przegl¹darkowych) s¹: nawigacja rowerowa, zapisywanie œladów przejechanych tras rowerowych oraz analiza ich statystyk. Jednak we wspomnianych programach autor dostrzeg³ --- poprzez subiektywny pryzmat --- zarówno wady, jak i zalety ka¿dej z nich. St¹d zrodzi³a siê motywacja do zaprojektowania i~implementacji w³asnej aplikacji, której dzia³anie i mo¿liwoœci odpowiada³by zapotrzebowaniom~autora.
-
-W ramach samej pracy, aby sprostaæ ograniczeniom czasowym, projekt zosta³ okrojony do fundamentalnych funkcjonalnoœci. Niemniej jednak, autor nie zamierza zaprzestaæ rozwoju aplikacji na zaimplementowaniu wersji podstawowej. Planuje on kontynuowaæ pracê w ramach praktyki hobbistycznej. W chwili redagowania tego dokumentu, wersja komercyjna programu nie jest~przewidywana.
+W ramach samej pracy, aby sprostaæ ograniczeniom czasowym, projekt zosta³ okrojony do fundamentalnych funkcjonalnoœci, które omówiono w dalszej czêœci dokumentu.
 
 \section{Cel i zakres pracy}
+\label{chap:1_1}
 Celem pracy jest stworzenie aplikacji internetowej dedykowanej dla rowerzystów. Aplikacja powinna byæ dostosowana do dzia³ania zarówno na du¿ych ekranach komputerów oraz laptopów, jak i mniejszych ekranach urz¹dzeñ mobilnych --- smartfonów oraz tabletów. Wymóg ten zostanie pokryty przez zaimplementowanie aplikacji internetowej z zastosowaniem technik RWD (ang~\emph{Responsive Web Design}) oraz PWA (ang.~\emph{Progressive Web App}).
+
+U¿ytkownik aplikacji powinien mieæ mo¿liwoœæ utworzenia w³asnego konta, które pozwoli na przechowywanie w³asnych danych na serwerze oraz dostêp do nich z dowolnego urz¹dzenia. Za³o¿enie konta zagwarantuje dostêp do funkcjonalnoœci aplikacji. Dwie g³ówne zak³adane funkcjonalnoœci to rejestrowanie œladu podró¿y rowerowej z wykorzystaniem systemu GPS oraz obliczanie i prezentacja statystyk podró¿y w postaci liczb oraz wykresów. Ponadto aplikacja powinna umo¿liwiaæ eksport i import danych w standardzie GPX, dziêki czemu dane bêd¹ kompatybilne z innymi, podobnymi aplikacjami.
 
 Szczegó³y techniczne dotycz¹ce architektury projektu omówiono w Rozdziale~\ref{chap:3}, natomiast generalny zakres pracy jest nastêpuj¹cy:
 \begin{itemize}
@@ -22,32 +23,8 @@ Szczegó³y techniczne dotycz¹ce architektury projektu omówiono w Rozdziale~\ref{c
         \item Zapewnienie spójnoœci dzia³ania projektu
 \end{itemize}
 
-W wyniku zebrania wymagañ projektowych powsta³a lista funkcjonalnoœci u¿ytkowych, któr¹ podzielono na trzy kategorie: podstawowe, dodatkowe oraz dalszego rozwoju. Zaimplementowanie wszystkich funkcjonalnoœci z kategorii podstawowych bêdzie równoznaczne z osi¹gniêciem wyznaczonego celu pracy. W przypadku efektywnego tempa rozwoju oprogramowania oraz zapasu czasu, powinno dojœæ do wdro¿enia funkcjonalnoœci z kategorii dodatkowych. Ostatnia kategoria nie jest przewidziana do realizacji w ramach niniejszej pracy. Przedstawia ona jedynie pomys³y i kierunek dalszego rozwoju. Kompletna lista jest nastêpuj¹ca:
-\begin{enumerate}
-        \item Funkcjonalnoœci podstawowe
-              \begin{itemize}
-                      \item Uwierzytelnianie u¿ytkownika
-                      \item Nagrywanie œladów GPS (standard GPX)
-                      \item Import œladów GPS (pliki \texttt{*.gpx})
-                      \item Eksport œladów GPS (pliki \texttt{*.gpx})
-                      \item Statystki œladu GPS (liczby, wykresy, prezentacja na mapie)
-                      \item Statystki ogólne u¿ytkownika (liczby, wykresy)
-              \end{itemize}
-        \item Funkcjonalnoœci dodatkowe
-              \begin{itemize}
-                      \item Edycja profilu (np.:~zmiana adresu email, zdjêcia profilowego, has³a, innych danych personalnych)
-                      \item Mapa cieplna aktywnoœci (ang. \emph{Heat Map})
-                      \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie aktywnoœci)
-              \end{itemize}
-        \item Dalszy rozwój
-              \begin{itemize}
-                      \item Planowanie dróg z wykorzystaniem mapy
-                      \item Nawigacja wed³ug zaplanowanych dróg
-                      \item Rozbudowane funkcjonalnoœci mediów spo³ecznoœciowych (system znajomych, komentarze, wydarzenia grupowe, wspó³dzielone planowanie tras, wspó³dzielona nawigacja)
-              \end{itemize}
-\end{enumerate}
 
 \section{Uk³ad pracy}
-Praca sk³ada siê z szeœciu rozdzia³ów oraz dwóch dodatków. W Rozdziale~\ref{chap:1} zawarto generalne informacje dotycz¹ce celu i zakresu pracy. Rozdzia³~\ref{chap:2} stanowi natomiast wprowadzenie teoretyczne, w zakresie którego wyjaœniono pojêcia stoj¹ce u podstaw pracy: komputer rowerowy, GPS oraz GPX. W Rozdziale~\ref{chap:3} zestawiono i uzasadniono decyzje projektowe, których implementacja programow¹ opisano w Rozdziale~\ref{chap:4}. Ostatni Rozdzia³~\ref{chap:5} stanowi podsumowanie procesu tworzenia pracy oraz analizê rezultatu pracy. W Dodatku~A znajduje siê instrukcja wyjaœniaj¹ca jak uruchomiæ aplikacjê w œrodowisku lokalnym w trybie deweloperskim. Dodatek~B to opis zawartoœci do³¹czonej p³yty CD/DVD.
+Praca sk³ada siê z szeœciu rozdzia³ów oraz dwóch dodatków. W Rozdziale~\ref{chap:1} zawarto generalne informacje dotycz¹ce celu i zakresu pracy. Rozdzia³~\ref{chap:2} stanowi natomiast wprowadzenie teoretyczne, w zakresie którego wyjaœniono pojêcia stoj¹ce u podstaw pracy: komputer rowerowy, GPS oraz GPX. Ponadto przedstawiono listê wymagañ funkcjonalnych oraz koncepcjê architektury systemu. Implementacjê programow¹ opisano w Rozdziale~\ref{chap:3}. Ostatni Rozdzia³~\ref{chap:4} stanowi podsumowanie procesu tworzenia pracy oraz analizê rezultatu pracy. W Dodatku~A znajduje siê instrukcja wyjaœniaj¹ca jak uruchomiæ aplikacjê w œrodowisku lokalnym w trybie deweloperskim. Dodatek~B to opis zawartoœci do³¹czonej p³yty CD/DVD.
 
 % Natomiast w Rozdziale~\ref{chap:5} zaprezentowano wyniki i dzia³anie ukoñczonego projektu.

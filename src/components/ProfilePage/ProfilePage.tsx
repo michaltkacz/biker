@@ -8,21 +8,31 @@ import ProfileData from '../profileData/ProfileData';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
 import { useAuth } from '../../firebase/hooks/useAuth';
-import { useReadActivities } from '../../firebase/hooks/useDatabase';
+import {
+  useReadActivities,
+  useReadProfile,
+} from '../../firebase/hooks/useDatabase';
 
 import ProfileDashboard from '../profileDashboard/ProfileDashboard';
 import ProfileCharts from '../profileCharts/ProfileCharts';
 
-const ProfilePage = () => {
+export type ProfilePageProps = {};
+
+const ProfilePage: React.FC<ProfilePageProps> = () => {
   const { currentUserId } = useAuth();
-  const { activities, loading, error } = useReadActivities(currentUserId);
+  const {
+    activities,
+    loading: loadingActivities,
+    error: errorActivities,
+  } = useReadActivities(currentUserId);
+  const {
+    profile,
+    loading: loadingProfile,
+    error: errorProfile,
+  } = useReadProfile(currentUserId);
 
   if (!currentUserId) {
     return <Result status='error' title='No profile data' />;
-  }
-
-  if (loading) {
-    return <LoadingSpinner />;
   }
 
   return (
@@ -37,21 +47,37 @@ const ProfilePage = () => {
           <ProfileAvatar />
         </Col>
         <Col xs={24} lg={12}>
-          <ProfileData />
+          {loadingProfile ? (
+            <LoadingSpinner />
+          ) : (
+            <ProfileData
+              profile={profile}
+              loading={loadingProfile}
+              error={errorProfile}
+            />
+          )}
         </Col>
         <Col xs={24} lg={12}>
-          <ProfileDashboard
-            activities={activities}
-            loading={loading}
-            error={error}
-          />
+          {loadingActivities ? (
+            <LoadingSpinner />
+          ) : (
+            <ProfileDashboard
+              activities={activities}
+              loading={loadingActivities}
+              error={errorActivities}
+            />
+          )}
         </Col>
         <Col xs={24} lg={12}>
-          <ProfileCharts
-            activities={activities}
-            loading={loading}
-            error={error}
-          />
+          {loadingActivities ? (
+            <LoadingSpinner />
+          ) : (
+            <ProfileCharts
+              activities={activities}
+              loading={loadingActivities}
+              error={errorActivities}
+            />
+          )}
         </Col>
       </Row>
     </div>

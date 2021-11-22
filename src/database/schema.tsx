@@ -154,7 +154,6 @@ export type UserProfile = {
 export type User = {
   userId: string;
   profile?: UserProfile;
-  statistics?: UserStatistics;
   activities?: { [activityId: string]: Activity };
   tracks?: { [trackId: string]: Track };
 };

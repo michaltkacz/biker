@@ -8,29 +8,27 @@ import EnumSelect from '../enumSelect/EnumSelect';
 import WithLabel from '../withLabel/WithLabel';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
-import { GenderTypes } from '../../database/schema';
+import { GenderTypes, UserProfile } from '../../database/schema';
 
-import {
-  updateProfile,
-  useReadProfile,
-} from '../../firebase/hooks/useDatabase';
+import { updateProfile } from '../../firebase/hooks/useDatabase';
 import { useAuth } from '../../firebase/hooks/useAuth';
 
 const DateRegExp = new RegExp(
   '(?:19|20)(?:[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31))|(?:[13579][26]|[02468][048])-02-29)'
 );
 
-const ProfileData: React.FC = () => {
-  const { currentUserId } = useAuth();
-  const { profile, loading, error } = useReadProfile(currentUserId);
+export type ProfileDataProps = {
+  profile: UserProfile | null;
+  loading: boolean;
+  error: boolean;
+};
 
-  // const [description, setDescription] = useState<string>('');
-  // const [gender, setGender] = useState<GenderTypes>(GenderTypes.Other);
-  // const [birthday, setBirthday] = useState<string>('YYYY-MM-DD');
-  // const [weight, setWeight] = useState<number>();
-  // const [height, setHeight] = useState<number>();
-  // const [country, setCountry] = useState<string>('unknown');
-  // const [city, setCity] = useState<string>('unknown');
+const ProfileData: React.FC<ProfileDataProps> = ({
+  profile,
+  loading,
+  error,
+}) => {
+  const { currentUserId } = useAuth();
 
   const [description, setDescription] = useState<string | undefined>(
     profile?.description

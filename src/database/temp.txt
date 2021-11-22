@@ -1,63 +1,51 @@
 // Pomocnicze oznaczenia
-GENDERS = "male" | "female" | "other;
+GENDERS = "male" | "female" | "other";
 RATINGS = 'terrible' | 'poor' | 'fair' | 'good' | 'excellent';
 SPORTS = 'touring' | 'mtb' | 'enduro' | 'downhill' | 'gravel' | 'road' | 'bmx' | 'tandem' | 'cyclocross' | 'track' | 'speedway' |'other';
 CATEGORIES  = 'commute' | 'casual' | 'training' | 'race' | 'bikepacking' | 'other';
 
 // Właściwa struktura
-database_root: {
-  <unique(userId)>?: {
-    profile?: {
-      gender?: valueOf(GENDERS)
-      birthday?: Date;
-      weight?: number;
-      height?: number;
-      country?: string;
-      city?: string;
-      description?: string;
-    }
-    statistics?: {
-      minDistance?: number;
-      minElevation?: number;
-      minDuration?: number;
-      maxSpeed?: number;
-      maxDistance?: number;
-      maxElevation?: number;
-      maxDuration?: number;
-      totalDistance?: number;
-      totalElevationUp?: number;
-      totalElevationDown?: number;
-      totalDuration?: number;
-      totalInMotionDuration?: number;
-      longestUphill?: number;
-      longestDownhill?: number;
-      firstActivityAt?: number;
-      lastActivityAt?: number;
-      ratingStatistics?: { <valueOf(RATINGS)>: number; };
-      sportStatistics?: { <valueOf(SPORTS)>?: number; };
-      categoryStatistics?: { <valueOf(CATEGORIES)>?: number; };
-    };
-    activities?:{
-      <unique(activityId)>: {
-        creatorId: string;
-        name: string;
-        createdAt: number;
-        lastModifiedAt: number;
-        sport?: valueOf(SPORTS);
-        category?: valueOf(CATEGORIES);
-        rating?: valueOf(RATINGS);
-        tags?: string[];
-        shape?: { isLoop: boolean;  from: string;  to: string; };
-        statistics?: {
-          totalDistance?: number;
-          totalDuration?: number;
-          inMotionDuration?: number;
-          maxSpeed?: number;
-          elevationUp?: number;
-          elevationDown?: number;
-        };
-        track: ({ lat: number;  lon: number;  time: number;  ele?: number; }[])[];
+root_db_id: {
+  users: {
+    <unique(userId)>?: {
+      profile?: {
+        gender?: valueOf(GENDERS),
+        birthday?: string,
+        weight?: number,
+        height?: number,
+        country?: string,
+        city?: string,
+        description?: string,
+      },
+      activities?: {
+        <unique(activityId)>: {
+          creatorId: string,
+          name: string,
+          createdAt: number,
+          lastModifiedAt: number,
+          startTime: number,
+          endTime: number,
+          sport: valueOf(SPORTS),
+          category: valueOf(CATEGORIES),
+          shape: { isLoop: boolean;  from: string;  to: string; },
+          rating?: valueOf(RATINGS),
+          tags?: string[],
+          statistics?: {
+            totalDistance?: number,
+            totalDuration?: number,
+            inMotionDuration?: number,
+            maxSpeed?: number,
+            elevationUp?: number,
+            elevationDown?: number,
+          },
+        }
+      },
+      tracks?: {
+        <unique(activityId)>: {
+          activityId: string;
+          segments: ({ lat: number;  lon: number;  time: number;  ele?: number; }[])[];
+        }
       }
-    };
-  };
+    }
+  }
 };
