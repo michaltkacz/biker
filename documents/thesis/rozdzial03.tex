@@ -1,15 +1,144 @@
 \chapter{Implementacja projektu}
-\label{chap:3}
-[TODO] (Tutaj przedstawiona bêdzie praktyczna implementacja --- listingi kodu, wyjaœnienie najwa¿niejszych i najciekawszych rozwi¹zañ w kodzie, rysunki prezentuj¹ce dzia³anie aplikacji)
-% \section{Warstwa front-end}
-% \subsection{Autoryzacja u¿ytkownika}
-% \subsection{Modu³ GPS}
-% \subsection{Nagrywanie œladów}
-% \subsection{Historia aktywnoœci}
-% \subsection{Import i eksport danych}
+\label{chap:koncepcja}
+
+W niniejszym rozdziale przedstawiono proces tworzenia aplikacji. Pokazano fragmenty kodu realizuj¹ce kluczowe funkcjonalnoœci, jak np.:~uwierzytelnianie, nagrywanie œladów czy prezentacja statystyk. Zawarto równie¿ rysunki, na których ukazane s¹ widoki aplikacji.
+
+Przebieg procesu implementacji projektu mo¿na podzieliæ na nastêpuj¹ce po sobie etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu.
+\begin{enumerate}
+    \item Inicjalizacja aplikacji klienta.
+    \item Inicjalizacja \texttt{Firebase}.
+    \item Integracja z \texttt{Firebase}.
+    \item Integracja z \texttt{Firebase Hosting}.
+    \item Zaprojektowanie struktury bazy danych.
+    \item Implementacja systemu uwierzytelniania.
+    \item Implementacja nagrywania œladów GPS.
+    \item Implementacja kalkulatora statystyk œladu.
+    \item Implementacja importu œladów GPS.
+    \item Implementacja eksportu œladów GPS.
+    \item Implementacja widoku aktywnoœci.
+    \item Integracja z baz¹ danych \texttt{Realtime Database}.
+    \item Implementacja widoku profilu u¿ytkownika.
+    \item Implementacja kalkulatora statystyk profilu.
+\end{enumerate}
+
+Pracê nad projektem prowadzono z u¿yciem edytora \texttt{Visual Studio Code}. Zmiany w kodzie regularnie zapisywano do zdalnego repozytorium \texttt{GitHub}. Repozytorium jest publiczne, a dostêp do niego mo¿na uzyskaæ pod adresem:~\url{https://github.com/michaltkacz/biker}.
+
+\section {Inicjalizacja aplikacji klienta}
+Projekt aplikacji klienta utworzono przez uruchomienie komendy w œrodowisku \texttt{Node.js}, przedstawionej na listingu~\ref{lst:npx}. Dziêki wykorzystaniu flagi \texttt{--template cra-template-pwa-typescript} projekt zainicjalizowano w konfiguracji z jêzykiem \texttt{TypeScript} oraz z zaimplementowanym \emph{service-workerem} odpowiedzialnym za dzia³anie aplikacji w trybie PWA. Nastêpnie projekt oczyszczono ze zbêdnych plików oraz zainstalowano kluczowe, dodatkowe biblioteki (ponownie listing~\ref{lst:npx}) konieczne do rozpoczêcia pracy nad kodem (pozosta³e biblioteki w miarê zapotrzebowania doinstalowywano w póŸniejszych etapach rozwoju aplikacji).
+
+    {\belowcaptionskip=-9pt
+        \begin{lstlisting}[label=lst:npx, caption=Inicjalizacja projektu React oraz instalacja kluczowych bibliotek,
+basicstyle=\footnotesize\ttfamily]
+npx create-react-app react-pwa-ts --template cra-template-pwa-typescript
+cd react-pwa-ts
+npm i react-router
+npm i antd
+npm i firebase
+npm i firebaseui
+npm i firebaseui
+npm i craco
+npm i craco-less
+npm i leaflet
+npm i react-leaflet
+npm i react-icons
+\end{lstlisting}
+    }
+
+\begin{figure}[htb]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        a)                                                                                     & b) \\
+        \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree1.png}}}} &
+        \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree2.png}}}}
+    \end{tabular}
+    \caption{Drzewo plików projektu: a) po inicjalizacji, b) po usuniêciu zbêdnych plików}
+    \label{fig:filetree}
+\end{figure}
 
 
-% \section{Warstwa back-end}
+\section {Inicjalizacja \texttt{Firebase}}
+W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://firebase.google.com/}, a nastêpnie postêpowaæ zgodnie z instrukcjami wyœwietlanymi na stronie, lub zgodnie z oficjaln¹ dokumentacj¹~\cite{fireinit}. Po pomyœlnej inicjalizacji, deweloper zyskuje dostêp do konsoli (\texttt{Firebase Console}) (rys.~\ref{fig:fireconsole}), która pozwala na zarz¹dzanie projektem. W menu po lewej stronie, w zak³adce \emph{Build} dostêpne s¹ poszczególne modu³y. Trzy z nich: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}, zostan¹ omówione w dalszej czêœci rozdzia³u.
 
-% \section{Baza danych}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{rys03/fireconsole.png}
+    \caption{Widok g³ównej strony \texttt{Firebase Console}}
+    \label{fig:fireconsole}
+\end{figure}
 
+\section {Integracja z \texttt{Firebase}}
+W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
+
+{\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript,style=JavaScriptStyle, label=lst:fireinit, caption=Integracja aplikacji klienta z projektem \texttt{Firebase},
+basicstyle=\footnotesize\ttfamily]
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyASclbvuJjuN5f1tSCixm9swsIvTeH9ZQk',
+  authDomain: 'biker-784a8.firebaseapp.com',
+  projectId: 'biker-784a8',
+  databaseURL:
+    'https://biker-784a8-default-rtdb.europe-west1.firebasedatabase.app/',
+  storageBucket: 'biker-784a8.appspot.com',
+  messagingSenderId: '993843027751',
+  appId: '1:993843027751:web:dc5f8671671126b4501302',
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+
+export const auth = getAuth(firebaseApp);
+export const database = getDatabase(firebaseApp);
+
+export default firebaseApp;
+\end{lstlisting}
+}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{rys03/fireconfig.png}
+    \caption{Kod obiektu konfiguracyjnego dostêpny w \texttt{Firebase Console}}
+    \label{fig:fireconfig}
+\end{figure}
+
+Zawartoœæ obiektu konfiguracyjnego jest unikalna dla danego projektu, jednak nie jest ona sekretna. W celu zabezpieczenia danych przechowywanych w bazie, nale¿y wykorzystaæ \texttt{Firebase Security Rules}. Regu³y zastosowane w projekcie omówiono w dalszej czêœci rozdzia³u. Wiêcej informacji na temat obiektu konfiguracyjnego mo¿na znaleŸæ w dokumentacji~\cite{fireconfig}
+
+
+\section {Integracja z \texttt{Firebase Hosting}}
+Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehosting}. W pierwszym kroku wykonano komendê z poziomu wiersza poleceñ \texttt{firebase init hosting}. Uruchamia ona intuicyjny konfigurator, który w kilku krokach pozwala skonfigurowaæ projekt do us³ugi hostowania. Po zakoñczeniu konfiguracji w projekcie powsta³y dwa pliki:~\texttt{.firebaserc} oraz \texttt{firebase.json}, których zawartoœæ pokazano odpowiednio na listingu~\ref{lst:firerc} i listingu~\ref{lst:firejson}. Pierwszy z nich...
+
+    {\belowcaptionskip=-9pt
+        \begin{lstlisting}[style=json-style, label=lst:firerc, caption=Zawartoœæ pliku \texttt{.firebaserc},
+basicstyle=\footnotesize\ttfamily]
+{
+  "projects": {
+    "default": "biker-784a8"
+  }
+}
+\end{lstlisting}
+    }
+
+    {\belowcaptionskip=-9pt
+        \begin{lstlisting}[style=json-style, label=lst:firejson, caption=Zawartoœæ pliku \texttt{firebase.json},
+basicstyle=\footnotesize\ttfamily]
+{
+  "hosting": {
+    "site": "biker-784a8",
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+\end{lstlisting}
+    }
+
+nastepnie build
+deploy
+linki

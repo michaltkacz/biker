@@ -1,12 +1,12 @@
 \chapter{Koncepcja projektu}
 \label{chap:2}
-Na pocz¹tku rozdzia³u przedstawiono pod³o¿e teoretyczne pracy. Nastêpnie dokonano porównania miêdzy koncepcj¹ pierwotn¹, a finaln¹ architektury systemu. W kolejnych podrozdzia³ach zawarto uzasadnienie decyzji projektowych finalnej struktury systemu oraz wyjaœniono podstawy technologii wybranych do realizacji poszczególnych zadañ. Praktyczne implementacje znajduj¹ siê w treœci rozdzia³u~\ref{chap:3}
+Na pocz¹tku rozdzia³u przedstawiono pod³o¿e teoretyczne pracy. Nastêpnie dokonano porównania miêdzy koncepcj¹ pierwotn¹, a finaln¹ architektury systemu. W kolejnych podrozdzia³ach zawarto uzasadnienie decyzji projektowych finalnej struktury systemu oraz wyjaœniono podstawy technologii wybranych do realizacji poszczególnych zadañ. Praktyczne implementacje znajduj¹ siê w treœci rozdzia³u~\ref{chap:koncepcja}
 
 \section{Pod³o¿e teoretyczne}
 W poni¿szym podrozdziale przedstawiono pod³o¿e teoretyczne trzech zagadnieñ: komputer rowerowy, GPS oraz GPX. Koncepcje te stoj¹ u podstaw ca³ej pracy. Z tego te¿ wzglêdu, zaznajomienie siê z poni¿szymi informacjami jest wskazane przed przyst¹pieniem do lektury dalszych rozdzia³ów.
 
 \subsection{Komputer rowerowy}
-Elektroniczny komputer rowerowy, potocznie zwany równie¿ licznikiem rowerowym, to w ogólnym ujêciu urz¹dzenie przeznaczone do rejestrowania oraz prezentowania statystyk podró¿y rowerowej. W swojej idei przypomina samochodow¹ tablicê rozdzielcz¹. Pocz¹tkowo tego typu urz¹dzenia mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i wyœwietlania: prêdkoœci z~jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
+Elektroniczny komputer rowerowy, potocznie zwany równie¿ licznikiem rowerowym, to w ogólnym ujêciu urz¹dzenie przeznaczone do rejestrowania oraz prezentowania statystyk podró¿y rowerowej. W swojej idei przypomina samochodow¹ tablicê rozdzielcz¹. Pocz¹tkowo tego typu urz¹dzenia mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i~wyœwietlania: prêdkoœci z~jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
 Zasada dzia³ania prostego licznika rowerowego oparta jest na trzech g³ównych elementach:
 \begin{enumerate}
     \item Magnes zamontowany na szprysze ko³a roweru.
@@ -24,7 +24,7 @@ Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatr
     \item Nie wymaga inwestycji finansowej.
 \end{enumerate}
 
-Aplikacji tego typu dostêpnych na rynku jest wiele. Do najpopularniejszych nale¿¹ m.in.:~\texttt{Strava}, \texttt{Cyclemeter}, \texttt{MapMyRide}, \texttt{Bikemap}, \texttt{Komoot}, czy \texttt{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ fundamentalne funkcjonalnoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcjonalnoœci dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\texttt{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\texttt{Komoot}), a jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\texttt{Cyclemeter}).
+Aplikacji tego typu dostêpnych na rynku jest wiele. Do najpopularniejszych nale¿¹ m.in.:~\texttt{Strava}, \texttt{Cyclemeter}, \texttt{MapMyRide}, \texttt{Bikemap}, \texttt{Komoot}, czy \texttt{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ fundamentalne funkcjonalnoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcjonalnoœci dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\texttt{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\texttt{Komoot}), a~jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\texttt{Cyclemeter}).
 
 Zarówno dedykowane urz¹dzenia, jak i aplikacje na smartfony do eksportu oraz importu danych pos³uguj¹ siê zazwyczaj standardem GPX. Dziêki temu u¿ytkownicy w razie w³asnych upodobañ oraz potrzeb mog¹ w doœæ ³atwy sposób migrowaæ miêdzy poszczególnymi us³ugami.
 
@@ -66,7 +66,7 @@ W standardzie zdefiniowane zosta³y nastêpuj¹ce typy danych:
 \end{itemize}
 Spoœród powy¿szej listy, na szczególne omówienie zas³uguj¹ trzy typy z³o¿one: \texttt{wptType} --- \emph{waypoint type}, \texttt{rteType} --- \emph{route type} oraz \texttt{trkType} --- \emph{track type}:
 \begin{enumerate}
-    \item \emph{Waypoint type} to pojedynczy punkt nale¿¹cy do kolekcji punktów, ale nieskorelowany z pozosta³ymi punktami tej kolekcji. Punkt taki zawiera w sobie dane o lokalizacji, tj.: szerokoœæ (\texttt{latitudeType}) i d³ugoœæ (\texttt{longitudeType}) geograficzn¹ oraz mo¿e zawieraæ dodatkowe informacje, jak np.:~wysokoœæ nad poziomem morza (elevation), czas, komentarz tekstowy i inne.
+    \item \emph{Waypoint type} to pojedynczy punkt nale¿¹cy do kolekcji punktów, ale nieskorelowany z~pozosta³ymi punktami tej kolekcji. Punkt taki zawiera w sobie dane o lokalizacji, tj.: szerokoœæ (\texttt{latitudeType}) i d³ugoœæ (\texttt{longitudeType}) geograficzn¹ oraz mo¿e zawieraæ dodatkowe informacje, jak np.:~wysokoœæ nad poziomem morza (elevation), czas, komentarz tekstowy i inne.
     \item \emph{Route type}, co mo¿na przet³umaczyæ jako trasa lub droga. Jest to uporz¹dkowana lista punktów, które prowadz¹ do okreœlonego celu.
     \item \emph{Track type}, czyli œcie¿ka, droga lub œlad, to lista zawieraj¹ca co najmniej jeden segment (pewien fragment œcie¿ki), który z kolei zawiera listê punktów. Punkty te odzwierciedlaj¹ realn¹ œcie¿kê, któr¹ przeby³ odbiornik GPS.
 \end{enumerate}
@@ -126,7 +126,7 @@ Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\r
 \end{lstlisting}
 }
 
-Dziêki otwartoœci standardu mo¿liwe jest jego rozszerzanie. Jednym z popularnych rozszerzeñ jest \emph{Garmin GPX Schema Extension}. Dodaje ono nowe typy danych, które pozwalaj¹ zapisaæ w pliku dodatkowe informacje. Przyk³adowo, w omówionym wczeœniej \emph{waypoint type} mo¿na utrwaliæ zarejestrowan¹ w danym punkcie temperaturê lub kategoriê do której dany punkt nale¿y. Z kolei \emph{track type} zyskuje mo¿liwoœæ przechowywania koloru, w jakim œlad powinien zostaæ wyœwietlony na mapie. Pe³ny zakres rozszerzenia opisany jest w oficjalnym schemacie \cite{gpxgarmin}.
+Dziêki otwartoœci standardu mo¿liwe jest jego rozszerzanie. Jednym z popularnych rozszerzeñ jest \emph{Garmin GPX Schema Extension}. Dodaje ono nowe typy danych, które pozwalaj¹ zapisaæ w pliku dodatkowe informacje. Przyk³adowo, w omówionym wczeœniej \emph{waypoint type} mo¿na utrwaliæ zarejestrowan¹ w danym punkcie temperaturê lub kategoriê do której dany punkt nale¿y. Z kolei \emph{track type} zyskuje mo¿liwoœæ przechowywania koloru, w jakim œlad powinien zostaæ wyœwietlony na mapie. Wszystkie funkcjonalnoœci rozszerzenia opisano w oficjalnym schemacie~\cite{gpxgarmin}.
 
 \section{Wymagania funkcjonalne}
 
@@ -165,7 +165,8 @@ Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych apl
 \end{enumerate}
 G³ównym problemem natomiast mo¿e okazaæ siê wydajnoœæ takiego rozwi¹zania. Dzia³anie PWA oparte jest na przegl¹darce internetowej. Z kolei aplikacje natywne dzia³aj¹ w systemie jako niezale¿ne instancje. W ogólnym ujêciu aplikacje natywne pozwalaj¹ na uzyskanie lepszej wydajnoœci, poniewa¿ maj¹ bezpoœredni dostêp do zasobów sprzêtowych.
 
-Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów systemu zestawiono w tabeli~\ref{tab:koncepcje}. Wyjaœnienie oraz uzasadnienie tych wyborów zawarto w kolejnych podrozdzia³ach.
+Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów systemu zestawiono w tabeli~\ref{tab:koncepcje}. Na rysunku~\ref{fig:architektura} przedstawiono schemat ostatecznej wersji architektury systemu. Szczegó³y opisano w kolejnych podrozdzia³ach.
+
 
 \begin{table}[htb] \small
     \centering
@@ -181,14 +182,22 @@ Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów sy
     \end{tabularx}
 \end{table}
 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{rys02/architektura.drawio.pdf}
+    \caption{Schemat architektury systemu}
+    \label{fig:architektura}
+\end{figure}
+
 \section{Warstwa backend}
-W tradycyjnym podejœciu tworzenia aplikacji internetowej lub mobilnej, poza wykonaniem oprogramowania klienckiego, zazwyczaj konieczne jest utworzenie serwera, bazy danych, magazynu plików, systemu uwierzytelniania oraz po³¹czenie tych (i wielu innych) elementów w dzia³aj¹c¹ ca³oœæ.
+W tradycyjnym podejœciu tworzenia aplikacji internetowej lub mobilnej, poza wykonaniem oprogramowania klienckiego, zazwyczaj konieczne jest utworzenie serwera, bazy danych, magazynu plików, systemu uwierzytelniania oraz po³¹czenie tych (i wielu innych) elementów w~dzia³aj¹c¹ ca³oœæ.
 
 Alternatyw¹ jest wykorzystanie modelu BaaS (ang.~\emph{Backend-as-a-Service}), który przenosi odpowiedzialnoœæ za funkcje backendowe na dostawcê BaaS. Poszczególne modu³y (np.:~baza danych czy system uwierzytelniania) do³¹czane s¹ do warstwy klienta z u¿yciem pakietów SDK (ang.~\emph{Software Development Kit}) oraz API (ang.~\emph{Application Programming Interface}). Obrazowo mo¿na przedstawiæ to tak: programista buduje system z gotowych, dostarczonych z zewn¹trz, konfigurowalnych klocków, zamiast tworzyæ swoje w³asne klocki od podstaw. Dziêki temu rozwój oprogramowania jest szybszy, tañszy, oraz mniej podatny na b³êdy, a samo oprogramowanie jest ³atwo skalowalne. Jednak w przypadku zapotrzebowania na unikalne funkcjonalnoœci warstwy backend, BaaS mo¿e siê nie sprawdziæ ze wzglêdu na ograniczone mo¿liwoœci~konfiguracyjne.
 
 BaaS jest technologi¹ stosunkowo now¹, poniewa¿ pierwsze projekty w tej dziedzinie siêgaj¹ zaledwie pocz¹tku drugiej dekady XX wieku. Obecnie na rynku dostêpnych jest wiele platform. Do najpopularniejszych mo¿na zaliczyæ (kolejnoœæ losowa): \texttt{Google Firebase}, \texttt{Apple CloudKit}, \texttt{Amazon AWS Amplify}, \texttt{Microsoft Azure Mobile Apps}, \texttt{Back4App}, \texttt{Parse} czy \texttt{Backendless}. Czêœæ z nich jest jest oprogramowaniem otwartym. Platformy komercyjne udostêpniaj¹ swoje us³ugi w chmurze, w ramach darmowych oraz p³atnych planów (np.:~\texttt{Firebase}, \texttt{AWS Amplify}). Niektóre platformy wymagaj¹ w³asnego hostowania (np.:~\texttt{Parse}).
 
-Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Google Firebase}. W jej zakres wchodz¹ modu³y, które przedstawiono w tabeli~\ref{tab:firebase}. Szczegó³y mo¿na znaleŸæ w dokumentacji technicznej \cite{firebase}. G³ówne powody wybrania akurat tej platformy s¹ nastêpuj¹ce:
+Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Google Firebase}. W jej zakres wchodz¹ modu³y, które przedstawiono w tabeli~\ref{tab:firebase}. Szczegó³y mo¿na znaleŸæ w~dokumentacji technicznej \cite{firebase}. G³ówne powody wyboru akurat tej platformy s¹ nastêpuj¹ce:
 \begin{itemize}
     \item Podstawowe doœwiadczenie autora w integracji z platform¹, wynikaj¹ce z wykorzystania jej we wczeœniej realizowanych projektach.
     \item Dostêpnoœæ platformy w chmurze (brak koniecznoœci samodzielnego hostowania backendu).
@@ -215,7 +224,7 @@ Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Go
 W ramach projektu wykorzystane zosta³y modu³y: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}. W kolejnych podrozdzia³ach opisano  zwi¹zane z nimi za³o¿enia.
 
 \subsection{Uwierzytelnianie}
-Implementacja w³asnego systemu uwierzytelniana jest procesem z³o¿onym, pracoch³onnym i wymagaj¹cym odpowiedniej wiedzy. Dlatego Firebase dostarcza modu³ Authentication odpowiedzialny za obs³ugê uwierzytelniania. Udostêpnia on cztery metody, którymi u¿ytkownik mo¿e potwierdziæ swoj¹ to¿samoœæ:
+Implementacja w³asnego systemu uwierzytelniana jest procesem z³o¿onym, pracoch³onnym i~wymagaj¹cym odpowiedniej wiedzy. Dlatego Firebase dostarcza modu³ Authentication odpowiedzialny za obs³ugê uwierzytelniania. Udostêpnia on cztery metody, którymi u¿ytkownik mo¿e potwierdziæ swoj¹ to¿samoœæ:
 \begin{enumerate}
     \item Z u¿yciem emaila i has³a.
     \item Z u¿yciem numeru telefonu.
@@ -228,14 +237,14 @@ Bazowa wersja projektu zak³ada wykorzystanie dwóch z powy¿szych metod: email i h
 Firebase dostarcza równie¿ bibliotekê \texttt{FirebaseUI}, która posiada zaimplementowany interfejs u¿ytkownika oraz wiêkszoœæ logiki programowej wymaganej do uwierzytelnienia po stronie klienta. Interfejs ten osadza siê w aplikacji i konfiguruje wed³ug w³asnych preferencji. W projekcie wykorzystano tê bibliotekê.
 
 \subsection{Baza danych}
-\texttt{Firebase} oferuje dwa rodzaje baz danych hostowanych w chmurze: \texttt{Realtime Database} i \texttt{Firestore Database}. S¹ to bazy typu \emph{real-time} (nie myliæ z nazw¹ samej bazy danych), co oznacza ¿e s¹ one w stanie wydajnie przetwarzaæ dane w czasie rzeczywistym. Z ka¿d¹ zmian¹ danych w bazie, wszystkie aktywne, pod³¹czone urz¹dzenia otrzymuj¹ natychmiastow¹ aktualizacjê. Ponadto systemy te zaprojektowane s¹ w taki sposób, ¿e gdy urz¹dzenie utraci po³¹czenie z Internetem, aplikacja mo¿e pracowaæ dalej. Jest to mo¿liwe dziêki zachowaniu lokalnej kopii ostatnio u¿ywanych danych (\emph{data persistence}). Wszystkie wykonane operacje offline s¹ synchronizowane z baz¹ po odzyskaniu po³¹czenia, a powsta³e konflikty s¹ rozstrzygane automatycznie. Obydwie bazy s¹ bazami nierelacyjnymi (NoSQL) --- \texttt{Realtime} oparty jest na obiekcie JSON, natomiast \texttt{Firestore} to baza dokumentowa. \texttt{Firestore} jest rozwi¹zaniem nowszym, bazuj¹cym poniek¹d na \texttt{Realtime}, jednak nie oznacza to, ¿e \texttt{Realtime} jest bezu¿yteczny. Oba rozwi¹zania znajduj¹ swoje zastosowania w ró¿nych przypadkach. Na potrzeby projektu, jako bazê danych wybrano \texttt{Realtime Database}, poniewa¿ jest prostsza w obs³udze wzglêdem \texttt{Firestore'a}, natomiast jej mo¿liwoœci wci¹¿ pokrywaj¹ wymagania.
+\texttt{Firebase} oferuje dwa rodzaje baz danych hostowanych w chmurze: \texttt{Realtime Database} i~\texttt{Firestore Database}. S¹ to bazy typu \emph{real-time} (nie myliæ z nazw¹ samej bazy danych), co oznacza ¿e s¹ one w stanie wydajnie przetwarzaæ dane w czasie rzeczywistym. Z ka¿d¹ zmian¹ danych w bazie, wszystkie aktywne, pod³¹czone urz¹dzenia otrzymuj¹ natychmiastow¹ aktualizacjê. Ponadto systemy te zaprojektowane s¹ w taki sposób, ¿e gdy urz¹dzenie utraci po³¹czenie z Internetem, aplikacja mo¿e pracowaæ dalej. Jest to mo¿liwe dziêki zachowaniu lokalnej kopii ostatnio u¿ywanych danych (\emph{data persistence}). Wszystkie wykonane operacje offline s¹ synchronizowane z baz¹ po odzyskaniu po³¹czenia, a powsta³e konflikty s¹ rozstrzygane automatycznie. Obydwie bazy s¹ bazami nierelacyjnymi (NoSQL) --- \texttt{Realtime} oparty jest na obiekcie JSON, natomiast \texttt{Firestore} to baza dokumentowa. \texttt{Firestore} jest rozwi¹zaniem nowszym, bazuj¹cym poniek¹d na \texttt{Realtime}, jednak nie oznacza to, ¿e \texttt{Realtime} jest bezu¿yteczny. Oba rozwi¹zania znajduj¹ swoje zastosowania w ró¿nych przypadkach. Na potrzeby projektu, jako bazê danych wybrano \texttt{Realtime Database}, poniewa¿ jest prostsza w obs³udze wzglêdem \texttt{Firestore'a}, natomiast jej mo¿liwoœci wci¹¿ pokrywaj¹ wymagania.
 
 
-Schemat struktury obiektu JSON stanowi¹cego bazê danych przedstawia pseudokod zawarty na listingu~\ref{lst:database}. Na schemacie podano typy poszczególnych pól. Znak~\texttt{?} przy nazwie pola sugeruje, ¿e pole to mo¿e przyj¹æ wartoœæ \texttt{null}. Wpis \texttt{<unique(userId)>} nale¿y rozumieæ, ¿e w obrêbie obiektu-rodzica mo¿e wyst¹piæ wiele obiektów, których nazwy s¹ unikalne. Typy \texttt{GENDERS}, \texttt{RATINGS}, \texttt{SPORTS}, \texttt{CATEGORIES} pe³ni¹ w schemacie rolê tylko pomocnicz¹, a zapis \texttt{valueOf(\emph{TYPE})} oznacza, ¿e pole przyjmuje jedn¹ wartoœæ z danego \emph{TYPE}. W przypadku \texttt{activities} i \texttt{tracks} obiekty-dzieci przyjmuj¹ nazwy odpowiadaj¹ce identyfikatorowi aktywnoœci. Wystêpuje tu relacja jeden do jednego --- jeden \emph{track} jest przyporz¹dkowany do jednej \emph{activity}.
+Schemat struktury obiektu JSON stanowi¹cego bazê danych przedstawia pseudokod zawarty na listingu~\ref{lst:database}. Na schemacie podano typy poszczególnych pól. Znak~\texttt{?} przy nazwie pola sugeruje, ¿e pole to mo¿e przyj¹æ wartoœæ \texttt{null}. Wpis \texttt{<unique(userId)>} nale¿y rozumieæ, ¿e w obrêbie obiektu-rodzica mo¿e wyst¹piæ wiele obiektów, których nazwy s¹ unikalne. Typy \texttt{GENDERS}, \texttt{RATINGS}, \texttt{SPORTS}, \texttt{CATEGORIES} pe³ni¹ w schemacie rolê tylko pomocnicz¹, a zapis \texttt{valueOf(\emph{TYPE})} oznacza, ¿e pole przyjmuje jedn¹ wartoœæ z danego \emph{TYPE}. W przypadku \texttt{activities} i \texttt{tracks} obiekty-dzieci przyjmuj¹ nazwy odpowiadaj¹ce identyfikatorowi aktywnoœci. Wystêpuje tu relacja jeden do jednego --- jeden \emph{track} jest przyporz¹dkowany do jednej \emph{activity}. Zastosowana praktyka jest powszechnie stosowana w obiektowych bazach danych.
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, label=lst:database, caption=Pseudkod przedstawiaj¹cy strukturê zastosowanej bazy danych,
-    basicstyle=\footnotesize\ttfamily]
+    {\belowcaptionskip=-9pt
+        \begin{lstlisting}[language=JavaScript, label=lst:database, caption=Pseudkod przedstawiaj¹cy strukturê zastosowanej bazy danych,
+basicstyle=\footnotesize\ttfamily]
 // Pomocnicze oznaczenia
 GENDERS = 'male' | 'female' | 'other';
 RATINGS = 'terrible' | 'poor' | 'fair' | 'good' | 'excellent';
@@ -299,12 +308,12 @@ db_id: {
   }
 };
 \end{lstlisting}
-}
+    }
 
 Dostêp do zasobów bazy \texttt{Realtime} kontrolowany jest przez zasady (ang. \emph{database rules}). Ka¿de zapytanie odczytu lub zapisu do bazy przechodzi przez weryfikacjê, i jest wykonane tylko wtedy, gdy pozwol¹ na to zasady. Zasady maj¹ postaæ drzewa JSON. Przyk³ad pokazano na listingu~\ref{lst:databaserules} --- zasada udziela mo¿liwoœæ zapisywania do œcie¿ki \texttt{/users/<uid>/} tylko uwierzytelnionym u¿ytkownikom.
 
 {\belowcaptionskip=-9pt
-\begin{lstlisting}[ label=lst:databaserules, caption=Przyk³ad zasady definiuj¹cej dostêp do bazy danych,
+\begin{lstlisting}[language=JavaScript, label=lst:databaserules, caption=Przyk³ad zasady definiuj¹cej dostêp do bazy danych,
     basicstyle=\footnotesize\ttfamily]
 {
   "rules": {
