@@ -48,7 +48,7 @@ export enum RatingTypes {
   Poor = 'poor',
   Fair = 'fair',
   Good = 'good',
-  Excelent = 'excellent',
+  Excellent = 'excellent',
 }
 
 export type ActivityShape = {

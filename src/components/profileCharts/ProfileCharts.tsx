@@ -254,21 +254,21 @@ const ProfileCharts: React.FC<ProfileChartsProps> = ({
   };
 
   useEffect(() => {
-    if (activities.length === 0) {
-      return;
-    }
-
     parseData().then(() => {
       setParsing(false);
     });
   }, [activities]);
 
   if (loading || parsing) {
-    return <Result status='error' title='Something is wrong' />;
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <LoadingSpinner />;
+    return <Result status='error' title='Something is wrong' />;
+  }
+
+  if (activities.length === 0) {
+    return <Result status='info' title='No charts to display' />;
   }
 
   return (

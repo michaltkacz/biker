@@ -11,7 +11,6 @@ import {
   AreaSeries,
   Crosshair,
   AreaSeriesPoint,
-  DiscreteColorLegend,
 } from 'react-vis';
 import 'react-vis/dist/style.css';
 
