@@ -3,32 +3,34 @@
 
 W niniejszym rozdziale przedstawiono proces tworzenia aplikacji. Pokazano fragmenty kodu realizuj¹ce kluczowe funkcjonalnoœci, jak np.:~uwierzytelnianie, nagrywanie œladów czy prezentacja statystyk. Zawarto równie¿ rysunki, na których ukazane s¹ widoki aplikacji.
 
-Przebieg procesu implementacji projektu mo¿na podzieliæ na nastêpuj¹ce po sobie etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu.
+Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu.
 \begin{enumerate}
-    \item Inicjalizacja aplikacji klienta.
-    \item Inicjalizacja \texttt{Firebase}.
-    \item Integracja z \texttt{Firebase}.
-    \item Integracja z \texttt{Firebase Hosting}.
-    \item Zaprojektowanie struktury bazy danych.
-    \item Implementacja systemu uwierzytelniania.
-    \item Implementacja nagrywania œladów GPS.
-    \item Implementacja kalkulatora statystyk œladu.
-    \item Implementacja importu œladów GPS.
-    \item Implementacja eksportu œladów GPS.
-    \item Implementacja widoku aktywnoœci.
-    \item Integracja z baz¹ danych \texttt{Realtime Database}.
-    \item Implementacja widoku profilu u¿ytkownika.
-    \item Implementacja kalkulatora statystyk profilu.
+  \item Inicjalizacja aplikacji klienta.
+  \item Inicjalizacja \texttt{Firebase}.
+  \item Integracja z \texttt{Firebase}.
+  \item Integracja z \texttt{Firebase Hosting}.
+  \item Konfiguracja pliku \texttt{manifest.json} dla PWA.
+  \item Projekt struktury bazy danych.
+  \item Implementacja szablonów uk³adu stron.
+  \item Implementacja systemu uwierzytelniania.
+  \item Implementacja routingu.
+  \item Implementacja rejestratora GPS.
+  \item Implementacja kalkulatora statystyk œladu.
+  \item Implementacja importu œladów GPS.
+  \item Implementacja eksportu œladów GPS.
+  \item Implementacja widoku aktywnoœci.
+  \item Integracja z baz¹ danych \texttt{Realtime Database}.
+  \item Implementacja widoku profilu u¿ytkownika.
+  \item Implementacja kalkulatora statystyk profilu.
 \end{enumerate}
 
-Pracê nad projektem prowadzono z u¿yciem edytora \texttt{Visual Studio Code}. Zmiany w kodzie regularnie zapisywano do zdalnego repozytorium \texttt{GitHub}. Repozytorium jest publiczne, a dostêp do niego mo¿na uzyskaæ pod adresem:~\url{https://github.com/michaltkacz/biker}.
+Pracê nad projektem prowadzono z u¿yciem edytora \texttt{Visual Studio Code}. Zmiany w kodzie regularnie zapisywano do zdalnego repozytorium \texttt{GitHub}. Repozytorium jest publiczne, a~dostêp do niego mo¿na uzyskaæ pod adresem:~\url{https://github.com/michaltkacz/biker}.
 
 \section {Inicjalizacja aplikacji klienta}
 Projekt aplikacji klienta utworzono przez uruchomienie komendy w œrodowisku \texttt{Node.js}, przedstawionej na listingu~\ref{lst:npx}. Dziêki wykorzystaniu flagi \texttt{--template cra-template-pwa-typescript} projekt zainicjalizowano w konfiguracji z jêzykiem \texttt{TypeScript} oraz z zaimplementowanym \emph{service-workerem} odpowiedzialnym za dzia³anie aplikacji w trybie PWA. Nastêpnie projekt oczyszczono ze zbêdnych plików oraz zainstalowano kluczowe, dodatkowe biblioteki (ponownie listing~\ref{lst:npx}) konieczne do rozpoczêcia pracy nad kodem (pozosta³e biblioteki w miarê zapotrzebowania doinstalowywano w póŸniejszych etapach rozwoju aplikacji).
 
-    {\belowcaptionskip=-9pt
-        \begin{lstlisting}[label=lst:npx, caption=Inicjalizacja projektu React oraz instalacja kluczowych bibliotek,
-basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[label=lst:npx, caption=Inicjalizacja projektu React oraz instalacja kluczowych bibliotek, basicstyle=\footnotesize\ttfamily]
 npx create-react-app react-pwa-ts --template cra-template-pwa-typescript
 cd react-pwa-ts
 npm i react-router
@@ -42,36 +44,35 @@ npm i leaflet
 npm i react-leaflet
 npm i react-icons
 \end{lstlisting}
-    }
+  }
 
 \begin{figure}[htb]
-    \centering
-    \begin{tabular}{@{}ll@{}}
-        a)                                                                                     & b) \\
-        \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree1.png}}}} &
-        \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree2.png}}}}
-    \end{tabular}
-    \caption{Drzewo plików projektu: a) po inicjalizacji, b) po usuniêciu zbêdnych plików}
-    \label{fig:filetree}
+  \centering
+  \begin{tabular}{@{}ll@{}}
+    a)                                                                                     & b) \\
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree1.png}}}} &
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree2.png}}}}
+  \end{tabular}
+  \caption{Drzewo plików projektu: a) po inicjalizacji, b) po usuniêciu zbêdnych plików}
+  \label{fig:filetree}
 \end{figure}
 
 
 \section {Inicjalizacja \texttt{Firebase}}
-W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://firebase.google.com/}, a nastêpnie postêpowaæ zgodnie z instrukcjami wyœwietlanymi na stronie, lub zgodnie z oficjaln¹ dokumentacj¹~\cite{fireinit}. Po pomyœlnej inicjalizacji, deweloper zyskuje dostêp do konsoli (\texttt{Firebase Console}) (rys.~\ref{fig:fireconsole}), która pozwala na zarz¹dzanie projektem. W menu po lewej stronie, w zak³adce \emph{Build} dostêpne s¹ poszczególne modu³y. Trzy z nich: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}, zostan¹ omówione w dalszej czêœci rozdzia³u.
+W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://firebase.google.com/}, a nastêpnie postêpowaæ zgodnie z instrukcjami wyœwietlanymi na stronie, lub zgodnie z oficjaln¹ dokumentacj¹~\cite{fireinit}. Po pomyœlnej inicjalizacji, deweloper zyskuje dostêp do konsoli (\texttt{Firebase Console}) (rys.~\ref{fig:fireconsole}), która pozwala na zarz¹dzanie projektem. W menu po lewej stronie, w zak³adce \emph{Build} dostêpne s¹ poszczególne modu³y. Trzy z nich: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}, omówiono w dalszej czêœci~rozdzia³u.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=\linewidth]{rys03/fireconsole.png}
-    \caption{Widok g³ównej strony \texttt{Firebase Console}}
-    \label{fig:fireconsole}
+  \centering
+  \includegraphics[width=\linewidth]{rys03/fireconsole.png}
+  \caption{Widok g³ównej strony \texttt{Firebase Console}}
+  \label{fig:fireconsole}
 \end{figure}
 
 \section {Integracja z \texttt{Firebase}}
-W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
+W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z~konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
 
 {\belowcaptionskip=-9pt
-    \begin{lstlisting}[language=JavaScript,style=JavaScriptStyle, label=lst:fireinit, caption=Integracja aplikacji klienta z projektem \texttt{Firebase},
-basicstyle=\footnotesize\ttfamily]
+  \begin{lstlisting}[language=JavaScript,style=JavaScriptStyle, label=lst:fireinit, caption=Integracja aplikacji klienta z projektem \texttt{Firebase}, basicstyle=\footnotesize\ttfamily]
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
@@ -96,33 +97,31 @@ export default firebaseApp;
 \end{lstlisting}
 }
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\linewidth]{rys03/fireconfig.png}
-    \caption{Kod obiektu konfiguracyjnego dostêpny w \texttt{Firebase Console}}
-    \label{fig:fireconfig}
+\begin{figure}[hb]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/fireconfig.png}
+  \caption{Kod obiektu konfiguracyjnego dostêpny w \texttt{Firebase Console}}
+  \label{fig:fireconfig}
 \end{figure}
 
-Zawartoœæ obiektu konfiguracyjnego jest unikalna dla danego projektu, jednak nie jest ona sekretna. W celu zabezpieczenia danych przechowywanych w bazie, nale¿y wykorzystaæ \texttt{Firebase Security Rules}. Regu³y zastosowane w projekcie omówiono w dalszej czêœci rozdzia³u. Wiêcej informacji na temat obiektu konfiguracyjnego mo¿na znaleŸæ w dokumentacji~\cite{fireconfig}
+Zawartoœæ obiektu konfiguracyjnego jest unikalna dla danego projektu, jednak nie jest ona sekretna. W celu zabezpieczenia danych przechowywanych w bazie, nale¿y wykorzystaæ \texttt{Firebase Security Rules}. Regu³y bezpieczeñstwa zastosowane w projekcie omówiono w~dalszej czêœci rozdzia³u. Wiêcej informacji na temat obiektu konfiguracyjnego mo¿na znaleŸæ w dokumentacji~\cite{fireconfig}
 
 
 \section {Integracja z \texttt{Firebase Hosting}}
-Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehosting}. W pierwszym kroku wykonano komendê z poziomu wiersza poleceñ \texttt{firebase init hosting}. Uruchamia ona intuicyjny konfigurator, który w kilku krokach pozwala skonfigurowaæ projekt do us³ugi hostowania. Po zakoñczeniu konfiguracji w projekcie powsta³y dwa pliki:~\texttt{.firebaserc} oraz \texttt{firebase.json}, których zawartoœæ pokazano odpowiednio na listingu~\ref{lst:firerc} i listingu~\ref{lst:firejson}. Pierwszy z nich...
+Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehosting}. W pierwszym kroku, w katalogu g³ównym projektu, z poziomu wiersza poleceñ wykonano komendê \texttt{firebase init hosting}. Uruchamia ona intuicyjny konfigurator, który w kilku krokach pozwala skonfigurowaæ projekt do us³ugi hostowania. Po zakoñczeniu konfiguracji w katalogu g³ównym projektu powsta³y dwa pliki:~\texttt{.firebaserc} oraz \texttt{firebase.json}, których zawartoœæ pokazano odpowiednio na listingu~\ref{lst:firerc} i listingu~\ref{lst:firejson}. Pierwszy z nich to konfiguracja aliasów projektu. Jest to u¿yteczne w przypadku, gdy w jednym projekcie u¿ywanych jest wiele projektów \texttt{Firebase}. Drugi plik, to konfiguracja us³ugi hostingu. Dziêki niemu mo¿na ustawiæ takie opcje hostingu, jak np.:~przekierowania URL, nadpisania URL, czy nawet wyœwietlanie ukoœnika na koñcu adresu URL~(\emph{trailing-slash}).
 
-    {\belowcaptionskip=-9pt
-        \begin{lstlisting}[style=json-style, label=lst:firerc, caption=Zawartoœæ pliku \texttt{.firebaserc},
-basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[style=json-style, label=lst:firerc, caption=Zawartoœæ pliku \texttt{.firebaserc}, basicstyle=\footnotesize\ttfamily]
 {
   "projects": {
     "default": "biker-784a8"
   }
 }
 \end{lstlisting}
-    }
+  }
 
-    {\belowcaptionskip=-9pt
-        \begin{lstlisting}[style=json-style, label=lst:firejson, caption=Zawartoœæ pliku \texttt{firebase.json},
-basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[style=json-style, label=lst:firejson, caption=Zawartoœæ pliku \texttt{firebase.json}, basicstyle=\footnotesize\ttfamily]
 {
   "hosting": {
     "site": "biker-784a8",
@@ -137,8 +136,264 @@ basicstyle=\footnotesize\ttfamily]
   }
 }
 \end{lstlisting}
-    }
+  }
 
-nastepnie build
-deploy
-linki
+W kolejnym kroku zbudowano aplikacjê klienta z u¿yciem polecenia \texttt{npm run build}, a nastêpnie wywo³ano polecenie \texttt{firebase hosting deploy}. W wyniku tej procedury, zbudowan¹ aplikacjê opublikowano pod adresami: \url{biker-784a8.web.app} oraz \url{biker-784a8.firebaseapp.com}. Po wprowadzeniu zmian w projekcie, w celu aktualizacji hostowanej aplikacji, proces budowania i publikacji nale¿y powtórzyæ.
+
+\section {Konfiguracja pliku \texttt{manifest.json} dla PWA}
+W celu aktywacji opcji instalacji aplikacji jako PWA, oprócz rejestracji \emph{service-workera}, konieczna jest konfiguracja ustawieñ przy pomocy pliku \texttt{public/manifest.json}. Odpowiednia dokumentacja dostêpna jest pod adresem \cite{pwamanifest}. Finaln¹ wersjê manifestu przedstawiono na listingu~\ref{lst:pwamanifest}, a jego wyjaœnienie zawarto w tabeli~\ref{tab:pwamanifest}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[style=json-style, label=lst:pwamanifest, caption=Zawartoœæ pliku \texttt{manifest.json}, basicstyle=\footnotesize\ttfamily]
+{
+  "background_color": "white",
+  "categories": ["sport"],
+  "description": "Cycling Navigation. Monitor all your cycling statistics in one place.",
+  "dir": "ltr",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo_maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "lang": "en-US",
+  "name": "Biker",
+  "orientation": "portrait",
+  "short_name": "Biker",
+  "start_url": "/",
+  "theme_color": "white"
+}
+\end{lstlisting}
+}
+
+\begin{table}[htb] \small
+  \centering
+  \caption{Wyjaœnienie zawartoœci pliku \texttt{manifest.json}}
+  \label{tab:pwamanifest}
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    Atrybut                                           & Opis                                              \\      \hline\hline
+    \texttt{background\_color}, \texttt{theme\_color} & Kolor t³a oraz kolor motywu aplikacji             \\      \hline
+    \texttt{categories}                               & Kategoria, do której nale¿y aplikacja             \\      \hline
+    \texttt{description}                              & Opis aplikacji                                    \\      \hline
+    \texttt{dir}, \texttt{lang}                       & Kierunek tekstu oraz jêzyk wyœwietlania aplikacji \\      \hline
+    \texttt{display}, \texttt{orientation}            & Tryb wyœwietlania aplikacji oraz jej orientacja   \\      \hline
+    \texttt{icons}                                    & Zestaw ikon aplikacji                             \\      \hline
+    \texttt{name}, \texttt{short\_name}               & Nazwa oraz skrócona nazwa aplikacji               \\      \hline
+    \texttt{start\_url}                               & Adres URL punktu wejœcia do aplikacji             \\      \hline
+  \end{tabularx}
+\end{table}
+
+Ikony aplikacji (rys.~\ref{fig:pwaicons}) --- \texttt{logo.svg}, \texttt{logo\_maskable.svg}, \texttt{favicon.ico} --- zosta³y wykonane w programie do tworzenia grafiki wektorowej \texttt{Inkscape}. Ikony \texttt{favicon.ico} oraz \texttt{logo\_maskable.svg} ró¿ni¹ siê jedynie rozmiarem marginesu symbolu.
+
+\begin{figure}[htb]
+  \centering
+  \begin{tabular}{@{}ll@{}}
+    a)                                                                                & b) \\
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.475\textwidth]{rys03/logo.png}}}} &
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.475\textwidth]{rys03/logo_maskable.png}}}}
+  \end{tabular}
+  \caption{Ikony aplikacji: a) logo, b) logo\_maskable (favicon z mniejszym marginesem)}
+  \label{fig:pwaicons}
+\end{figure}
+
+
+\section {Projekt struktury bazy danych}
+Korzystaj¹c z mo¿liwoœci jêzyka TypeScript, w projekcie utworzono typy danych definiuj¹ce po stronie klienta strukturê bazy danych. Typy te s¹ reprezentacj¹ drzewa obiektów przedstawionego na rysunku~\ref{lst:database}. Wykorzystanie sztywno zdefiniowanych typów gwarantuje spójnoœæ danych na przestrzeni ca³ej aplikacji oraz u³atwia integracjê z baz¹ danych po stronie \texttt{Firebase'a}. Dodatkow¹ zalet¹ jest ³atwiejsza kontrola b³êdów oraz unikniêcie nieprzewidzianego zachowania aplikacji. Zawartoœæ lisingów~\ref{lst:dbtypes1}, \ref{lst:dbtypes2}, \ref{lst:dbtypes3}, \ref{lst:dbenums} znajduje siê w pliku \texttt{src/database/schema.tsx}.
+
+Na listingu~\ref{lst:dbtypes1} przedstawiono strukturê typów w ogólnym ujêciu. \texttt{DatabaseSchema} odpowiada instancji bazy danych po stronie \texttt{Realtime Database}, a~zawartoœci¹ obiektu s¹ obiekty u¿ytkowników kluczowane unikalnym identyfikatorem u¿ytkownika (identyfikator jest generowany automatycznie przez \texttt{Firebase} przy rejestracji nowego konta). Ka¿dy obiekt u¿ytkownika zawiera swój identyfikator, obiekt profilu, obiekt aktywnoœci i obiekt œladów. W obiekcie profilu z kolei przechowywane s¹ dane personalne u¿ytkownika: p³eæ, data urodzenia, waga, wzrost, kraj i miasto zamieszkania oraz opis.
+
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:dbtypes1, caption=Typy obiektowe struktury bazy danych (1/3) --- \emph{root} bazy danych oraz u¿ytkownik, basicstyle=\footnotesize\ttfamily]
+type DatabaseSchema = {
+  users?: { [userId: string]: User };
+};
+export type User = {
+  userId: string;
+  profile?: UserProfile;
+  activities?: { [activityId: string]: Activity };
+  tracks?: { [trackId: string]: Track };
+  };
+export type UserProfile = {
+  gender?: GenderTypes;
+  birthday?: string;
+  weight?: number;
+  height?: number;
+  country?: string;
+  city?: string;
+  description?: string;
+};
+\end{lstlisting}
+  }
+
+Na listingu~\ref{lst:dbtypes2} pokazano typ aktywnoœci, która zawiera w sobie szczegó³owe dane o zapisanej podró¿y rowerowej, w tym podstawowe statystki œladu. Wœród statystyk nie ma zapisanych ¿adnych wartoœci uœrednionych (np.:~œrednia prêdkoœæ, œrednia elewacja), poniewa¿ mo¿na je ³atwo wyliczyæ z pozosta³ych, dostêpnych statystyk.
+
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:dbtypes2, caption=Typy obiektowe struktury bazy danych (2/3) --- aktywnoœci, basicstyle=\footnotesize\ttfamily]
+export type Activity = {
+  activityId: string;
+  creatorId: string;
+  name: string;
+  createdAt: number;
+  lastModifiedAt: number;
+  startTime: number;
+  endTime: number;
+  sport: ActivitySportTypes;
+  category: ActivityCategoryTypes;
+  shape: ActivityShape;
+  statistics: ActivityStatistics;
+  rating?: RatingTypes;
+  tags?: Array<string>;
+};
+export type ActivityShape = {
+  isLoop: boolean;
+  from: string;
+  to: string;
+};
+export type ActivityStatistics = {
+  totalDistance?: number;
+  totalDuration?: number;
+  inMotionDuration?: number;
+  maxSpeed?: number;
+  elevationUp?: number;
+  elevationDown?: number;
+  minElevation?: number;
+  maxElevation?: number;
+};
+\end{lstlisting}
+  }
+
+Typy \texttt{Track}, \texttt{TrackSegment} i \texttt{TrackPoint} zdefiniowano na wzór standardu GPX --- odpowiednio \texttt{trkType}, \texttt{trksegType} i \texttt{ptType}. Zatem obiekt œladu sk³ada siê z listy segmentów oraz dodatkowo z identyfikatora aktywnoœci, do której nale¿y. Z kolei jeden segment, to lista punktów, które opisuj¹ szerokoœæ i d³ugoœæ geograficzn¹, czas zarejestrowania po³o¿enia oraz ewentualn¹ bezwzglêdn¹ wysokoœæ nad poziomem morza. Definicje typów zawarto w~listingu~\ref{lst:dbtypes3}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:dbtypes3, caption=Typy obiektowe struktury bazy danych (3/3) ---  œlady, basicstyle=\footnotesize\ttfamily]
+export type Track = {
+  activityId: string;
+  segments: Array<TrackSegment>;
+};
+export type TrackSegment = Array<TrackPoint>;
+export type TrackPoint = {
+  lat: number;
+  lon: number;
+  time: number;
+  ele?: number | null;
+};
+\end{lstlisting}
+}
+
+Oprócz typów obiektowych zdefiniowano równie¿ cztery typy wyliczeniowe, które przedstawiono na listingu~\ref{lst:dbenums}. Okreœlaj¹ one dostêpne dla u¿ytkownika opcje wyboru dla danych: p³eæ u¿ytkownika, rodzaj sportu aktywnoœci, kategoria aktywnoœci oraz ocena aktywnoœci.
+
+\begingroup
+\listingcaption{Typy wyliczeniowe struktury bazy danych}
+\setlength\multicolsep{0pt plus 2pt}%
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, multicols=2, label=lst:dbenums]
+export enum GenderTypes {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
+}
+export enum ActivitySportTypes {
+  Touring = 'touring',
+  MTB = 'mtb',
+  Enduro = 'enduro',
+  Downhill = 'downhill',
+  Gravel = 'gravel',
+  Road = 'road',
+  BMX = 'bmx',
+  Tandem = 'tandem',
+  Cyclocross = 'cyclocross',
+  Track = 'track',
+  Speedway = 'speedway',
+  Other = 'other',
+}
+export enum ActivityCategoryTypes {
+  Commute = 'commute',
+  Casual = 'casual',
+  Workout = 'training',
+  Race = 'race',
+  Bikepacking = 'bikepacking',
+  Other = 'other',
+}
+export enum RatingTypes {
+  Terrible = 'terrible',
+  Poor = 'poor',
+  Fair = 'fair',
+  Good = 'good',
+  Excellent = 'excellent',
+}
+\end{lstlisting}
+\vspace{6pt plus 2pt}
+\endgroup
+
+\section{Implementacja szablonów uk³adu stron}
+W aplikacji zaimplementowano dwa ró¿ne uk³ady strony --- jeden wy³¹cznie dla strony autoryzacji, a drugi dla wszystkich pozosta³ych stron.
+Uk³ady s¹ w pe³ni responsywne, co oznacza, ¿e dynamicznie dostosowuj¹ siê one do rozmiaru ekranu urz¹dzenia.
+
+Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekranu o szerokoœci powy¿ej 768px)--- rysunek~\ref{fig:authpagetemplatedesktop}, a w wersji mobilnej --- rysunek~\ref{fig:authpagetemplatemobile} (dla ekranu o szerokoœci nie przekraczaj¹cej 768px).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/authpagetemplatedesktop.pdf}
+  \caption{Szablon uk³adu strony autoryzacji w wersji desktopowej}
+  \label{fig:authpagetemplatedesktop}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/authpagedesktop}
+  \caption{Widok strony autoryzacji w wersji desktopowej}
+  \label{fig:authpagedesktop}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.4\linewidth]{rys03/authpagetemplatemobile.pdf}
+  \caption{Szablon uk³adu strony autoryzacji w wersji mobilnej}
+  \label{fig:authpagetemplatemobile}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.4\linewidth]{rys03/authpagemobile}
+  \caption{Widok strony autoryzacji w wersji mobilnej}
+  \label{fig:authpagemobile}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/globaltemplatepage.pdf}
+  \caption{Szablon globalnego uk³adu strony w wersji mobilnej i desktopowej}
+  \label{fig:globaltemplatepage}
+\end{figure}
+
+% \section{Implementacja systemu uwierzytelniania}
+
+% \section{Implementacja routingu}
+
+% \section{Implementacja rejestratora GPS}
+
+% \section{Implementacja kalkulatora statystyk œladu}
+
+% \section{Implementacja importu œladów GPS}
+
+% \section{Implementacja eksportu œladów GPS}
+
+% \section{Implementacja widoku aktywnoœci}
+
+% \section{Integracja z baz¹ danych \texttt{Realtime Database}}
+
+% \section{Implementacja widoku profilu u¿ytkownika}
+
+% \section{Implementacja kalkulatora statystyk profilu}
