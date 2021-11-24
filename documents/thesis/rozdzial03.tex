@@ -1,7 +1,7 @@
 \chapter{Implementacja projektu}
-\label{chap:koncepcja}
+\label{chap:implementacja}
 
-W niniejszym rozdziale przedstawiono proces tworzenia aplikacji. Pokazano fragmenty kodu realizuj¹ce kluczowe funkcjonalnoœci, jak np.:~uwierzytelnianie, nagrywanie œladów czy prezentacja statystyk. Zawarto równie¿ rysunki, na których ukazane s¹ widoki aplikacji.
+W niniejszym rozdziale przedstawiono proces tworzenia aplikacji. Pokazano fragmenty kodu realizuj¹ce kluczowe funkcjonalnoœci, jak np.:~uwierzytelnianie, rejestrowanie œladów czy prezentacja statystyk. Zawarto równie¿ rysunki, na których ukazane s¹ widoki aplikacji.
 
 Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu.
 \begin{enumerate}
@@ -9,18 +9,18 @@ Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejn
   \item Inicjalizacja \texttt{Firebase}.
   \item Integracja z \texttt{Firebase}.
   \item Integracja z \texttt{Firebase Hosting}.
-  \item Konfiguracja pliku \texttt{manifest.json} dla PWA.
+  \item Konfiguracja PWA.
   \item Projekt struktury bazy danych.
-  \item Implementacja szablonów uk³adu stron.
-  \item Implementacja systemu uwierzytelniania.
+  \item Implementacja uk³adów stron.
+  \item Implementacja uwierzytelniania.
   \item Implementacja routingu.
   \item Implementacja rejestratora GPS.
   \item Implementacja kalkulatora statystyk œladu.
   \item Implementacja importu œladów GPS.
   \item Implementacja eksportu œladów GPS.
-  \item Implementacja widoku aktywnoœci.
-  \item Integracja z baz¹ danych \texttt{Realtime Database}.
-  \item Implementacja widoku profilu u¿ytkownika.
+  \item Implementacja aktywnoœci.
+  \item Integracja z \texttt{Realtime Database}.
+  \item Implementacja profilu u¿ytkownika.
   \item Implementacja kalkulatora statystyk profilu.
 \end{enumerate}
 
@@ -69,7 +69,7 @@ W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://fir
 \end{figure}
 
 \section {Integracja z \texttt{Firebase}}
-W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z~konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
+W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z~konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji, w pliku \texttt{src/firebase/firebase.tsx} zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
 
 {\belowcaptionskip=-9pt
   \begin{lstlisting}[language=JavaScript,style=JavaScriptStyle, label=lst:fireinit, caption=Integracja aplikacji klienta z projektem \texttt{Firebase}, basicstyle=\footnotesize\ttfamily]
@@ -140,8 +140,8 @@ Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehostin
 
 W kolejnym kroku zbudowano aplikacjê klienta z u¿yciem polecenia \texttt{npm run build}, a nastêpnie wywo³ano polecenie \texttt{firebase hosting deploy}. W wyniku tej procedury, zbudowan¹ aplikacjê opublikowano pod adresami: \url{biker-784a8.web.app} oraz \url{biker-784a8.firebaseapp.com}. Po wprowadzeniu zmian w projekcie, w celu aktualizacji hostowanej aplikacji, proces budowania i publikacji nale¿y powtórzyæ.
 
-\section {Konfiguracja pliku \texttt{manifest.json} dla PWA}
-W celu aktywacji opcji instalacji aplikacji jako PWA, oprócz rejestracji \emph{service-workera}, konieczna jest konfiguracja ustawieñ przy pomocy pliku \texttt{public/manifest.json}. Odpowiednia dokumentacja dostêpna jest pod adresem \cite{pwamanifest}. Finaln¹ wersjê manifestu przedstawiono na listingu~\ref{lst:pwamanifest}, a jego wyjaœnienie zawarto w tabeli~\ref{tab:pwamanifest}.
+\section {Konfiguracja PWA}
+W celu aktywacji opcji instalacji aplikacji jako PWA, oprócz rejestracji \emph{service-workera}, konieczna jest konfiguracja ustawieñ przy pomocy pliku \texttt{public/manifest.json}. Dokumentacja dostêpna jest pod adresem \cite{pwamanifest}. Finaln¹ wersjê manifestu przedstawiono na listingu~\ref{lst:pwamanifest}, a jego wyjaœnienie zawarto w tabeli~\ref{tab:pwamanifest}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[style=json-style, label=lst:pwamanifest, caption=Zawartoœæ pliku \texttt{manifest.json}, basicstyle=\footnotesize\ttfamily]
@@ -211,7 +211,7 @@ Ikony aplikacji (rys.~\ref{fig:pwaicons}) --- \texttt{logo.svg}, \texttt{logo\_m
 
 
 \section {Projekt struktury bazy danych}
-Korzystaj¹c z mo¿liwoœci jêzyka TypeScript, w projekcie utworzono typy danych definiuj¹ce po stronie klienta strukturê bazy danych. Typy te s¹ reprezentacj¹ drzewa obiektów przedstawionego na rysunku~\ref{lst:database}. Wykorzystanie sztywno zdefiniowanych typów gwarantuje spójnoœæ danych na przestrzeni ca³ej aplikacji oraz u³atwia integracjê z baz¹ danych po stronie \texttt{Firebase'a}. Dodatkow¹ zalet¹ jest ³atwiejsza kontrola b³êdów oraz unikniêcie nieprzewidzianego zachowania aplikacji. Zawartoœæ lisingów~\ref{lst:dbtypes1}, \ref{lst:dbtypes2}, \ref{lst:dbtypes3}, \ref{lst:dbenums} znajduje siê w pliku \texttt{src/database/schema.tsx}.
+Korzystaj¹c z mo¿liwoœci jêzyka TypeScript, w projekcie utworzono typy danych definiuj¹ce po stronie klienta strukturê bazy danych. Typy te s¹ reprezentacj¹ drzewa obiektów przedstawionego na rysunku~\ref{lst:database}. Wykorzystanie sztywno zdefiniowanych typów gwarantuje spójnoœæ danych na przestrzeni ca³ej aplikacji oraz u³atwia integracjê z baz¹ danych po stronie \texttt{Firebase'a}. Dodatkow¹ zalet¹ jest ³atwiejsza kontrola b³êdów oraz unikniêcie nieprzewidzianego zachowania aplikacji. Zawartoœæ lisingów~\ref{lst:dbtypes1}, \ref{lst:dbtypes2}, \ref{lst:dbtypes3}, \ref{lst:dbenums} odpowiada plikowi \texttt{src/database/schema.tsx}.
 
 Na listingu~\ref{lst:dbtypes1} przedstawiono strukturê typów w ogólnym ujêciu. \texttt{DatabaseSchema} odpowiada instancji bazy danych po stronie \texttt{Realtime Database}, a~zawartoœci¹ obiektu s¹ obiekty u¿ytkowników kluczowane unikalnym identyfikatorem u¿ytkownika (identyfikator jest generowany automatycznie przez \texttt{Firebase} przy rejestracji nowego konta). Ka¿dy obiekt u¿ytkownika zawiera swój identyfikator, obiekt profilu, obiekt aktywnoœci i obiekt œladów. W obiekcie profilu z kolei przechowywane s¹ dane personalne u¿ytkownika: p³eæ, data urodzenia, waga, wzrost, kraj i miasto zamieszkania oraz opis.
 
@@ -337,52 +337,229 @@ export enum RatingTypes {
 \vspace{6pt plus 2pt}
 \endgroup
 
-\section{Implementacja szablonów uk³adu stron}
-W aplikacji zaimplementowano dwa ró¿ne uk³ady strony --- jeden wy³¹cznie dla strony autoryzacji, a drugi dla wszystkich pozosta³ych stron.
-Uk³ady s¹ w pe³ni responsywne, co oznacza, ¿e dynamicznie dostosowuj¹ siê one do rozmiaru ekranu urz¹dzenia.
+\section{Implementacja uk³adów stron}
+W aplikacji zaimplementowano dwa ró¿ne uk³ady strony --- jeden wy³¹cznie dla strony autoryzacji, a drugi -- globalny, wspólny dla wszystkich pozosta³ych stron. Uk³ady s¹ w pe³ni responsywne, co oznacza, ¿e dynamicznie dostosowuj¹ siê one do rozmiaru ekranu urz¹dzenia. Responsywnoœæ uzyskano dziêki zastosowaniu zasad CSS typu \texttt{@media min-width}.
 
-Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekranu o szerokoœci powy¿ej 768px)--- rysunek~\ref{fig:authpagetemplatedesktop}, a w wersji mobilnej --- rysunek~\ref{fig:authpagetemplatemobile} (dla ekranu o szerokoœci nie przekraczaj¹cej 768px).
+Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekranu o szerokoœci powy¿ej 768px)--- rysunek~\ref{fig:authpagetemplatedesktop}, a w wersji mobilnej --- rysunek~\ref{fig:authpagemobile}a (dla ekranu o szerokoœci nie przekraczaj¹cej 768px). Gotowe widoki aplikacji dla powy¿szych szablonów pokazano odpowiednio na rysunku~\ref{fig:authpagedesktop} oraz rysunku~\ref{fig:authpagemobile}b.
 
-\begin{figure}[ht]
+Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania stron: profilu u¿ytkownika, rejestratora GPS oraz aktywnoœci (rys.~\ref{fig:globalpage}). Jest on równie¿ w pe³ni responsywny. Dla ekranów o rozmiarze powy¿ej 1200px \emph{sider} przyjmuje on sta³¹ szerokoœæ 200px i nie mo¿e zostaæ ukryty, natomiast \emph{content} wype³nia ca³e pozosta³e miejsce. W przypadku ekranów nie wiêkszych ni¿ 1200px, \emph{sider} staje siê dynamiczny --- mo¿e zostaæ ukryty przy u¿yciu przycisku \emph{sider button}. Z kolei \emph{content} przyjmuje sta³¹ szerokoœæ równ¹ ca³kowitej szerokoœci okna widoku. Z tego wzglêdu otwarcie \emph{sidera} powoduje wypchniêcie \emph{contentu} o 200px w prawo, poza obszar ekranu. Jest to zabieg umyœlny, który ma na celu zminimalizowanie efektu \emph{content jumpingu}, czyli niechcianej zmiany po³o¿enia elementów strony. Efekt ten by³ szczególnie zauwa¿alny na urz¹dzeniach z w¹skim ekranem, jak np.:~smartfonach.
+
+% Kod komponentu strony autoryzacji zawarto w listingu~\ref{lst:authpage}.
+
+% {\belowcaptionskip=-9pt
+% \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:authpage, caption=Komponent strony uwierzytelniania, basicstyle=\footnotesize\ttfamily]
+% const AuthPage: React.FC = () => {
+%   return (
+%     <div className='auth-page'>
+%       <div className='auth-page-content'>
+%         <Hero />
+%         <Auth />
+%       </div>
+%     </div>
+%   );
+% };
+% \end{lstlisting}
+% }
+
+% \newpage
+\begin{figure}[htp]
   \centering
-  \includegraphics[width=\linewidth]{rys03/authpagetemplatedesktop.pdf}
+  \includegraphics[width=\linewidth]{rys03/authpagetemplatedesktop}
   \caption{Szablon uk³adu strony autoryzacji w wersji desktopowej}
   \label{fig:authpagetemplatedesktop}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[htp]
   \centering
   \includegraphics[width=\linewidth]{rys03/authpagedesktop}
   \caption{Widok strony autoryzacji w wersji desktopowej}
   \label{fig:authpagedesktop}
 \end{figure}
 
-\begin{figure}[ht]
+% \newpage
+\begin{figure}[htp]
   \centering
-  \includegraphics[width=0.4\linewidth]{rys03/authpagetemplatemobile.pdf}
-  \caption{Szablon uk³adu strony autoryzacji w wersji mobilnej}
-  \label{fig:authpagetemplatemobile}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.4\linewidth]{rys03/authpagemobile}
-  \caption{Widok strony autoryzacji w wersji mobilnej}
+  \begin{tabular}{@{}ll@{}}
+    a)                                                                                              & b) \\
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.475\textwidth]{rys03/authpagetemplatemobile}}}} &
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.475\textwidth]{rys03/authpagemobile}}}}
+  \end{tabular}
+  \caption{Uk³ad strony autoryzacji a) szablon, b) widok aplikacji}
   \label{fig:authpagemobile}
 \end{figure}
 
-\begin{figure}[ht]
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=0.4\linewidth]{rys03/authpagetemplatemobile}
+%   \caption{Szablon uk³adu strony autoryzacji w wersji mobilnej}
+%   \label{fig:authpagetemplatemobile}
+% \end{figure}
+
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=0.4\linewidth]{rys03/authpagemobile}
+%   \caption{Widok strony autoryzacji w wersji mobilnej}
+%   \label{fig:authpagemobile}
+% \end{figure}
+
+% \newpage
+\begin{figure}[htp]
   \centering
-  \includegraphics[width=\linewidth]{rys03/globaltemplatepage.pdf}
+  \includegraphics[width=\linewidth]{rys03/globaltemplatepage}
   \caption{Szablon globalnego uk³adu strony w wersji mobilnej i desktopowej}
   \label{fig:globaltemplatepage}
 \end{figure}
 
-% \section{Implementacja systemu uwierzytelniania}
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/globalpage}
+  \caption{Widok strony aktywnoœci w wersji desktopowej}
+  \label{fig:globalpage}
+\end{figure}
 
-% \section{Implementacja routingu}
 
-% \section{Implementacja rejestratora GPS}
+\section{Implementacja uwierzytelniania}
+Do implementacji uwierzytelniania wykorzystano modu³ \texttt{Firebase Authentication} oraz bibliotekê \texttt{FirebaseUI}. W pierwszym kroku, w pliku \texttt{src/firebase/firebase.tsx} zainicjalizowano modu³ autentykacji, jak pokazano na listingu~\ref{lst:fireinit}. Nastêpnie utworzono komponent \texttt{Auth} (jak pokazano na listingu~\ref{lst:authcomponent}), który przy pierwszym renderowaniu uruchamia us³ugê uwierzytelniania z biblioteki \texttt{FirebaseUI}. Funkcjê \texttt{startFirebaseUI} zaimplementowano w pliku \texttt{src/firebase/firebaseUI.tsx}, jej kod oraz konfiguracjê biblioteki przedstawiono na listingu~\ref{lst:firebaseui}. W wyniku dzia³ania funkcji, do kontenera o identyfikatorze \texttt{\#firebaseui-auth-container} wstrzykniêty zostaje komponent autoryzacji, który zgodnie podan¹ konfiguracj¹ umo¿liwia autoryzacjê dwiema metodami: przez podanie adresu email oraz has³a lub przez konto \texttt{Google}. Komponent widoczny jest na rysunku~\ref{fig:globalpage}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:authcomponent, caption=Komponent uwierzytelniania, basicstyle=\footnotesize\ttfamily]
+const Auth: React.FC = () => {
+  useEffect(() => {
+    startFirebaseUI();
+  }, []);
+  return (
+    <div className='auth'>
+      <Typography.Title level={2} className='auth-title'>
+        Sign In
+      </Typography.Title>
+      <div id={elementID} className='auth-widget'></div>
+    </div>
+  );
+};
+\end{lstlisting}
+}
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:firebaseui, caption=Autoryzacja z u¿yciem biblioteki \texttt{FirebaseUI}, basicstyle=\footnotesize\ttfamily]
+const firebaseUI = new firebaseui.auth.AuthUI(auth);
+export const firebaseUiDefaultConfig: firebaseui.auth.Config = {
+  signInFlow: 'popup',
+  signInOptions: [
+    EmailAuthProvider.PROVIDER_ID,
+    GoogleAuthProvider.PROVIDER_ID,
+  ],
+  tosUrl: 'https://en.wikipedia.org/wiki/Terms_of_service',
+  privacyPolicyUrl: 'https://en.wikipedia.org/wiki/Privacy_policy',
+};
+export const elementID: string = 'firebaseui-auth-container';
+export const startFirebaseUI = () => {
+  firebaseUI.start('#' + elementID, firebaseUiDefaultConfig);
+};
+\end{lstlisting}
+
+Dane zalogowanego u¿ytkownika dostêpne s¹ w przestrzeni aplikacji dziêki wykorzystaniu kontekstu~\cite{reactcontext} o nazwie \texttt{AuthContext}, którego definicja znajduje siê w pliku \texttt{src/firebase/contexts/AuthContext.tsx}. Najwa¿niejsze jego funkcje przedstawiono na listingu~\ref{lst:authcontext}. Kluczowym dzia³aniem jest subskrypcja \texttt{onAuthStateChanged}, która nas³uchuje odpowiedzi ze strony \texttt{Firebase}. W przypadku pojawienia siê poprawnej odpowiedzi, otrzymywany jest obiekt u¿ytkownika. Nastêpnie obiekt ten jest zapisany jako \texttt{currentUser}. Wszystkie komponenty bêd¹ce potomkami (widoczne na listingu~\ref{lst:routing}) kontekstu posiadaj¹ dostêp do obiektu u¿ytkownika poprzez hook~\cite{reacthooks} \texttt{useAuth}, zdefiniowany w pliku \texttt{src/firebase/hooks/useAuth.tsx}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:authcontext, caption=Komponent kontekstu uwierzytelniania, basicstyle=\footnotesize\ttfamily]
+export const AuthContext = createContext<IAuthContext | undefined>(undefined);
+export const AuthContextProvider: React.FC = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  ...
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        setCurrentUser(user);
+        ...
+      },
+      (error) => {
+        setCurrentUser(null);
+        ...
+      }
+    );
+    return unsubscribe;
+  }, []);
+  ...
+  const logoutUser = (): void => {
+    signOut(auth);
+  };
+  const currentUserId = currentUser ? currentUser.uid : null;
+  const value: IAuthContext = {
+    currentUser,
+    currentUserId,
+    updateUser,
+    logoutUser,
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+\end{lstlisting}
+
+\section{Implementacja routingu}
+Dynamiczny routing po stronie klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React Router}. strukturê routingu pokazano na listingu~\ref{lst:routing}. Trasa do strony autoryzacji jest publiczna, natomiast trasy do stron: profilu, rejestratora GPS i aktywnoœci s¹ prywatne. W przypadku próby dostêpu do niezdefiniowanej trasy, nastêpuje przekierowanie na stronê \texttt{NotFoundPage}, która informuje u¿ytkownika, ¿e strona pod zadan¹ tras¹ nie istnieje.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:routing, caption=Struktura aplikacji oraz routing aplikacji, basicstyle=\footnotesize\ttfamily]
+  const App: React.FC = () => {
+    return (
+      <Router>
+        <AuthContextProvider>
+          <PageLayout>
+            <Switch>
+              <RoutePublic exact path={`/${Pages.Authorize}`}>
+                <AuthPage />
+              </RoutePublic>
+              <RoutePrivate exact path={`/${Pages.Profile}`}>
+                <ProfilePage />
+              </RoutePrivate>
+              <RoutePrivate exact path={`/${Pages.Tracker}`}>
+                <TrackerPage />
+              </RoutePrivate>
+              <RoutePrivate exact path={`/${Pages.Activities}`}>
+                <ActivitiesPage />
+              </RoutePrivate>
+              <Route path='/*' component={NotFoundPage} />
+            </Switch>
+          </PageLayout>
+        </AuthContextProvider>
+      </Router>
+    );
+  };
+\end{lstlisting}
+
+Do tras publicznych maj¹ dostêp wszyscy u¿ytkownicy nieuwierzytelnieni. Komponent \texttt{PublicPrivate} przedstawiono na listingu~\ref{lst:privateroute}. Je¿eli trasê próbuje odwiedziæ u¿ytkownik uwierzytelniony, to nastêpuje przekierowanie na stronê profilu u¿ytkownika. Zabieg ten ma na celu zablokowanie dostêpu do strony autoryzacji w przypadku, gdy w aplikacji jest ju¿ zalogowany u¿ytkownik.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:privateroute, caption=Publiczna trasa routingu, basicstyle=\footnotesize\ttfamily]
+const RoutePublic: React.FC<RouteProps> = ({ children, ...rest }) => {
+  const { currentUser } = useAuth();
+  return (
+    <Route
+      {...rest}
+      render={() => (!currentUser ? children : <Redirect to={Pages.Profile} />)}
+    />
+  );
+};
+\end{lstlisting}
+
+Trasa prywatna to taka, do której dostêp maj¹ jedynie u¿ytkownicy uwierzytelnieni. Komponent \texttt{RoutePrivate} przedstawiono na listingu~\ref{lst:privateroute}. Je¿eli w aplikacji jest uwierzytelniony u¿ytkownik, to zwracany jest docelowy komponent trasy. W przeciwnym razie nastêpuje przekierowanie na stronê uwierzytelniania.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:privateroute, caption=Prywatna trasa routingu, basicstyle=\footnotesize\ttfamily]
+const RoutePrivate: React.FC<RouteProps> = ({ children, ...rest }) => {
+  const { currentUser } = useAuth();
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        currentUser ? children : <Redirect to={Pages.Authorize} />
+      }
+    />
+  );
+};
+\end{lstlisting}
+
+
+\section{Implementacja rejestratora GPS}
 
 % \section{Implementacja kalkulatora statystyk œladu}
 
@@ -390,10 +567,10 @@ Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekran
 
 % \section{Implementacja eksportu œladów GPS}
 
-% \section{Implementacja widoku aktywnoœci}
+% \section{Implementacja aktywnoœci}
 
-% \section{Integracja z baz¹ danych \texttt{Realtime Database}}
+% \section{Integracja z \texttt{Realtime Database}}
 
-% \section{Implementacja widoku profilu u¿ytkownika}
+% \section{Implementacja profilu u¿ytkownika}
 
 % \section{Implementacja kalkulatora statystyk profilu}
