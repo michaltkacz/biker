@@ -729,7 +729,7 @@ Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla 
 Kod funkcji \texttt{geoMove} pokazano na listingu~\ref{lst:geomove}. Korzysta ona z funkcji pomocniczych \texttt{geoDistance}, \texttt{deltaTime}, \texttt{geoSpeed1}, \texttt{deltaElevation}, które dokonuj¹ odpowiednich obliczeñ. Szczególnie interesuj¹ca jest funkcja \texttt{geoDistance}, która korzysta z formu³y \emph{Harvesine}~\cite{harvesine}. Odpowiedni kod przedstawiono na listingu~\ref{lst:geodistance}.
 
 {\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geomove, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geomove, caption=Kod funkcji \texttt{geoMove}, basicstyle=\footnotesize\ttfamily]
 export const geoMove = (
   lat1: number, lon1: number, time1: number, lat2: number, lon2: number, time2: number, ele1?: number | null, ele2?: number | null
 ): {
@@ -744,7 +744,7 @@ export const geoMove = (
 \end{lstlisting}
 
 {\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geodistance, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geodistance, caption=Kod funkcji \texttt{geoDistance}, basicstyle=\footnotesize\ttfamily]
 export const toRad = (value: number) => {
   return (value * Math.PI) / 180;
 };

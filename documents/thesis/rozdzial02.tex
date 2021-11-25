@@ -126,11 +126,10 @@ Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\r
 
 Dziêki otwartoœci standardu mo¿liwe jest jego rozszerzanie. Jednym z popularnych rozszerzeñ jest \emph{Garmin GPX Schema Extension}. Dodaje ono nowe typy danych, które pozwalaj¹ zapisaæ w pliku dodatkowe informacje. Przyk³adowo, w omówionym wczeœniej \emph{waypoint type} mo¿na utrwaliæ zarejestrowan¹ w danym punkcie temperaturê lub kategoriê do której dany punkt nale¿y. Z kolei \emph{track type} zyskuje mo¿liwoœæ przechowywania koloru, w jakim œlad powinien zostaæ wyœwietlony na mapie. Wszystkie funkcjonalnoœci rozszerzenia opisano w oficjalnym schemacie~\cite{gpxgarmin}.
 
-\section{Wymagania funkcjonalne}
-
-W wyniku zebrania wymagañ projektowych powsta³a lista funkcjonalnoœci u¿ytkowych, któr¹ podzielono na trzy kategorie: podstawowe, dodatkowe oraz dalszego rozwoju. Zaimplementowanie wszystkich funkcjonalnoœci z kategorii podstawowych bêdzie równoznaczne z osi¹gniêciem wyznaczonego celu pracy. W przypadku efektywnego tempa rozwoju oprogramowania oraz zapasu czasu, powinno dojœæ do wdro¿enia funkcjonalnoœci z kategorii dodatkowych. Ostatnia kategoria nie jest przewidziana do realizacji w ramach niniejszej pracy. Przedstawia ona jedynie pomys³y i kierunek dalszego rozwoju. Kompletna lista jest nastêpuj¹ca:
+\section{Zarys wymagañ}
+W wyniku zebrania wymagañ projektowych powsta³a lista ogólna lista wymagañ u¿ytkowych, któr¹ podzielono na dwie kategorie: podstawowe oraz dodatkowe. Spe³nienie wymagañ z kategorii podstawowych bêdzie równoznaczne z osi¹gniêciem wyznaczonego celu pracy. Kategoria wymagañ dodatkowych nie jest przewidziana do realizacji w ramach niniejszej pracy. Przedstawia ona jedynie pomys³y i kierunek dalszego rozwoju. Kompletna lista jest nastêpuj¹ca:
 \begin{enumerate}
-  \item Funkcjonalnoœci podstawowe
+  \item Wymagania podstawowe
         \begin{itemize}
           \item Uwierzytelnianie u¿ytkownika
           \item Nagrywanie œladów GPS (standard GPX)
@@ -139,19 +138,163 @@ W wyniku zebrania wymagañ projektowych powsta³a lista funkcjonalnoœci u¿ytkowych
           \item Statystki œladu GPS (liczby, wykresy, prezentacja na mapie)
           \item Statystki ogólne u¿ytkownika (liczby, wykresy)
         \end{itemize}
-  \item Funkcjonalnoœci dodatkowe
+  \item Wymagania dodatkowe
         \begin{itemize}
-          \item Edycja profilu (np.:~zmiana adresu email, zdjêcia profilowego, has³a, innych danych personalnych)
+          \item Edycja profilu (np.:~zmiana danych personalnych)
           \item Mapa cieplna aktywnoœci (ang. \emph{Heat Map})
-          \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie aktywnoœci)
-        \end{itemize}
-  \item Dalszy rozwój
-        \begin{itemize}
           \item Planowanie dróg z wykorzystaniem mapy
           \item Nawigacja wed³ug zaplanowanych dróg
+          \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie aktywnoœci)
           \item Rozbudowane funkcjonalnoœci mediów spo³ecznoœciowych (system znajomych, komentarze, wydarzenia grupowe, wspó³dzielone planowanie tras, wspó³dzielona nawigacja)
         \end{itemize}
 \end{enumerate}
+
+\section{Wymagania funkcjonalne}
+Na poni¿szej liœcie zawarto wymagania funkcjonalne aplikacji:
+\begin{enumerate}
+  \item Uwierzytelnianie:
+        \begin{enumerate}
+          \item Rejestracja z u¿yciem adresu email i has³a.
+          \item Logowanie z u¿yciem adresu email i has³a.
+          \item Autoryzacja z u¿yciem konta \texttt{Google}.
+          \item Wylogowanie z aplikacji.
+        \end{enumerate}
+  \item Nagrywanie œladów GPS:
+        \begin{enumerate}
+          \item Przegl¹danie mapy.
+          \item W³¹czenie rejestrowania œladu GPS.
+          \item Wy³¹czenie rejestrowania œladów GPS.
+          \item Zapisanie zarejestrowanego œladu GPS jako nowa aktywnoœæ.
+        \end{enumerate}
+  \item Transfer danych:
+        \begin{enumerate}
+          \item Import danych w standardzie GPX.
+          \item Eksport danych w standardzie GPX.
+        \end{enumerate}
+  \item Aktywnoœci:
+        \begin{enumerate}
+          \item Dodawanie nowych aktywnoœci: import lub rejestrator GPS.
+          \item Usuwanie aktywnoœci.
+          \item Edycja aktywnoœci:
+                \begin{itemize}
+                  \item nazwa;
+                  \item rodzaj sportu;
+                  \item rodzaj kategorii;
+                  \item kszta³t aktywnoœci --- pêtla lub od punktu do punktu, punkt pocz¹tkowy, punkt koñcowy;
+                  \item ocena;
+                  \item tagi.
+                \end{itemize}
+          \item Wyœwietlanie danych aktywnoœci:
+                \begin{itemize}
+                  \item nazwa;
+                  \item rodzaj sportu;
+                  \item rodzaj kategorii;
+                  \item kszta³t aktywnoœci --- pêtla lub od punktu do punktu, punkt pocz¹tkowy, punkt koñcowy;
+                  \item ocena;
+                  \item tagi.
+                \end{itemize}
+          \item Wyœwietlanie statystyk aktywnoœci:
+                \begin{itemize}
+                  \item data utworzenia;
+                  \item data ostatnie modyfikacji;
+                  \item data pocz¹tku aktywnoœci;
+                  \item data koñca aktywnoœci;
+                  \item czas spêdzony w ruchu;
+                  \item ca³kowity czas trwania;
+                  \item dystans ca³kowity;
+                  \item prêdkoœæ maksymalna;
+                  \item prêdkoœæ œrednia w ruchu;
+                  \item prêdkoœæ œrednia ca³kowita;
+                  \item przewy¿szenia pokonane w górê;
+                  \item przewy¿szenia pokonane w dó³;
+                  \item najni¿sze zarejestrowane po³o¿enie nad poziomem morza;
+                  \item najwy¿sze zarejestrowane po³o¿enie nad poziomem morza.
+                \end{itemize}
+          \item Wyœwietlanie wykresów aktywnoœci:
+                \begin{itemize}
+                  \item zale¿noœæ prêdkoœci od czasu;
+                  \item zale¿noœæ pokonanego dystansu od czasu;
+                  \item zale¿noœæ bezwzglêdnej wysokoœci nad poziomem morza od czasu.
+                \end{itemize}
+        \end{enumerate}
+  \item Profil u¿ytkownika:
+        \begin{enumerate}
+          \item Wyœwietlanie danych profilu:
+                \begin{itemize}
+                  \item nazwa u¿ytkownika;
+                  \item awatar;
+                  \item opis profilu;
+                  \item p³eæ;
+                  \item data urodzenia;
+                  \item waga;
+                  \item wzrost;
+                  \item kraj pochodzenia;
+                  \item miasto zamieszkania.
+                \end{itemize}
+          \item Edycja danych profilu:
+                \begin{itemize}
+                  \item nazwa u¿ytkownika;
+                  \item awatar;
+                  \item opis profilu;
+                  \item p³eæ;
+                  \item data urodzenia;
+                  \item waga;
+                  \item wzrost;
+                  \item kraj pochodzenia;
+                  \item miasto zamieszkania.
+                \end{itemize}
+          \item Wyœwietlanie statystyk profilu:
+                \begin{itemize}
+                  \item ca³kowita liczba aktywnoœci;
+                  \item maksymalna zarejestrowana prêdkoœæ;
+                  \item data pierwszej aktywnoœci;
+                  \item data ostatniej aktywnoœci;
+                  \item ca³kowity czas aktywnoœci --- czas ca³kowity aktywnoœci;
+                  \item œredni czas trwania aktywnoœci --- czas ca³kowity aktywnoœci;
+                  \item najkrótsza aktywnoœæ --- czas ca³kowity aktywnoœci;
+                  \item najd³u¿sza aktywnoœæ --- czas ca³kowity aktywnoœci;
+                  \item œrednia prêdkoœæ --- czas ca³kowity aktywnoœci;
+                  \item ca³kowity czas aktywnoœci --- czas aktywnoœci w ruchu;
+                  \item œredni czas trwania aktywnoœci --- czas aktywnoœci w ruchu;
+                  \item najkrótsza aktywnoœæ --- czas aktywnoœci w ruchu;
+                  \item najd³u¿sza aktywnoœæ --- czas aktywnoœci w ruchu;
+                  \item œrednia prêdkoœæ --- czas aktywnoœci w ruchu;
+                  \item ca³kowity dystans;
+                  \item œredni dystans;
+                  \item najkrótszy dystans;
+                  \item najd³u¿szy dystans;
+                  \item ca³kowite przewy¿szenia w górê;
+                  \item ca³kowite przewy¿szenia w dó³;
+                  \item najni¿sze zarejestrowane po³o¿enie nad poziomem morza;
+                  \item najwy¿sze zarejestrowane po³o¿enie nad poziomem morza.
+                \end{itemize}
+          \item Wyœwietlanie wykresów profilu:
+                \begin{itemize}
+                  \item dzienny dystans na przestrzeni ostatnich 30 dni;
+                  \item dzienny czasu aktywnoœci na przestrzeni ostatnich 30 dni;
+                  \item dzienne przewy¿szenia na przestrzeni ostatnich 30 dni;
+                  \item najczêœciej wybierane rodzaje sportu;
+                  \item najczêœciej wybierane kategorie;
+                  \item najczêœciej wybierane oceny;
+                  \item najczêœciej u¿ywane tagów;
+                  \item najczêœciej wybierane kszta³ty aktywnoœci.
+                \end{itemize}
+        \end{enumerate}
+\end{enumerate}
+
+\section{Wymagania niefunkcjonalne}
+Na poni¿szej liœcie zawarto wymagania niefunkcjonalne aplikacji:
+
+
+\section{Diagram przypadków u¿ycia}
+Diagram przypadków u¿ycia pokazano na rysunku~\ref{fig:uzycia}
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=\linewidth]{rys02/uzycia}
+  \caption{Schemat architektury systemu}
+  \label{fig:uzycia}
+\end{figure}
 
 \section{Architektura systemu}
 Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych aplikacji pod wspóln¹ nazw¹. Pierwsz¹ z nich mia³a byæ aplikacja internetowa (dostêp poprzez przegl¹darkê). W niej zawarte mia³y byæ wszystkie planowane funkcjonalnoœci za wyj¹tkiem jedynie nagrywania œladów z wykorzystaniem modu³u GPS. Za to zadanie mia³a byæ odpowiedzialna dedykowana aplikacja mobilna dla systemu \texttt{Android}. Ta wizja jednak uleg³a zmianie --- finalna wersja zak³ada wykonanie aplikacji internetowej w technice PWA. Pozwala ona na instalacjê aplikacji internetowej na urz¹dzeniu mobilnym i sprawienie wra¿enia aplikacji natywnej. Takie rozwi¹zanie posiada zarówno swoje zalety, jak i wady. Do korzyœci na pewno nale¿¹:
@@ -183,7 +326,7 @@ Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów sy
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\linewidth]{rys02/architektura.drawio}
+  \includegraphics[width=\linewidth]{rys02/architektura}
   \caption{Schemat architektury systemu}
   \label{fig:architektura}
 \end{figure}
