@@ -560,8 +560,211 @@ const RoutePrivate: React.FC<RouteProps> = ({ children, ...rest }) => {
 
 
 \section{Implementacja rejestratora GPS}
+Schemat strony rejestratora GPS przedstawiono na rysunku~\ref{fig:trackerpage}. Komponent \texttt{TrackerPage} zawiera trzy komponenty:
+\begin{enumerate}
+  \item \texttt{Map} --- komponent mapy, odpowiedzialny za wyœwietlanie mapy, obecnej pozycji na mapie (w postaci markera) oraz œladu GPS w postaci linii ³amanej.
+  \item \texttt{MapControls} --- komponent z przyciskami steruj¹cymi zachowaniem mapy (œledzenie pozycji i centrowanie widoku do obecnej pozycji) oraz z przyciskiem w³¹czaj¹cym lub wy³¹czaj¹cym rejestrator GPS.
+  \item \texttt{MapDashboard} --- komponent wyœwietlaj¹cy statystki aktualnie nagrywanego œladu. Statystki wyliczane s¹ w \emph{hooku} \texttt{useActivityStatistics}.
+\end{enumerate}
 
-% \section{Implementacja kalkulatora statystyk œladu}
+Kluczowa logika strony zawarta jest w \emph{hooku} \texttt{useTracker}, którego najwa¿niejszym zadaniem jest rejestrowanie œladu GPS. Kod programu realizuj¹cy to zadanie przedstawiono na listingu~\ref{lst:trackerpage}. Po w³¹czeniu nagrywania stan \texttt{track} ustawiany jest na wartoœæ bêd¹c¹ tablic¹ zawieraj¹c¹ jeden pusty segment (pust¹ tablicê punktów), a stan \texttt{isTracking} ustawiany jest na wartoœæ \texttt{true}, czego skutkiem jest aktywacja \emph{hooka} \texttt{useInterval}. Interwa³ wywo³uje funkcjê \texttt{updateTrack} co 2000ms.
+
+Funkcja \texttt{updateTrack} najpierw sprawdza warunek, czy najnowsza pozycja jest dostêpna (w przypadku b³êdu uzyskania lokalizacji przez przegl¹darkê, ostatnia pozycja przyjmuje wartoœæ \texttt{null}). Gdy pozycja jest niedostêpna i gdy ostatni segment \texttt{tracka} nie jest pusty, do \texttt{tracka}, na koniec tablicy dodawany jest nowy pusty segment. W przeciwnym wypadku --- gdy dostêpna jest nowa pozycja --- dopisywana jest ona na koñcu ostatniego segmentu \texttt{tracka}. Ponadto, aktywne nagrywanie blokuje wygaszacz ekranu urz¹dzenia (funkcje \texttt{enableNoSleep} \texttt{disableNoSleep} z \emph{hooka} \texttt{useNoSleep}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/trackerpage}
+  \caption{Schemat strony rejestratora œladów GPS}
+  \label{fig:trackerpage}
+\end{figure}
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:trackerpage, caption=Kod strony rejestratora GPS, basicstyle=\footnotesize\ttfamily]
+const emptySegment: TrackSegment = [];
+const emptyTrack: Track = {
+  activityId: '',
+  segments: [emptySegment],
+};
+const useTracker = (interval: number = 2000): TrackRecorder => {
+  const { enableNoSleep, disableNoSleep } = useNoSleep();
+  const { startWatchingPosition, stopWatchingPosition, latestPosition, isWatchingPosition } = useGeolocation();
+  const [isTracking, setIsTracking] = useState<boolean>(false);
+  const [track, setTrack] = useState<Track>(emptyTrack);
+  useInterval(
+    () => {
+      updateTrack();
+    },
+    isTracking ? interval : null
+  );
+  const updateTrack = () => {
+    if (!latestPosition) {
+      if (track.segments[track.segments.length - 1].length !== 0) {
+        setTrack({ ...track, segments: [...track.segments, emptySegment] })
+      }
+      return;
+    }
+    const newTrackPoint: TrackPoint = {
+      lat: latestPosition.coords.latitude,
+      lon: latestPosition.coords.longitude,
+      ele: latestPosition.coords.altitude || null,
+      time: Date.now(),
+    };
+    const newTrack = { ...track, segments: [...track.segments] };
+    newTrack.segments[newTrack.segments.length - 1].push(newTrackPoint);
+    setTrack(newTrack);
+  };
+  const startTracking = (): void => {
+    if (isTracking) { return;}
+    if (!isWatchingPosition) {
+      startWatchingPosition();
+    }
+    setTrack(emptyTrack);
+    setIsTracking(true);
+    enableNoSleep();
+  };
+  const stopTracking = (): void => {
+    if (!isTracking) { return; }
+    setIsTracking(false);
+    disableNoSleep();
+  };
+  return {
+    track, startTracking, stopTracking, isTracking, ...geolocation,
+  };
+};
+\end{lstlisting}
+
+Dla lepszego zobrazowania dzia³ania funkcji \texttt{updateTrack}, na rysunku~\ref{fig:trackerpage} przedstawiono diagram sekwencji funkcji. W pseudokodzie na schemacie przyjêto nastêpuj¹ce oznaczenia:
+\begin{itemize}
+  \item \texttt{{[last]}} w zapisie \texttt{track.segments{[last]}} oznacza odwo³anie to ostatniego elementu w tablicy.
+  \item Metoda \texttt{.isEmpty()} zwraca \texttt{true}, je¿eli tablica jest pusta, \texttt{false} w przeciwnym razie.
+  \item Metoda \texttt{.push()} dodaje nowy element na koniec tablicy.
+  \item Metoda \texttt{.mapToTrackPoint()} oznacza zmapowanie obiektu \texttt{GeolocationPosition} na obiekt \texttt{TrackPoint}.
+\end{itemize}
+
+Obiekt \texttt{track} jest zwracany do komponentu \texttt{TrackerPage}, a nastêpnie przekazywany do wyœwietlenia do komponentu \texttt{Map}. Ponadto \texttt{track} jest równie¿ przekazywany do \emph{hooka} \texttt{useActivityStatistics}. Dokonuje on wyliczeñ statystyk i zwraca obiekt statystyk, który prezentowany jest przez komponent \texttt{StatisticsDashboard}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.75\linewidth]{rys03/updatetrack}
+  \caption{Diagram sekwencji dla funkcji \texttt{updateTrack} }
+  \label{fig:trackerpage}
+\end{figure}
+
+\section{Implementacja kalkulatora statystyk œladu}
+Kalkulator statystyk zaimplementowano w \emph{hooku} \texttt{useActivityStatistics}. \emph{Hook} zwraca obiekt statystyk który zawiera: ostatni¹ (najnowsz¹) oraz maksymaln¹ uzyskan¹ prêdkoœæ; ostatni¹ (najnowsz¹), minimaln¹ i maksymaln¹ wysokoœæ nad poziomem morza, sumê przewy¿szeñ przejechanych pod górê i z góry; ca³kowity przejechany dystans; ca³kowity czas podró¿y oraz czas podró¿y w ruchu.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:useactivitystatistics, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+export type ActivityStatisticsExtended = {
+  latestSpeed?: number; latestElevation?: number;
+} & ActivityStatistics;
+const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
+  const [latestSpeed, setLatestSpeed] = useState<number>();
+  const [latestElevation, setLatestElevation] = useState<number>();
+  const [totalDistance, setTotalDistance] = useState<number>();
+  const [totalDuration, setTotalDuration] = useState<number>();
+  const [inMotionDuration, setInMotionDuration] = useState<number>();
+  const [maxSpeed, setMaxSpeed] = useState<number>();
+  const [elevationUp, setElevationUp] = useState<number>();
+  const [elevationDown, setElevationDown] = useState<number>();
+  useEffect(() => {
+    const s = calculateStatistics(track);
+    setMaxSpeed(s.maxSpeed);
+    setLatestSpeed(s.latestSpeed);
+    setLatestElevation(s.latestElevation);
+    setTotalDuration(s.totalDuration);
+    setTotalDistance(s.totalDistance);
+    setInMotionDuration(s.inMotionDuration);
+    setElevationUp(s.elevationUp);
+    setElevationDown(s.elevationDown);
+  }, [track]);
+  return { latestSpeed, latestElevation, totalDistance, totalDuration, inMotionDuration, maxSpeed, elevationUp, elevationDown };
+};
+\end{lstlisting}
+
+Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla ka¿dej statystyki zaimplementowano osobny stan, a wszystkie stany zwracane s¹ z \emph{hooka} w jednym obiekcie. Przy ka¿dej modyfikacji obiektu \texttt{track} wywo³ywana jest funkcja \texttt{calculateStatistics(track)} która wylicza wszystkie statystyki. Z racji, ¿e funkcja jest obszerna, jej kodu nie zawarto na ¿adnym listingu. Natomiast algorytm jej dzia³ania opisuje nastêpuj¹cy pseudokod:
+\begin{enumerate}
+  \item Zainicjalizuj zmienne wartoœci¹ zerow¹:
+        \texttt{latestElevation}
+        \texttt{totalDuration}
+        \texttt{latestSpeed}
+        \texttt{maxSpeed}
+        \texttt{totalDistance}
+        \texttt{inMotionDuration}
+        \texttt{elevationUp}
+        \texttt{elevationDown}
+        \texttt{minElevation}
+        \texttt{maxElevation}.
+  \item Wykonaj \texttt{trackFlat = track.segments.flat()} --- sp³aszcz tablicê wielowymiarow¹ do tablicy jednowymiarowej.
+  \item Je¿eli tablica \texttt{trackFlat} jest pusta, idŸ do \emph{11}. W przeciwnym razie idŸ do \emph{3}.
+  \item Zainicjalizuj \texttt{ftp} jako pierwszy obiekt z \texttt{trackFlat}.
+  \item Zainicjalizuj \texttt{ltp} jako ostatni obiekt z \texttt{trackFlat}.
+  \item Przypisz \texttt{latestElevation} jako \texttt{ftp.ele}.
+  \item Przypisz \texttt{minElevation} jako \texttt{ftp.ele}.
+  \item Przypisz \texttt{maxElevation} jako \texttt{ftp.ele}.
+  \item Je¿eli \texttt{trackFlat.length >= 2}, oblicz i przypisz \texttt{latestSpeed} = \texttt{geoSpeed(\emph{ostatni element trackFlat, przedostatni element trackFlat})}.
+  \item Dla ka¿dego elementu \texttt{currTrackPoint} oraz \texttt{prevTrackPoint} takiego, ¿e \texttt{prevTrackPoint} jest bezpoœrednim poprzednikiem \texttt{currTrackPoint}:
+        \begin{enumerate}
+          \item Oblicz i przypisz \texttt{\{distance, speed, time, deltaElevation\} = geoMove(currTrackPoint, prevTrackPoint)}.
+          \item Je¿eli \texttt{speed>0}, idŸ do \emph{10.3}. W przeciwnym razie idŸ do \emph{10.1} kolejnej iteracji.
+          \item Przypisz \texttt{totalDistance += distance}.
+          \item Przypisz \texttt{inMotionDuration += time}.
+          \item Je¿eli \texttt{speed} jest wiêksze od \texttt{maxSpeed}, to przypisz: \texttt{maxSpeed = speed}.
+          \item Je¿eli \texttt{dElevation > 0}, to przypisz \texttt{elevationDown += dElevation}. W przeciwnym razie przypisz \texttt{elevationUp += -dElevation}
+          \item Je¿eli \texttt{currTrackPoint.ele} jest wiêksze od \texttt{maxElevation}, to przypisz \texttt{maxElevation = currTrackPoint.ele}
+          \item Je¿eli \texttt{currTrackPoint.ele} jest mniejsze od \texttt{minElevation}, to przypisz \texttt{minElevation = currTrackPoint.ele}
+        \end{enumerate}
+  \item Zwróæ obiekt z danymi: \{\texttt{latestElevation},
+        \texttt{totalDuration},
+        \texttt{latestSpeed},
+        \texttt{maxSpeed},
+        \texttt{totalDistance},
+        \texttt{inMotionDuration},
+        \texttt{elevationUp},
+        \texttt{elevationDown},
+        \texttt{minElevation},
+        \texttt{maxElevation}\}.
+\end{enumerate}
+
+Kod funkcji \texttt{geoMove} pokazano na listingu~\ref{lst:geomove}. Korzysta ona z funkcji pomocniczych \texttt{geoDistance}, \texttt{deltaTime}, \texttt{geoSpeed1}, \texttt{deltaElevation}, które dokonuj¹ odpowiednich obliczeñ. Szczególnie interesuj¹ca jest funkcja \texttt{geoDistance}, która korzysta z formu³y \emph{Harvesine}~\cite{harvesine}. Odpowiedni kod przedstawiono na listingu~\ref{lst:geodistance}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geomove, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+export const geoMove = (
+  lat1: number, lon1: number, time1: number, lat2: number, lon2: number, time2: number, ele1?: number | null, ele2?: number | null
+): {
+  distance: number; speed: number; time: number; dElevation: number | undefined;
+} => {
+  const distance = geoDistance(lat1, lon1, lat2, lon2); // m
+  const time = deltaTime(time1, time2); // ms
+  const speed = geoSpeed1(distance, time); // m/s
+  const dElevation = deltaElevation(ele1, ele2); // m
+  return { distance, speed, time, dElevation };
+};
+\end{lstlisting}
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geodistance, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+export const toRad = (value: number) => {
+  return (value * Math.PI) / 180;
+};
+export const geoDistance = (
+  lat1: number, lon1: number, lat2: number, lon2: number
+) => {
+  const R = 6371 * 1000; // Radius of the earth in m
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // m
+};
+\end{lstlisting}
+
 
 % \section{Implementacja importu œladów GPS}
 
