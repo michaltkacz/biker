@@ -150,7 +150,7 @@ W wyniku zebrania wymagañ projektowych powsta³a lista ogólna lista wymagañ u¿ytk
 \end{enumerate}
 
 \section{Wymagania funkcjonalne}
-Na poni¿szej liœcie zawarto wymagania funkcjonalne aplikacji:
+W poni¿szej liœcie zawarto wymagania funkcjonalne aplikacji:
 \begin{enumerate}
   \item Uwierzytelnianie:
         \begin{enumerate}
@@ -161,7 +161,7 @@ Na poni¿szej liœcie zawarto wymagania funkcjonalne aplikacji:
         \end{enumerate}
   \item Nagrywanie œladów GPS:
         \begin{enumerate}
-          \item Przegl¹danie mapy.
+          \item Podgl¹d mapy.
           \item W³¹czenie rejestrowania œladu GPS.
           \item Wy³¹czenie rejestrowania œladów GPS.
           \item Zapisanie zarejestrowanego œladu GPS jako nowa aktywnoœæ.
@@ -173,7 +173,7 @@ Na poni¿szej liœcie zawarto wymagania funkcjonalne aplikacji:
         \end{enumerate}
   \item Aktywnoœci:
         \begin{enumerate}
-          \item Dodawanie nowych aktywnoœci: import lub rejestrator GPS.
+          \item Dodawanie nowych aktywnoœci: import GPX lub rejestrator GPS.
           \item Usuwanie aktywnoœci.
           \item Edycja aktywnoœci:
                 \begin{itemize}
@@ -283,16 +283,29 @@ Na poni¿szej liœcie zawarto wymagania funkcjonalne aplikacji:
 \end{enumerate}
 
 \section{Wymagania niefunkcjonalne}
-Na poni¿szej liœcie zawarto wymagania niefunkcjonalne aplikacji:
+W poni¿szej liœcie zawarto wymagania niefunkcjonalne aplikacji:
+\begin{enumerate}
+  \item Dostêp do aplikacji z przegl¹darki komputera osobistego.
+  \item Dostêp do aplikacji z przegl¹darki urz¹dzenia mobilnego.
+  \item Synchronizacja danych niezale¿na od urz¹dzenia.
+  \item Mo¿liwoœæ instalacji aplikacji na urz¹dzeniu mobilnym.
+  \item Responsywnoœæ aplikacji.
+  \item Przejrzystoœæ dzia³ania aplikacji.
+  \item Przyjaznoœæ interfejsu u¿ytkownika.
+  \item Interfejs u¿ytkownika w jêzyku angielskim.
+  \item Szybkoœæ dzia³ania.
+  \item Wydajnoœæ dzia³ania.
+  \item Bezpieczeñstwo danych u¿ytkownika.
+\end{enumerate}-
 
 
 \section{Diagram przypadków u¿ycia}
 Diagram przypadków u¿ycia pokazano na rysunku~\ref{fig:uzycia}
 
-\begin{figure}[htp]
+\begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{rys02/uzycia}
-  \caption{Schemat architektury systemu}
+  \includegraphics[width=0.7\linewidth]{rys02/uzycia}
+  \caption{Diagram przypadków u¿ycia}
   \label{fig:uzycia}
 \end{figure}
 
@@ -479,25 +492,25 @@ Aplikacjê klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React} \c
   \caption{Lista g³ównych bibliotek wykorzystanych przy tworzeniu aplikacji klienta}
   \label{tab:biblioteki}
   \begin{tabularx}{\linewidth}{|l|X|X|} \hline
-    Nazwa                                     & Zastosowanie                                                                                                          & Link                                                                  \\      \hline\hline
-    \texttt{TypeScript}                       & Jêzyk programowania oparty na \texttt{JavaScript}, dodaj¹cy do statyczne typowanie                                    & \url{typescriptlang.org}                                              \\      \hline
-    \texttt{Less.js}                          & Rozszerzenie jêzykowe CSS, stylowanie aplikacji                                                                       & \url{lesscss.org}                                                     \\      \hline
-    \texttt{React}                            & Budowa interfejsu u¿ytkownika                                                                                         & \url{reactjs.org}                                                     \\      \hline
-    \texttt{Ant Design}                       & Gotowe komponenty reactowe oraz system designu                                                                        & \url{ant.design}                                                      \\      \hline
-    \texttt{Firebase}                         & Integracja z platform¹ Firebase                                                                                       & \url{firebase.google.com}                                             \\      \hline
-    \texttt{FirebaseUI}                       & Gotow¹ implementacja uwierzytelniania z platform¹ Firebase                                                            & \url{firebase.google.com}                                             \\      \hline
-    \texttt{Leaflet}                          & Interaktywne mapy                                                                                                     & \url{leafletjs.com}                                                   \\      \hline
-    \texttt{React-Leaflet}                    & Wrapper Leafleta, gotowe komponenty reactowe                                                                          & \url{react-leaflet.js.org}                                            \\      \hline
-    \texttt{FileSaver.js}                     & Obs³uga zapisywania plików na dysku                                                                                   & \url{github.com/eligrey/FileSaver.js}                                 \\      \hline
-    \texttt{react-vis}                        & Reactowe komponenty wykresów                                                                                          & \url{uber.github.io/react-vis/}                                       \\      \hline
-    \texttt{react-icons}                      & Reactowe komponenty ikon                                                                                              & \url{react-icons.github.io/react-icons/}                              \\      \hline
-    \texttt{react-resize-detector}            & API obserwacji zmiany rozmiaru elementów na stronie                                                                   & \url{github.com/maslianok/react-resize-detector}                      \\      \hline
-    \texttt{react-responsive }                & API obserwacji zmiany rozmiaru okna przegl¹darki                                                                      & \url{github.com/yocontra/react-responsive}                            \\      \hline
-    \texttt{GPXParser}                        & Parser standardu GPX na obiekty javascriptowe                                                                         & \url{github.com/Luuka/GPXParser.js}                                   \\      \hline
-    \texttt{GPX builder}                      & Parser obiektów javascriptowych na standard GPX                                                                       & \url{github.com/Luuka/GPXParser.js}                                   \\      \hline
-    \texttt{nosleep.js}                       & Mechanizm blokady wygaszania ekranu urz¹dzenia                                                                        & \url{github.com/richtr/NoSleep.js}                                    \\      \hline
-    \texttt{uuid}                             & Generator unikalnych identyfikatorów                                                                                  & \url{github.com/uuidjs/uuid}                                          \\      \hline
-    \texttt{he}                               & Enkoder i dekoder \emph{html entities}                                                                                & \url{github.com/mathiasbynens/he}                                     \\      \hline
-    \texttt{useTimeout}, \texttt{useInterval} & Hooki reactowe umo¿liwiaj¹ce deklaratywne u¿ycie javscriptowych funkcji \texttt{setTimeout} oraz \texttt{setInterval} & \url{overreacted.io/making-setinterval-declarative-with-react-hooks/} \\      \hline
+    Nazwa                                     & Zastosowanie                                                                                                          & Link                                                                   \\      \hline\hline
+    \texttt{TypeScript}                       & Jêzyk programowania oparty na \texttt{JavaScript}, dodaj¹cy do statyczne typowanie                                    & \url{typescriptlang.org}                                               \\      \hline
+    \texttt{Less.js}                          & Rozszerzenie jêzykowe CSS, stylowanie aplikacji                                                                       & \url{lesscss.org}                                                      \\      \hline
+    \texttt{React}                            & Budowa interfejsu u¿ytkownika                                                                                         & \url{reactjs.org}                                                      \\      \hline
+    \texttt{Ant Design}                       & Gotowe komponenty reactowe oraz system designu                                                                        & \url{ant.design}                                                       \\      \hline
+    \texttt{Firebase}                         & Integracja z platform¹ Firebase                                                                                       & \url{firebase.google.com}                                              \\      \hline
+    \texttt{FirebaseUI}                       & Gotow¹ implementacja uwierzytelniania z platform¹ Firebase                                                            & \url{firebase.google.com}                                              \\      \hline
+    \texttt{Leaflet}                          & Interaktywne mapy                                                                                                     & \url{leafletjs.com}                                                    \\      \hline
+    \texttt{React-Leaflet}                    & Wrapper Leafleta, gotowe komponenty reactowe                                                                          & \url{react-leaflet.js.org}                                             \\      \hline
+    \texttt{FileSaver.js}                     & Obs³uga zapisywania plików na dysku                                                                                   & \url{github.com/eligrey/FileSaver.js}                                  \\      \hline
+    \texttt{react-vis}                        & Reactowe komponenty wykresów                                                                                          & \url{uber.github.io/react-vis/}                                        \\      \hline
+    \texttt{react-icons}                      & Reactowe komponenty ikon                                                                                              & \url{react-icons.github.io/react-icons/}                               \\      \hline
+    \texttt{react-resize-detector}            & API obserwacji zmiany rozmiaru elementów na stronie                                                                   & \url{github.com/maslianok/react-resize-detector}                       \\      \hline
+    \texttt{react-responsive }                & API obserwacji zmiany rozmiaru okna przegl¹darki                                                                      & \url{github.com/yocontra/react-responsive}                             \\      \hline
+    \texttt{GPXParser}                        & Parser standardu GPX na obiekty javascriptowe                                                                         & \url{github.com/Luuka/GPXParser.js}                                    \\      \hline
+    \texttt{GPX builder}                      & Parser obiektów javascriptowych na standard GPX                                                                       & \url{github.com/Luuka/GPXParser.js}                                    \\      \hline
+    \texttt{nosleep.js}                       & Mechanizm blokady wygaszania ekranu urz¹dzenia                                                                        & \url{github.com/richtr/NoSleep.js}                                     \\      \hline
+    \texttt{uuid}                             & Generator unikalnych identyfikatorów                                                                                  & \url{github.com/uuidjs/uuid}                                           \\      \hline
+    \texttt{he}                               & Enkoder i dekoder \emph{html entities}                                                                                & \url{github.com/mathiasbynens/he}                                      \\      \hline
+    \texttt{useTimeout}, \texttt{useInterval} & Hooki reactowe umo¿liwiaj¹ce deklaratywne u¿ycie javscriptowych funkcji \texttt{setTimeout} oraz \texttt{setInterval} & \url{gist.github.com/Danziger/336e75b6675223ad805a88c2} \url{dfdcfd4a} \\      \hline
   \end{tabularx}
 \end{table}
