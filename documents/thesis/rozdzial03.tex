@@ -1,6 +1,5 @@
 \chapter{Implementacja projektu}
 \label{chap:implementacja}
-
 W niniejszym rozdziale przedstawiono proces tworzenia aplikacji. Pokazano fragmenty kodu realizuj¹ce kluczowe funkcjonalnoœci, jak np.:~uwierzytelnianie, rejestrowanie œladów czy prezentacja statystyk. Zawarto równie¿ rysunki, na których ukazane s¹ widoki aplikacji.
 
 Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu.
@@ -27,10 +26,10 @@ Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejn
 Pracê nad projektem prowadzono z u¿yciem edytora \texttt{Visual Studio Code}. Zmiany w kodzie regularnie zapisywano do zdalnego repozytorium \texttt{GitHub}. Repozytorium jest publiczne, a~dostêp do niego mo¿na uzyskaæ pod adresem:~\url{https://github.com/michaltkacz/biker}.
 
 \section {Inicjalizacja aplikacji klienta}
-Projekt aplikacji klienta utworzono przez uruchomienie komendy w œrodowisku \texttt{Node.js}, przedstawionej na listingu~\ref{lst:npx}. Dziêki wykorzystaniu flagi \texttt{--template cra-template-pwa-typescript} projekt zainicjalizowano w konfiguracji z jêzykiem \texttt{TypeScript} oraz z zaimplementowanym \emph{service-workerem} odpowiedzialnym za dzia³anie aplikacji w trybie PWA. Nastêpnie projekt oczyszczono ze zbêdnych plików oraz zainstalowano kluczowe, dodatkowe biblioteki (ponownie listing~\ref{lst:npx}) konieczne do rozpoczêcia pracy nad kodem (pozosta³e biblioteki w miarê zapotrzebowania doinstalowywano w póŸniejszych etapach rozwoju aplikacji).
+Projekt aplikacji klienta utworzono przez uruchomienie komendy w œrodowisku \texttt{Node.js}, przedstawionej na listingu~\ref{lst:npx}. Dziêki wykorzystaniu flagi \texttt{--template cra-template-pwa-typescript} projekt zainicjalizowano w konfiguracji z jêzykiem \texttt{TypeScript} oraz z zaimplementowanym \emph{service-workerem} odpowiedzialnym za dzia³anie aplikacji w trybie PWA. Nastêpnie projekt oczyszczono ze zbêdnych plików oraz zainstalowano kluczowe, dodatkowe biblioteki (ponownie listing~\ref{lst:npx}) konieczne do rozpoczêcia pracy nad kodem (pozosta³e biblioteki w miarê zapotrzebowania doinstalowywano w póŸniejszych etapach rozwoju aplikacji). Finaln¹ strukturê plików uzyskan¹ po ukoñczeniu projektu przedstawiono w dodatku~\ref{chap:b}.
 
-  {\belowcaptionskip=-9pt
-    \begin{lstlisting}[label=lst:npx, caption=Inicjalizacja projektu React oraz instalacja kluczowych bibliotek, basicstyle=\footnotesize\ttfamily]
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[label=lst:npx, caption=Inicjalizacja projektu React oraz instalacja kluczowych bibliotek, basicstyle=\footnotesize\ttfamily]
 npx create-react-app react-pwa-ts --template cra-template-pwa-typescript
 cd react-pwa-ts
 npm i react-router
@@ -44,7 +43,7 @@ npm i leaflet
 npm i react-leaflet
 npm i react-icons
 \end{lstlisting}
-  }
+}
 
 \begin{figure}[htb]
   \centering
@@ -438,6 +437,7 @@ export const startFirebaseUI = () => {
   firebaseUI.start('#' + elementID, firebaseUiDefaultConfig);
 };
 \end{lstlisting}
+}
 
 Dane zalogowanego u¿ytkownika dostêpne s¹ w przestrzeni aplikacji dziêki wykorzystaniu kontekstu~\cite{reactcontext} o nazwie \texttt{AuthContext}, którego definicja znajduje siê w pliku \texttt{src/firebase/contexts/AuthContext.tsx}. Najwa¿niejsze jego funkcje przedstawiono na listingu~\ref{lst:authcontext}. Kluczowym dzia³aniem jest subskrypcja \texttt{onAuthStateChanged}, która nas³uchuje odpowiedzi ze strony \texttt{Firebase}. W przypadku pojawienia siê poprawnej odpowiedzi, otrzymywany jest obiekt u¿ytkownika. Nastêpnie obiekt ten jest zapisany jako \texttt{currentUser}. Wszystkie komponenty bêd¹ce potomkami (widoczne na listingu~\ref{lst:routing}) kontekstu posiadaj¹ dostêp do obiektu u¿ytkownika poprzez hook~\cite{reacthooks} \texttt{useAuth}, zdefiniowany w pliku \texttt{src/firebase/hooks/useAuth.tsx}.
 
@@ -475,12 +475,13 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 \end{lstlisting}
+}
 
 \section{Implementacja routingu}
 Dynamiczny routing po stronie klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React Router}. strukturê routingu pokazano na listingu~\ref{lst:routing}. Trasa do strony autoryzacji jest publiczna, natomiast trasy do stron: profilu, rejestratora GPS i aktywnoœci s¹ prywatne. W przypadku próby dostêpu do niezdefiniowanej trasy, nastêpuje przekierowanie na stronê \texttt{NotFoundPage}, która informuje u¿ytkownika, ¿e strona pod zadan¹ tras¹ nie istnieje.
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:routing, caption=Struktura aplikacji oraz routing aplikacji, basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:routing, caption=Struktura aplikacji oraz routing aplikacji, basicstyle=\footnotesize\ttfamily]
   const App: React.FC = () => {
     return (
       <Router>
@@ -507,6 +508,7 @@ Dynamiczny routing po stronie klienta zaimplementowano z wykorzystaniem bibliote
     );
   };
 \end{lstlisting}
+  }
 
 Do tras publicznych maj¹ dostêp wszyscy u¿ytkownicy nieuwierzytelnieni. Komponent \texttt{PublicPrivate} przedstawiono na listingu~\ref{lst:privateroute}. Je¿eli trasê próbuje odwiedziæ u¿ytkownik uwierzytelniony, to nastêpuje przekierowanie na stronê profilu u¿ytkownika. Zabieg ten ma na celu zablokowanie dostêpu do strony autoryzacji w przypadku, gdy w aplikacji jest ju¿ zalogowany u¿ytkownik.
 
@@ -522,11 +524,12 @@ const RoutePublic: React.FC<RouteProps> = ({ children, ...rest }) => {
   );
 };
 \end{lstlisting}
+}
 
 Trasa prywatna to taka, do której dostêp maj¹ jedynie u¿ytkownicy uwierzytelnieni. Komponent \texttt{RoutePrivate} przedstawiono na listingu~\ref{lst:privateroute}. Je¿eli w aplikacji jest uwierzytelniony u¿ytkownik, to zwracany jest docelowy komponent trasy. W przeciwnym razie nastêpuje przekierowanie na stronê uwierzytelniania.
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:privateroute, caption=Prywatna trasa routingu, basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:privateroute, caption=Prywatna trasa routingu, basicstyle=\footnotesize\ttfamily]
 const RoutePrivate: React.FC<RouteProps> = ({ children, ...rest }) => {
   const { currentUser } = useAuth();
   return (
@@ -539,7 +542,7 @@ const RoutePrivate: React.FC<RouteProps> = ({ children, ...rest }) => {
   );
 };
 \end{lstlisting}
-
+  }
 
 \section{Implementacja rejestratora GPS}
 Schemat strony rejestratora GPS przedstawiono na rysunku~\ref{fig:trackerpage}. Komponent \texttt{TrackerPage} zawiera trzy komponenty:
@@ -614,6 +617,7 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
   };
 };
 \end{lstlisting}
+}
 
 Dla lepszego zobrazowania dzia³ania funkcji \texttt{updateTrack}, na rysunku~\ref{fig:trackerpage} przedstawiono diagram sekwencji funkcji. W pseudokodzie na schemacie przyjêto nastêpuj¹ce oznaczenia:
 \begin{itemize}
@@ -635,8 +639,8 @@ Obiekt \texttt{track} jest zwracany do komponentu \texttt{TrackerPage}, a nastêp
 \section{Implementacja kalkulatora statystyk œladu}
 Kalkulator statystyk zaimplementowano w \emph{hooku} \texttt{useActivityStatistics}. \emph{Hook} zwraca obiekt statystyk który zawiera: ostatni¹ (najnowsz¹) oraz maksymaln¹ uzyskan¹ prêdkoœæ; ostatni¹ (najnowsz¹), minimaln¹ i maksymaln¹ wysokoœæ nad poziomem morza, sumê przewy¿szeñ przejechanych pod górê i z góry; ca³kowity przejechany dystans; ca³kowity czas podró¿y oraz czas podró¿y w ruchu.
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:useactivitystatistics, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:useactivitystatistics, caption=Kod \emph{hooka} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
 export type ActivityStatisticsExtended = {
   latestSpeed?: number; latestElevation?: number;
 } & ActivityStatistics;
@@ -662,7 +666,7 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
   }, [track]);
   return { latestSpeed, latestElevation, totalDistance, totalDuration, inMotionDuration, maxSpeed, elevationUp, elevationDown };
 };
-\end{lstlisting}
+\end{lstlisting}}
 
 Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla ka¿dej statystyki zaimplementowano osobny stan, a wszystkie stany zwracane s¹ z \emph{hooka} w jednym obiekcie. Przy ka¿dej modyfikacji obiektu \texttt{track} wywo³ywana jest funkcja \texttt{calculateStatistics(track)} która wylicza wszystkie statystyki. Z racji, ¿e funkcja jest obszerna, jej kodu nie zawarto na ¿adnym listingu. Natomiast algorytm jej dzia³ania opisuje nastêpuj¹cy pseudokod:
 \begin{enumerate}
@@ -710,8 +714,8 @@ Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla 
 
 Kod funkcji \texttt{geoMove} pokazano na listingu~\ref{lst:geomove}. Korzysta ona z funkcji pomocniczych \texttt{geoDistance}, \texttt{deltaTime}, \texttt{geoSpeed1}, \texttt{deltaElevation}, które dokonuj¹ odpowiednich obliczeñ. Szczególnie interesuj¹ca jest funkcja \texttt{geoDistance}, która korzysta z formu³y \emph{Harvesine}~\cite{harvesine}. Odpowiedni kod przedstawiono na listingu~\ref{lst:geodistance}. Funkcje \texttt{deltaTime}, \texttt{deltaElevation} sprowadzaj¹ siê do obliczenia jedynie ró¿nicy dwóch wartoœci (dla czasu zwracana jest wartoœæ bezwzglêdna), natomiast \texttt{geoSpeed1} implementuje formu³ê wyliczaj¹c¹ prêdkoœæ w ruchu jednostajnym (dystans dzielony przez czas).
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geomove, caption=Kod funkcji \texttt{geoMove}, basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geomove, caption=Kod funkcji \texttt{geoMove}, basicstyle=\footnotesize\ttfamily]
 export const geoMove = (
   lat1: number, lon1: number, time1: number, lat2: number, lon2: number, time2: number, ele1?: number | null, ele2?: number | null
 ): {
@@ -723,10 +727,10 @@ export const geoMove = (
   const dElevation = deltaElevation(ele1, ele2); // m
   return { distance, speed, time, dElevation };
 };
-\end{lstlisting}
+\end{lstlisting}}
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geodistance, caption=Kod funkcji \texttt{geoDistance}, basicstyle=\footnotesize\ttfamily]
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geodistance, caption=Kod funkcji \texttt{geoDistance}, basicstyle=\footnotesize\ttfamily]
 export const toRad = (value: number) => {
   return (value * Math.PI) / 180;
 };
@@ -745,7 +749,7 @@ export const geoDistance = (
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c; // m
 };
-\end{lstlisting}
+\end{lstlisting}}
 
 
 \section{Implementacja importu œladów GPS}
@@ -804,7 +808,7 @@ useEffect(() => {
       });
   });
 }, [file, currentUserId]);
-\end{lstlisting}
+\end{lstlisting}}
 
 \begin{figure}[hp]
   \centering
@@ -818,6 +822,7 @@ useEffect(() => {
 \end{figure}
 
 \section{Implementacja eksportu œladów GPS}
+\label{sec:eksport}
 Schemat procesu eksportu aktywnoœci do pliku GPX przedstawiono na rysunku~\ref{fig:eksport}. W widoku aktywnoœci (rys.~\ref{fig:globalpage}) u¿ytkownik wybiera aktywnoœæ, która ma zostaæ wyeksportowana. Naciœniêcie przycisku \texttt{Export GPX} wywo³uje funkcjê \texttt{buildGpxAndSaveFile}, której kod przedstawiono na listingu~\ref{lst:eksport}. Funkcja przyjmuje dwa parametry: obiekt typu \texttt{Track} (definicja typu --- \ref{lst:dbtypes3}) oraz \texttt{filename}.
 
 W pierwszym kroku w funkcji pomocniczej \texttt{buildGpx} obiekt \texttt{track} mapowany jest na tablicê obiektów typu \texttt{Point} zdefiniowanego w bibliotece \texttt{GPX builder}. Nastêpnie funkcja \texttt{buildGPX} generuje ³añcuch znaków, który jest reprezentacj¹ \texttt{tracka} w standardzie GPX. £añcuch znaków zapisywany jest do pliku z rozszerzeniem \texttt{*.gpx} funkcj¹ \texttt{saveAs} dostarczon¹ przez bibliotekê \texttt{file-saver}.
@@ -845,44 +850,127 @@ export const buildGpx = (track: Track) => {
   });
   return buildGPX(gpxData.toObject());
 };
-\end{lstlisting}
-
-
-% \begin{figure}[h]
-%   \centering
-%   \includegraphics[width=\linewidth]{rys03/import}
-%   \caption{Schemat procesu importu aktywnoœci z pliku GPX}
-%   \label{fig:import}
-% \end{figure}
-
-% \begin{figure}[h]
-%   \centering
-%   \includegraphics[width=\linewidth]{rys03/eksport}
-%   \caption{Schemat procesu eksportu aktywnoœci do pliku GPX}
-%   \label{fig:eksport}
-% \end{figure}
-
+\end{lstlisting}}
 
 \section{Implementacja aktywnoœci}
-Strona aktywnoœci \texttt{ActivityPage} {rys.~\ref{fig:globalpage}} sk³ada siê z dwóch komponentów: importu aktywnoœci (umiejscowiony na górze strony) oraz listy zapisanych aktywnoœci. Ka¿dy element tej listy to komponent \texttt{Activity}. W komponencie tym prezentowane s¹ dane aktywnoœci, œlad GPS na mapie, statystyki aktywnoœci oraz wykresy aktywnoœci (rys.~\ref{fig:activitycharts}). Oprócz wyœwietlania danych dostêpne s¹ trzy funkcjonalnoœci: edycja danych aktywnoœci, usuniêcie aktywnoœci oraz eksport aktywnoœci.
+Strona aktywnoœci \texttt{ActivityPage} {rys.~\ref{fig:globalpage}} sk³ada siê z dwóch komponentów: importu aktywnoœci (umiejscowiony na górze strony) oraz listy zapisanych aktywnoœci. Ka¿dy element tej listy to komponent \texttt{Activity}. W komponencie tym prezentowane s¹ dane aktywnoœci, œlad GPS na mapie, statystyki aktywnoœci oraz wykresy aktywnoœci (rys.~\ref{fig:activitycharts}). Oprócz wyœwietlania danych dostêpne s¹ trzy funkcjonalnoœci: edycja danych aktywnoœci, usuniêcie aktywnoœci oraz eksport aktywnoœci. Kod funkcji przedstawiono na listingu~\ref{lst:activityfunctions}.
 
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:activityfunctions, caption={Kod funkcji: edycji, usuniêcia oraz eksportu aktywnoœci}, basicstyle=\footnotesize\ttfamily]
+    const onDeleteActivity = () => {
+    deleteActivityWithTrack(currentUserId, activity.activityId)
+      .then(() => {
+        message.success('Activity deleted');
+      })
+      .catch(() => {
+        message.error("Activity couldn't be deleted");
+      });
+  };
+  const onUpdateActivity = () => {
+    const payload: { [filed: string]: any } = {};
+    payload['/lastModifiedAt'] = Date.now();
+    updates.name && (payload['/name'] = name);
+    updates.sport && (payload['/sport'] = sport);
+    updates.category && (payload['/category'] = category);
+    updates.shape && (payload['/shape'] = shape);
+    updates.rating && (payload['/rating'] = rating || null);
+    updates.tags && (payload['/tags'] = tags || null);
+    updateActivity(currentUserId, activity.activityId, payload)
+      .then(() => {
+        message.success('Activity updated');
+      })
+      .catch(() => {
+        message.error("Activity couldn't be updated");
+      });
+    setUpdates(ActivityNotUpdated);
+    setActivityModified(false);
+  };
+  const onExportActivity = () => {
+    if (!track) {
+      message.error("Activity couldn't be exported");
+      return;
+    }
+    buildGpxAndSaveFile(track, activity.name);
+  };
+\end{lstlisting}}
 
-\begin{figure}[h]
+Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWithTrack}, która usuwa z bazy danych u¿ytkownika aktywnoœæ o zadanym identyfikatorze. Naciœniêcie przycisku \texttt{Update} (domyœlnie zablokowany, odblokowuje siê po wprowadzeniu zmiany w danych aktywnoœci) powoduje najpierw utworzenie obiektu \texttt{payload}, który zawiera listê zmian aktywnoœci, a nastêpnie wywo³anie funkcji \texttt{updateActivity}, która dokonuje aktualizacji w bazie danych u¿ytkownika. Funkcjê eksportu opisano w sekcji~\ref{sec:eksport}, a komunikacjê z baz¹ danych --- w sekcji~\ref{sec:bazadanych}.
+
+Wykresy (rys.~\ref{fig:activitycharts}) wyœwietlane s¹ przez komponent \texttt{ActivityCharts}, który otrzymuje (jako w³aœciwoœæ) obiekt \texttt{track}. W pierwszej kolejnoœci jest on mapowany na serie danych obs³ugiwane przez wykresy z biblioteki \texttt{React-Vis}. W najprostszej wersji seria danych dla u¿ywanych wykresów typu \texttt{AreaChart} to tablica obiektów z dwoma kluczami:~\texttt{x} oraz {y}, odpowiadaj¹cymi wartoœciami odpowiednim osiom wykresu. Kod odpowiedzialny za mapowanie przedstawiono na listingu~\ref{lst:datachartmap}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:datachartmap, caption=Fragment kodu funkcji generowania serii danch dla wykresów aktywnoœci, basicstyle=\footnotesize\ttfamily]
+const parseData = async () => {
+  ...
+  flatTrack.forEach((point, index) => {
+    const newElevation = Math.round(point.ele || 0);
+    if (index !== 0) {
+      const prevPoint = flatTrack[index - 1];
+      const { distance, speed } = geoMove(
+        point.lat,
+        point.lon,
+        point.time,
+        prevPoint.lat,
+        prevPoint.lon,
+        prevPoint.time
+      );
+      newDistance += distance / 1000;
+      newSpeed = speed * 3.6;
+    }
+    ...
+    newDistanceData.push({ x: point.time, y: newDistance });
+    newSpeedData.push({ x: point.time, y: newSpeed });
+    newElevationData.push({
+      x: point.time,
+      y: newElevation,
+    });
+  });
+  ...
+};
+\end{lstlisting}}
+
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\linewidth]{rys03/activitydatastats}
+  \includegraphics[width=0.98\linewidth]{rys03/activitydatastats}
+  \caption{Widok danych i statystyk aktywnoœci}
+  \label{fig:activitydatastats}
+\end{figure}
+
+\begin{figure}[hb]
+  \centering
+  \includegraphics[width=0.98\linewidth]{rys03/activitycharts2}
   \caption{Widok wykresów aktywnoœci}
   \label{fig:activitycharts}
 \end{figure}
 
-\begin{figure}[h]
+
+\section{Integracja z \texttt{Realtime Database}}
+\label{sec:bazadanych}
+W celu integracji z baz¹ danych w pierwszym kroku nale¿y w aplikacji zainicjalizowaæ obiekt bazy danych, jak pokazano  na listingu~\ref{lst:fireinit} (obiekt \texttt{database}). Wszystkie funkcje odpowiedzialne za komunikacjê z baz¹ zaimplementowano w pliku \texttt{src/firebase/hooks/useDatabase.tsx}. Lista i opis zaimplementowanych funkcji przedstawiono w tabeli~\ref{tab:crudy}. Jest to minimalny i wystarczaj¹cy zestaw funkcji koniecznych do realizacji wszystkich wymagañ funkcjonalnych projektu.
+
+\begin{table}[htb] \small
   \centering
-  \includegraphics[width=0.8\linewidth]{rys03/activitycharts}
-  \caption{Widok wykresów aktywnoœci}
-  \label{fig:activitycharts}
-\end{figure}
+  \caption{Spis funkcji do komunikacji z baz¹ danych}
+  \label{tab:crudy}
+  \begin{tabularx}{\linewidth}{|l|l|l|X|} \hline
+    Nazwa                            & Typ         & Operacja        & Opis                                     \\\hline\hline
+    \texttt{useReadActivities}       & \emph{hook} & \texttt{READ}   & Odczyt wszystkich aktywnoœci u¿ytkownika \\\hline
+    \texttt{useReadTrack}            & \emph{hook} & \texttt{READ}   & Odczyt œladu GPX u¿ytkownika             \\\hline
+    \texttt{useReadProfile}          & \emph{hook} & \texttt{READ}   & Odczyt danych profilu u¿ytkownika        \\\hline
+    \texttt{writeActivityWithTrack}  & funkcja     & \texttt{WRITE}  & Zapis aktywnoœci wraz ze œladem GPS      \\\hline
+    \texttt{deleteActivityWithTrack} & funkcja     & \texttt{DELETE} & Usuniêcie aktywnoœci wraz ze œladem GPS  \\\hline
+    \texttt{updateActivity}          & funkcja     & \texttt{UPDATE} & Aktualizacja danych aktywnoœci           \\\hline
+    \texttt{updateProfile}           & funkcja     & \texttt{UPDATE} & Aktualizacja danych profilu              \\\hline
+  \end{tabularx}
+\end{table}
 
-% \section{Integracja z \texttt{Realtime Database}}
+Odczyt z bazy danych powoduje zarejestrowanie nas³uchiwacza (ang.~\emph{listener registration}), dziêki czemu zmiany w bazie danych s¹ od razu przesy³ane do aplikacji klienta. Aby w pe³ni wykorzystaæ potencja³ tej funkcjonalnoœci, wszystkie operacje \texttt{READ}, czyli: odczyt wszystkich aktywnoœci u¿ytkownika, odczyt œladu GPX u¿ytkownika i odczyt danych profilu u¿ytkownika zaimplementowano jako \emph{hooki}, zamiast jako zwyk³e funkcje.
+Pozosta³e operacja mo¿na nazwaæ \emph{operacjami jednostronnymi}, tzn.:~wysy³aj¹ one jedynie zapytanie do bazy danych i nie rejestruj¹ ¿adnych s³uchaczy. Z tego powodu zaimplementowano je jako zwyk³e funkcje.
+a
 
-% \section{Implementacja profilu u¿ytkownika}
 
-% \section{Implementacja kalkulatora statystyk profilu}
+\section{Implementacja profilu u¿ytkownika}
+Strona profilu u¿ytkownika sk³ada siê z trzech g³ównych sekcji: sekcja danych u¿ytkownika, sekcja statystyk oraz sekcja wykresów
+
+
+\section{Implementacja kalkulatora statystyk profilu}

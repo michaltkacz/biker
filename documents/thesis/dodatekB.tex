@@ -1,2 +1,91 @@
 \chapter{Opis za³¹czonej p³yty CD/DVD}
 \label{chap:b}
+Na za³¹czonej p³ycie CD/DVD zawarto katalog o nazwie \texttt{biker} z plikami projektu aplikacji. W celu konfiguracji œrodowiska uruchomieniowego, nale¿y postêpowaæ wed³ug instrukcji zawartej w dodatku~\ref{chap:a}. Strukturê katalogu przedstawiono w tabeli~\ref{tab:filesstructure}.
+
+W trakcie pracy nad projektem, w katalogu g³ównym generowane s¹ dwa dodatkowe katalogi: \texttt{.node\_modules} zawieraj¹cy kody u¿ywanych bibliotek oraz w (po zbudowaniu aplikacji) folder \texttt{build}. Oba te foldery ignorowane s¹ przez \texttt{.gitignore}.
+
+W katalogu \texttt{components} oprócz plików \texttt{App.tsx} i \texttt{App.less} znajduj¹ siê katalogi których nazwy odpowiadaj¹ nazwom poszczególnych komponentów. Nazwy tych katalogów oraz pliki styli komponentów zapisane s¹ notacj¹ \texttt{camelCase}, natomiast nazwy plików samych komponentów --- notacj¹ \texttt{PascalCase}.
+
+\newpage
+\begin{table}[htb] \small
+    \centering
+    \caption{Struktura plików projektu}
+    \label{tab:filesstructure}
+    \begin{tabular}{|l|l|}\hline
+        Katalog g³ówny & Katalog \texttt{src} (g³ówny kod aplikacji)            \\ \hline\hline
+        \begin{minipage}{0.4\linewidth}
+            \dirtree{%
+                .1 {biker/}.
+                .2 {.firebase/}.
+                .3 {hosting.cache}.
+                .2 {public/}.
+                .3 {favicon.ico}.
+                .3 {favicon.svg}.
+                .3 {index.html}.
+                .3 {logo.svg}.
+                .3 {logo\_maskable.svg}.
+                .3 {manifest.json}.
+                .3 {robots.txt}.
+                .2 {src/}.
+                .3 {...}.
+                .2 {.firebaserc}.
+                .2 {.gitattributes}.
+                .2 {.gitignore}.
+                .2 {README.md}.
+                .2 {craco.config.js}.
+                .2 {firebase.json}.
+                .2 {package-lock.json}.
+                .2 {package.json}.
+                .2 {package.json}.
+                .2 {tsconfig.json}.
+            }
+        \end{minipage}
+                       &
+        \begin{minipage}{0.6\linewidth}\dirtree{%
+                .1 {../}.
+                .2 {src/}.
+                .3 {assets/}.
+                .4 {fonts/}.
+                .5 {Road\_Rage.otf}.
+                .4 {images/}.
+                .5 {bg.jpg}.
+                .4 {brand.svg}.
+                .3 {components/}.
+                .4 {\emph{componentName}/}.
+                .5 {\emph{componentName}.less}.
+                .5 {\emph{ComponentName}.tsx}.
+                .4 {App.less}.
+                .4 {App.tsx}.
+                .3 {database/}.
+                .4 {schema.tsx}.
+                .3 {firebase/}.
+                .4 {contexts/}.
+                .5 {AuthContext.tsx}.
+                .4 {hooks/}.
+                .5 {useAuth.tsx}.
+                .5 {useDatabase.tsx}.
+                .4 {firebase.tsx}.
+                .4 {firebaseUI.tsx}.
+                .3 {global/}.
+                .4 {geolocationMath.ts}.
+                .4 {gpxBuilder.ts}.
+                .4 {pages.ts}.
+                .4 {statisticsFromatters.ts}.
+                .4 {geolocationMath.ts}.
+                .4 {geolocationMath.ts}.
+                .3 {hooks/}.
+                .4 {useActivityStatistics.tsx}.
+                .4 {useGeolocation.tsx}.
+                .4 {useInterval.tsx}.
+                .4 {useNoSleep.tsx}.
+                .4 {useTimeout.tsx}.
+                .4 {useTracker.tsx}.
+                .3 {index.tsx}.
+                .3 {react-app-env.d.ts}.
+                .3 {reportWebVitals.ts}.
+                .3 {service-worker.ts}.
+                .3 {serviceWorkerRegistration.ts}.
+            }\end{minipage} \\ \hline
+    \end{tabular}
+\end{table}
+
