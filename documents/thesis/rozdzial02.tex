@@ -296,7 +296,7 @@ W poni¿szej liœcie zawarto wymagania niefunkcjonalne aplikacji:
   \item Szybkoœæ dzia³ania.
   \item Wydajnoœæ dzia³ania.
   \item Bezpieczeñstwo danych u¿ytkownika.
-\end{enumerate}-
+\end{enumerate}
 
 
 \section{Diagram przypadków u¿ycia}
@@ -361,7 +361,7 @@ Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Go
 
 \begin{table}[htb] \small
   \centering
-  \caption{Lista bibliotek wykorzystanych przy implementacji aplikacji klienta}
+  \caption{Modu³y platformy \texttt{Firebase}}
   \label{tab:firebase}
   \begin{tabularx}{\linewidth}{|l|X|} \hline
     Modu³                       & Opis                                                                                                                                                                                              \\ \hline\hline
@@ -397,7 +397,7 @@ Firebase dostarcza równie¿ bibliotekê \texttt{FirebaseUI}, która posiada zaimple
 Schemat struktury obiektu JSON stanowi¹cego bazê danych przedstawia pseudokod zawarty na listingu~\ref{lst:database}. Na schemacie podano typy poszczególnych pól. Znak~\texttt{?} przy nazwie pola sugeruje, ¿e pole to mo¿e byæ w bazie niezainicjalizowane. Wpis \texttt{<unique(userId)>} nale¿y rozumieæ, ¿e w obrêbie obiektu-rodzica mo¿e wyst¹piæ wiele obiektów, których nazwy s¹ unikalne. Typy \texttt{GENDERS}, \texttt{RATINGS}, \texttt{SPORTS}, \texttt{CATEGORIES} pe³ni¹ w schemacie rolê tylko pomocnicz¹, a zapis \texttt{valueOf(\emph{TYPE})} oznacza, ¿e pole przyjmuje jedn¹ wartoœæ z danego \emph{TYPE}. W przypadku \texttt{activities} i \texttt{tracks} obiekty-dzieci przyjmuj¹ nazwy odpowiadaj¹ce identyfikatorowi aktywnoœci. Wystêpuje tu relacja jeden do jednego --- jeden \emph{track} jest przyporz¹dkowany do jednej \emph{activity}. Zastosowana praktyka jest powszechnie stosowana w obiektowych bazach danych.
 
   {\belowcaptionskip=-9pt
-    \begin{lstlisting}[language=JavaScript, label=lst:database, caption=Pseudkod przedstawiaj¹cy strukturê zastosowanej bazy danych, basicstyle=\footnotesize\ttfamily]
+    \begin{lstlisting}[language=JavaScript, label=lst:database, caption=Struktura zastosowanej bazy danych w postaci pseudokodu, basicstyle=\footnotesize\ttfamily]
 // Pomocnicze oznaczenia
 GENDERS = 'male' | 'female' | 'other';
 RATINGS = 'terrible' | 'poor' | 'fair' | 'good' | 'excellent';
@@ -489,7 +489,7 @@ Aplikacjê klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React} \c
 
 \begin{table}[htb] \small
   \centering
-  \caption{Lista g³ównych bibliotek wykorzystanych przy tworzeniu aplikacji klienta}
+  \caption{G³ówne biblioteki wykorzystane przy tworzeniu aplikacji klienta}
   \label{tab:biblioteki}
   \begin{tabularx}{\linewidth}{|l|X|X|} \hline
     Nazwa                                     & Zastosowanie                                                                                                          & Link                                                                   \\      \hline\hline

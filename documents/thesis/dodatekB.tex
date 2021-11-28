@@ -1,23 +1,28 @@
 \chapter{Opis za³¹czonej p³yty CD/DVD}
 \label{chap:b}
-Na za³¹czonej p³ycie CD/DVD zawarto katalog o nazwie \texttt{biker} z plikami projektu aplikacji. W celu konfiguracji œrodowiska uruchomieniowego, nale¿y postêpowaæ wed³ug instrukcji zawartej w dodatku~\ref{chap:a}. Strukturê katalogu przedstawiono w tabeli~\ref{tab:filesstructure}.
+Na za³¹czonej p³ycie CD/DVD zapisano katalog o nazwie \texttt{biker} z plikami projektu aplikacji. W celu konfiguracji œrodowiska uruchomieniowego, nale¿y postêpowaæ wed³ug instrukcji zawartej w dodatku~\ref{chap:a}. Strukturê katalogu przedstawiono w tabeli~\ref{tab:filesstructure}.
 
-W trakcie pracy nad projektem, w katalogu g³ównym generowane s¹ dwa dodatkowe katalogi: \texttt{.node\_modules} zawieraj¹cy kody u¿ywanych bibliotek oraz w (po zbudowaniu aplikacji) folder \texttt{build}. Oba te foldery ignorowane s¹ przez \texttt{.gitignore}.
+W trakcie pracy nad projektem, w katalogu g³ównym generowane s¹ dwa dodatkowe katalogi:
+\begin{enumerate}
+    \item \texttt{.node\_modules} --- po zainstalowaniu bibliotek poleceniem \texttt{npm install}. Zawiera kody u¿ywanych biblioteka
+    \item  \texttt{build} --- po zbudowaniu aplikacji poleceniem \texttt{npm run build}. Zawiera kod zminifikowany i zoptymalizowany kod zbudowanej aplikacji. S³u¿y do publikacji aplikacji w us³udze hostingu.
+\end{enumerate}
+Oba te foldery ignorowane s¹ przez \texttt{.gitignore}.
 
-W katalogu \texttt{components} oprócz plików \texttt{App.tsx} i \texttt{App.less} znajduj¹ siê katalogi których nazwy odpowiadaj¹ nazwom poszczególnych komponentów. Nazwy tych katalogów oraz pliki styli komponentów zapisane s¹ notacj¹ \texttt{camelCase}, natomiast nazwy plików samych komponentów --- notacj¹ \texttt{PascalCase}.
+W katalogu \texttt{components} oprócz plików \texttt{App.tsx} i \texttt{App.less} znajduj¹ siê katalogi których nazwy odpowiadaj¹ nazwom poszczególnych komponentów. Nazwy tych katalogów oraz pliki styli komponentów zapisano notacj¹ \texttt{camelCase}, natomiast nazwy plików samych komponentów --- notacj¹ \texttt{PascalCase} (zgodnie ze standardem \texttt{Reacta}).
 
 \newpage
 \begin{table}[htb] \small
     \centering
     \caption{Struktura plików projektu}
     \label{tab:filesstructure}
-    \begin{tabular}{|l|l|}\hline
-        Katalog g³ówny & Katalog \texttt{src} (g³ówny kod aplikacji)            \\ \hline\hline
+    \begin{tabularx}{\linewidth}{|l|l|}\hline
+        Katalog g³ówny & Katalog \texttt{src} (g³ówny kod aplikacji)                   \\ \hline\hline
         \begin{minipage}{0.4\linewidth}
             \dirtree{%
                 .1 {biker/}.
                 .2 {.firebase/}.
-                .3 {hosting.cache}.
+                .3 {hosting.\emph{ID}.cache}.
                 .2 {public/}.
                 .3 {favicon.ico}.
                 .3 {favicon.svg}.
@@ -41,7 +46,7 @@ W katalogu \texttt{components} oprócz plików \texttt{App.tsx} i \texttt{App.less
             }
         \end{minipage}
                        &
-        \begin{minipage}{0.6\linewidth}\dirtree{%
+        \begin{minipage}{0.55\linewidth-2.5pt}\dirtree{%
                 .1 {../}.
                 .2 {src/}.
                 .3 {assets/}.
@@ -51,7 +56,7 @@ W katalogu \texttt{components} oprócz plików \texttt{App.tsx} i \texttt{App.less
                 .5 {bg.jpg}.
                 .4 {brand.svg}.
                 .3 {components/}.
-                .4 {\emph{componentName}/}.
+                .4 {\emph{componentName}/ (37 katalogów)}.
                 .5 {\emph{componentName}.less}.
                 .5 {\emph{ComponentName}.tsx}.
                 .4 {App.less}.
@@ -86,6 +91,6 @@ W katalogu \texttt{components} oprócz plików \texttt{App.tsx} i \texttt{App.less
                 .3 {service-worker.ts}.
                 .3 {serviceWorkerRegistration.ts}.
             }\end{minipage} \\ \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
