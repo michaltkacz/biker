@@ -72,8 +72,15 @@ W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://fir
 \section{Integracja z \texttt{Firebase}}
 W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z~konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji, w pliku \texttt{src/firebase/firebase.tsx} zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/fireconfig.png}
+  \caption{Obiekt konfiguracyjny w \texttt{Firebase Console}}
+  \label{fig:fireconfig}
+\end{figure}
+
 {\belowcaptionskip=-9pt
-  \begin{lstlisting}[language=JavaScript,style=JavaScriptStyle, label=lst:fireinit, caption=Integracja aplikacji klienta z projektem \texttt{Firebase}, basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=JavaScript,style=JavaScriptStyle, label=lst:fireinit, caption=Integracja aplikacji klienta z projektem \texttt{Firebase}, basicstyle=\footnotesize\ttfamily]
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
@@ -98,18 +105,11 @@ export default firebaseApp;
 \end{lstlisting}
 }
 
-\begin{figure}[hb]
-  \centering
-  \includegraphics[width=\linewidth]{rys03/fireconfig.png}
-  \caption{Obiekt konfiguracyjny w \texttt{Firebase Console}}
-  \label{fig:fireconfig}
-\end{figure}
-
 Zawartoœæ obiektu konfiguracyjnego jest unikalna dla danego projektu, jednak nie jest ona sekretna. W celu zabezpieczenia danych przechowywanych w bazie, nale¿y wykorzystaæ \texttt{Firebase Security Rules}. Regu³y bezpieczeñstwa zastosowane w projekcie omówiono w~dalszej czêœci rozdzia³u. Wiêcej informacji na temat obiektu konfiguracyjnego mo¿na znaleŸæ w dokumentacji~\cite{fireconfig}
 
 
 \section{Integracja z \texttt{Firebase Hosting}}
-Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehosting}. W pierwszym kroku, w katalogu g³ównym projektu, z poziomu wiersza poleceñ wykonano komendê \texttt{firebase init hosting}. Uruchamia ona intuicyjny konfigurator, który w kilku krokach pozwala skonfigurowaæ projekt do us³ugi hostowania. Po zakoñczeniu konfiguracji w katalogu g³ównym projektu powsta³y dwa pliki:~\texttt{.firebaserc} oraz \texttt{firebase.json}, których zawartoœæ pokazano odpowiednio na listingu~\ref{lst:firerc} i listingu~\ref{lst:firejson}. Pierwszy z nich to konfiguracja aliasów projektu. Jest to u¿yteczne w przypadku, gdy w jednym projekcie u¿ywanych jest wiele projektów \texttt{Firebase}. Drugi plik, to konfiguracja us³ugi hostingu. Dziêki niemu mo¿na ustawiæ takie opcje hostingu, jak np.:~przekierowania URL, nadpisania URL, czy nawet wyœwietlanie ukoœnika na koñcu adresu URL~(\emph{trailing-slash}).
+Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehosting}. W pierwszym kroku, w~katalogu g³ównym projektu, z poziomu wiersza poleceñ wykonano komendê \texttt{firebase init hosting}. Uruchamia ona intuicyjny konfigurator, który w kilku krokach pozwala skonfigurowaæ projekt do us³ugi hostowania. Po zakoñczeniu konfiguracji w katalogu g³ównym projektu powsta³y dwa pliki:~\texttt{.firebaserc} oraz \texttt{firebase.json}, których zawartoœæ pokazano odpowiednio na listingu~\ref{lst:firerc} i listingu~\ref{lst:firejson}. Pierwszy z nich to konfiguracja aliasów projektu. Jest to u¿yteczne w przypadku, gdy w jednym projekcie u¿ywanych jest wiele projektów \texttt{Firebase}. Drugi plik, to konfiguracja us³ugi hostingu. Dziêki niemu mo¿na ustawiæ takie opcje hostingu, jak np.:~przekierowania URL, nadpisania URL, czy nawet wyœwietlanie ukoœnika na koñcu adresu URL~(\emph{trailing-slash}).
 
   {\belowcaptionskip=-9pt
     \begin{lstlisting}[style=json-style, label=lst:firerc, caption=Plik \texttt{.firebaserc}, basicstyle=\footnotesize\ttfamily]
@@ -142,7 +142,7 @@ Integracjê z us³ug¹ hostingu przeprowadzono wed³ug dokumentacji~\cite{firehostin
 W kolejnym kroku zbudowano aplikacjê klienta z u¿yciem polecenia \texttt{npm run build}, a nastêpnie wywo³ano polecenie \texttt{firebase hosting deploy}. W wyniku tej procedury, zbudowan¹ aplikacjê opublikowano pod adresami: \url{biker-784a8.web.app} oraz \url{biker-784a8.firebaseapp.com}. Po wprowadzeniu zmian w projekcie, w celu aktualizacji hostowanej aplikacji, proces budowania i publikacji nale¿y powtórzyæ.
 
 \section{Konfiguracja PWA}
-W celu aktywacji opcji instalacji aplikacji jako PWA, oprócz rejestracji \emph{service-workera}, konieczna jest konfiguracja ustawieñ przy pomocy pliku \texttt{public/manifest.json}. Dokumentacja dostêpna jest pod adresem \cite{pwamanifest}. Finaln¹ wersjê manifestu przedstawiono na listingu~\ref{lst:pwamanifest}, a jego wyjaœnienie zawarto w tabeli~\ref{tab:pwamanifest}.
+W celu aktywacji opcji instalacji aplikacji jako PWA, oprócz rejestracji \emph{service-workera}, konieczna jest konfiguracja ustawieñ przy pomocy pliku \texttt{public/manifest.json}. Dokumentacja dostêpna jest pod adresem \cite{pwamanifest}. Finaln¹ wersjê manifestu przedstawiono na listingu~\ref{lst:pwamanifest}, a~jego wyjaœnienie zawarto w tabeli~\ref{tab:pwamanifest}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[style=json-style, label=lst:pwamanifest, caption=Plik \texttt{manifest.json}, basicstyle=\footnotesize\ttfamily]
@@ -214,7 +214,7 @@ Ikony aplikacji (rys.~\ref{fig:pwaicons}) --- \texttt{logo.svg}, \texttt{logo\_m
 \section{Projekt struktury bazy danych}
 Korzystaj¹c z mo¿liwoœci jêzyka TypeScript, w projekcie utworzono typy danych definiuj¹ce po stronie klienta strukturê bazy danych. Typy te s¹ reprezentacj¹ drzewa obiektów przedstawionego na rysunku~\ref{lst:database}. Wykorzystanie sztywno zdefiniowanych typów gwarantuje spójnoœæ danych na przestrzeni ca³ej aplikacji oraz u³atwia integracjê z baz¹ danych po stronie \texttt{Firebase'a}. Dodatkow¹ zalet¹ jest ³atwiejsza kontrola b³êdów oraz unikniêcie nieprzewidzianego zachowania aplikacji. Zawartoœæ lisingów~\ref{lst:dbtypes1}, \ref{lst:dbtypes2}, \ref{lst:dbtypes3}, \ref{lst:dbenums} odpowiada plikowi \texttt{src/database/schema.tsx}.
 
-Na listingu~\ref{lst:dbtypes1} przedstawiono strukturê typów w ogólnym ujêciu. \texttt{DatabaseSchema} odpowiada instancji bazy danych po stronie \texttt{Realtime Database}, a~zawartoœci¹ obiektu s¹ obiekty u¿ytkowników kluczowane unikalnym identyfikatorem u¿ytkownika (identyfikator jest generowany automatycznie przez \texttt{Firebase} przy rejestracji nowego konta). Ka¿dy obiekt u¿ytkownika zawiera swój identyfikator, obiekt profilu, obiekt aktywnoœci i obiekt œladów. W obiekcie profilu z kolei przechowywane s¹ dane personalne u¿ytkownika: p³eæ, data urodzenia, waga, wzrost, kraj i miasto zamieszkania oraz opis.
+Na listingu~\ref{lst:dbtypes1} przedstawiono strukturê typów w ogólnym ujêciu. \texttt{DatabaseSchema} przek³ada siê na instancjê bazy danych po stronie \texttt{Realtime Database}. Zawartoœci¹ obiektu tego typu s¹ obiekty u¿ytkowników kluczowane unikalnym identyfikatorem u¿ytkownika (identyfikator jest generowany automatycznie przez \texttt{Firebase} przy rejestracji nowego konta). Ka¿dy obiekt u¿ytkownika zawiera swój identyfikator, obiekt profilu, obiekt aktywnoœci i obiekt œladów. W obiekcie profilu z kolei przechowywane s¹ dane personalne u¿ytkownika: p³eæ, data urodzenia, waga, wzrost, kraj i miasto zamieszkania oraz opis.
 
   {\belowcaptionskip=-9pt
     \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:dbtypes1, caption=Typy obiektowe struktury bazy danych (1/3) --- \emph{root} bazy danych oraz u¿ytkownik, basicstyle=\footnotesize\ttfamily]
@@ -343,7 +343,7 @@ W aplikacji zaimplementowano dwa ró¿ne uk³ady strony --- jeden wy³¹cznie dla str
 
 Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekranu o szerokoœci powy¿ej 768px)--- rysunek~\ref{fig:authpagetemplatedesktop}, a w wersji mobilnej --- rysunek~\ref{fig:authpagemobile}a (dla ekranu o szerokoœci nie przekraczaj¹cej 768px). Gotowe widoki aplikacji dla powy¿szych szablonów pokazano odpowiednio na rysunku~\ref{fig:authpagedesktop} oraz rysunku~\ref{fig:authpagemobile}b.
 
-Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania stron: profilu u¿ytkownika, rejestratora GPS oraz aktywnoœci (rys.~\ref{fig:globalpage}). Jest on równie¿ w pe³ni responsywny. Dla ekranów o rozmiarze powy¿ej 1200px \emph{sider} przyjmuje on sta³¹ szerokoœæ 200px i nie mo¿e zostaæ ukryty, natomiast \emph{content} wype³nia ca³e pozosta³e miejsce. W przypadku ekranów nie wiêkszych ni¿ 1200px, \emph{sider} staje siê dynamiczny --- mo¿e zostaæ ukryty przy u¿yciu przycisku \emph{sider button}. Z kolei \emph{content} przyjmuje sta³¹ szerokoœæ równ¹ ca³kowitej szerokoœci okna widoku. Z tego wzglêdu otwarcie \emph{sidera} powoduje wypchniêcie \emph{contentu} o 200px w prawo, poza obszar ekranu. Jest to zabieg umyœlny, który ma na celu zminimalizowanie efektu \emph{content jumpingu}, czyli niechcianej zmiany po³o¿enia elementów strony. Efekt ten by³ szczególnie zauwa¿alny na urz¹dzeniach z w¹skim ekranem, jak np.:~smartfonach.
+Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania stron: profilu u¿ytkownika, rejestratora GPS oraz aktywnoœci (rys.~\ref{fig:globalpage}). Jest on równie¿ w pe³ni responsywny. Dla ekranów o~rozmiarze powy¿ej 1200px \emph{sider} przyjmuje on sta³¹ szerokoœæ 200px i nie mo¿e zostaæ ukryty, natomiast \emph{content} wype³nia ca³e pozosta³e miejsce. W przypadku ekranów nie wiêkszych ni¿ 1200px, \emph{sider} staje siê dynamiczny --- mo¿e zostaæ ukryty przy u¿yciu przycisku \emph{sider button}. Z kolei \emph{content} przyjmuje sta³¹ szerokoœæ równ¹ ca³kowitej szerokoœci okna widoku. Z~tego wzglêdu otwarcie \emph{sidera} powoduje wypchniêcie \emph{contentu} o 200px w prawo, poza obszar ekranu. Jest to zabieg umyœlny, który ma na celu zminimalizowanie efektu \emph{content jumpingu}, czyli niechcianej zmiany po³o¿enia elementów strony. Efekt ten by³ szczególnie zauwa¿alny na urz¹dzeniach z w¹skim ekranem, jak np.:~smartfonach.
 
 % \newpage
 \begin{figure}[htp]
@@ -441,7 +441,7 @@ export const startFirebaseUI = () => {
 \end{lstlisting}
 }
 
-Dane zalogowanego u¿ytkownika dostêpne s¹ w przestrzeni aplikacji dziêki wykorzystaniu kontekstu~\cite{reactcontext} o nazwie \texttt{AuthContext}, którego definicja znajduje siê w pliku \texttt{src/firebase/contexts/AuthContext.tsx}. Najwa¿niejsze jego funkcje przedstawiono na listingu~\ref{lst:authcontext}. Kluczowym dzia³aniem jest subskrypcja \texttt{onAuthStateChanged}, która nas³uchuje odpowiedzi ze strony \texttt{Firebase}. W przypadku pojawienia siê poprawnej odpowiedzi, otrzymywany jest obiekt u¿ytkownika. Nastêpnie obiekt ten jest zapisany jako \texttt{currentUser}. Wszystkie komponenty bêd¹ce potomkami (widoczne na listingu~\ref{lst:routing}) kontekstu posiadaj¹ dostêp do obiektu u¿ytkownika poprzez hook~\cite{reacthooks} \texttt{useAuth}, zdefiniowany w pliku \texttt{src/firebase/hooks/useAuth.tsx}.
+Dane zalogowanego u¿ytkownika dostêpne s¹ w przestrzeni aplikacji dziêki wykorzystaniu kontekstu~\cite{reactcontext} o nazwie \texttt{AuthContext}, którego definicja znajduje siê w pliku \texttt{src/firebase/contexts/AuthContext.tsx}. Najwa¿niejsze jego funkcje przedstawiono na listingu~\ref{lst:authcontext}. Kluczowym dzia³aniem jest subskrypcja \texttt{onAuthStateChanged}, która nas³uchuje odpowiedzi ze strony \texttt{Firebase}. W przypadku pojawienia siê poprawnej odpowiedzi, otrzymywany jest obiekt u¿ytkownika. Nastêpnie obiekt ten jest zapisany jako \texttt{currentUser}. Wszystkie komponenty bêd¹ce potomkami (widoczne na listingu~\ref{lst:routing}) kontekstu posiadaj¹ dostêp do obiektu u¿ytkownika poprzez \emph{hook}~\cite{reacthooks} \texttt{useAuth}, zdefiniowany w~pliku \texttt{src/firebase/hooks/useAuth.tsx}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:authcontext, caption=Komponent kontekstu uwierzytelniania, basicstyle=\footnotesize\ttfamily]
@@ -547,7 +547,7 @@ const RoutePrivate: React.FC<RouteProps> = ({ children, ...rest }) => {
   }
 
 \section{Implementacja rejestratora GPS}
-Schemat strony rejestratora GPS przedstawiono na rysunku~\ref{fig:trackerpage}, a widok aplikacji na rysunku~\ref{fig:trackerpageview}. Komponent \texttt{TrackerPage} zawiera trzy komponenty:
+Schemat komponentu strony rejestratora GPS przedstawiono na rysunku~\ref{fig:trackerpage}, a widok aplikacji na rysunku~\ref{fig:trackerpageview}. Komponent \texttt{TrackerPage} zwraca trzy komponenty:
 \begin{enumerate}
   \item \texttt{Map} --- komponent mapy, odpowiedzialny za wyœwietlanie mapy, obecnej pozycji na mapie (w postaci markera) oraz œladu GPS w postaci linii ³amanej.
   \item \texttt{MapControls} --- komponent z przyciskami steruj¹cymi zachowaniem mapy (œledzenie pozycji i centrowanie widoku do obecnej pozycji) oraz z przyciskiem w³¹czaj¹cym lub wy³¹czaj¹cym rejestrator GPS.
@@ -556,7 +556,7 @@ Schemat strony rejestratora GPS przedstawiono na rysunku~\ref{fig:trackerpage}, 
 
 Kluczowa logika strony zawarta jest w \emph{hooku} \texttt{useTracker}, którego najwa¿niejszym zadaniem jest rejestrowanie œladu GPS. Kod programu realizuj¹cy to zadanie przedstawiono na listingu~\ref{lst:trackerpage}. Po w³¹czeniu nagrywania stan \texttt{track} ustawiany jest na wartoœæ bêd¹c¹ tablic¹ zawieraj¹c¹ jeden pusty segment (pust¹ tablicê punktów), a stan \texttt{isTracking} ustawiany jest na wartoœæ \texttt{true}, czego skutkiem jest aktywacja \emph{hooka} \texttt{useInterval}. Interwa³ wywo³uje funkcjê \texttt{updateTrack} co 2000ms.
 
-Funkcja \texttt{updateTrack} najpierw sprawdza warunek, czy najnowsza pozycja jest dostêpna (w przypadku b³êdu uzyskania lokalizacji przez przegl¹darkê, ostatnia pozycja przyjmuje wartoœæ \texttt{null}). Gdy pozycja jest niedostêpna i gdy ostatni segment \texttt{tracka} nie jest pusty, do \texttt{tracka}, na koniec tablicy dodawany jest nowy pusty segment. W przeciwnym wypadku --- gdy dostêpna jest nowa pozycja --- dopisywana jest ona na koñcu ostatniego segmentu \texttt{tracka}. Ponadto, aktywne nagrywanie blokuje wygaszacz ekranu urz¹dzenia (funkcje \texttt{enableNoSleep} \texttt{disableNoSleep} z \emph{hooka} \texttt{useNoSleep}).
+Funkcja \texttt{updateTrack} najpierw sprawdza warunek, czy najnowsza pozycja jest dostêpna (w~przypadku b³êdu uzyskania lokalizacji przez przegl¹darkê, ostatnia pozycja przyjmuje wartoœæ \texttt{null}). Gdy pozycja jest niedostêpna i gdy ostatni segment \texttt{tracka} nie jest pusty, do \texttt{tracka}, na koniec tablicy dodawany jest nowy pusty segment. W przeciwnym wypadku --- gdy dostêpna jest nowa pozycja --- dopisywana jest ona na koñcu ostatniego segmentu \texttt{tracka}. Ponadto, aktywacja nagrywania blokuje wygaszacz ekranu urz¹dzenia (funkcje \texttt{enableNoSleep} \texttt{disableNoSleep} z \emph{hooka} \texttt{useNoSleep}).
 
 \begin{figure}[t]
   \centering
@@ -623,7 +623,7 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
 
 Dla lepszego zobrazowania dzia³ania funkcji \texttt{updateTrack}, na rysunku~\ref{fig:trackerpage} przedstawiono diagram sekwencji funkcji. W pseudokodzie na schemacie przyjêto nastêpuj¹ce oznaczenia:
 \begin{itemize}
-  \item \texttt{{[last]}} w zapisie \texttt{track.segments{[last]}} oznacza odwo³anie to ostatniego elementu w tablicy.
+  \item \texttt{{[last]}} w zapisie \texttt{track.segments{[last]}} oznacza odwo³anie to ostatniego elementu w~tablicy.
   \item Metoda \texttt{.isEmpty()} zwraca \texttt{true}, je¿eli tablica jest pusta, \texttt{false} w przeciwnym razie.
   \item Metoda \texttt{.push()} dodaje nowy element na koniec tablicy.
   \item Metoda \texttt{.mapToTrackPoint()} oznacza zmapowanie obiektu \texttt{GeolocationPosition} na obiekt \texttt{TrackPoint}  (definicja typu --- listing~\ref{lst:dbtypes3}).
@@ -646,7 +646,7 @@ Obiekt \texttt{track} jest zwracany do komponentu \texttt{TrackerPage}, a nastêp
 \end{figure}
 
 \section{Implementacja importu GPX}
-Schemat procesu importu aktywnoœci z pliku GPX przedstawiono na rysunku~\ref{fig:importeksport}a. Na pocz¹tku u¿ytkownik wybiera z dysku urz¹dzenia pliki z rozszerzeniem \texttt{.gpx}. Nastêpnie pliki s¹ parsowane z wykorzystaniem biblioteki \texttt{gpxparser}. Rezultatem parsowania jest obiekt JavaScriptowy, który nastêpnie mapowany jest na obiekt typu \texttt{Activity} (definicja typu --- listing~\ref{lst:dbtypes2}) oraz wyliczane s¹ statystyki aktywnoœci. W przedostatnim kroku dane zapisywane s¹ do bazy, w wyniku czego aktywnoœci nadawany jest unikalny identyfikator. Na koniec aktywnoœæ wyœwietlana jest na stronie. Je¿eli na dowolnym etapie wyst¹pi b³¹d, proces importu jest przerywany.
+Schemat procesu importu aktywnoœci z pliku GPX przedstawiono na rysunku~\ref{fig:importeksport}a. Na pocz¹tku u¿ytkownik wybiera z dysku urz¹dzenia pliki z rozszerzeniem \texttt{.gpx}. Nastêpnie pliki s¹ parsowane z wykorzystaniem biblioteki \texttt{gpxparser}. Rezultatem parsowania jest obiekt JavaScriptowy, który nastêpnie mapowany jest na obiekt typu \texttt{Activity} (definicja typu --- listing~\ref{lst:dbtypes2}) oraz wyliczane s¹ statystyki aktywnoœci. W przedostatnim kroku dane zapisywane s¹ do bazy, w wyniku czego aktywnoœci nadawany jest unikalny identyfikator. Na koniec aktywnoœæ wyœwietlana jest na stronie. Je¿eli na dowolnym etapie wyst¹pi b³¹d, proces importu jest~przerywany.
 
 Kroki: parsowanie, mapowanie, obliczenie statystyk i zapis do bazy pokazano na listingu~\ref{lst:import}. Listing przedstawia kod \emph{hooka} \texttt{useEffect} komponentu \texttt{GpxToActivityParser}. Widok aplikacji z inferfejsem importu pokazano na rysunku~\ref{fig:globalpage}.
 
@@ -701,7 +701,7 @@ useEffect(() => {
   }); }, [file, currentUserId]);
 \end{lstlisting}}
 
-\begin{figure}[hp]
+\begin{figure}[h]
   \centering
   \begin{tabular}{@{}ll@{}}
     a)                                                                              & b) \\
@@ -785,7 +785,7 @@ const onExportActivity = () => {
 };
 \end{lstlisting}}
 
-Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWithTrack}, która usuwa z bazy danych u¿ytkownika aktywnoœæ o zadanym identyfikatorze. Naciœniêcie przycisku \texttt{Update} (domyœlnie zablokowany, odblokowuje siê po wprowadzeniu zmiany w danych aktywnoœci) powoduje najpierw utworzenie obiektu \texttt{payload}, który zawiera listê zmian aktywnoœci, a nastêpnie wywo³anie funkcji \texttt{updateActivity}, która dokonuje aktualizacji w bazie danych u¿ytkownika. Funkcjê eksportu opisano w sekcji~\ref{sec:eksport}, a komunikacjê z baz¹ danych --- w sekcji~\ref{sec:bazadanych}.
+Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWithTrack}, która usuwa z bazy danych u¿ytkownika aktywnoœæ o zadanym identyfikatorze. Naciœniêcie przycisku \texttt{Update} (domyœlnie zablokowany, odblokowuje siê po wprowadzeniu zmiany w danych aktywnoœci) powoduje najpierw utworzenie obiektu \texttt{payload}, który zawiera listê zmian aktywnoœci, a nastêpnie wywo³anie funkcji \texttt{updateActivity}, która dokonuje aktualizacji w bazie danych u¿ytkownika. Funkcjê eksportu opisano w sekcji~\ref{sec:eksport}, a komunikacjê z baz¹ danych --- w~sekcji~\ref{sec:bazadanych}.
 
 \begin{figure}[h]
   \centering
@@ -795,10 +795,22 @@ Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWit
 \end{figure}
 
 \section{Implementacja statystyk aktywnoœci}
-Funkcjonalnoœæ obliczania statystyk zaimplementowano w \emph{hooku} \texttt{useActivityStatistics}. \emph{Hook} zwraca obiekt statystyk który zawiera: ostatni¹ (najnowsz¹) oraz maksymaln¹ uzyskan¹ prêdkoœæ; ostatni¹ (najnowsz¹), minimaln¹ i maksymaln¹ wysokoœæ nad poziomem morza, sumê przewy¿szeñ przejechanych pod górê i z góry; ca³kowity przejechany dystans; ca³kowity czas podró¿y oraz czas podró¿y w ruchu.
+Funkcjonalnoœæ obliczania statystyk zaimplementowano w \emph{hooku} \texttt{useActivityStatistics}. \emph{Hook} zwraca obiekt statystyk, który zawiera nastêpuj¹ce dane:
+\begin{itemize}
+  \item \texttt{latestSpeed} --- ostatnia (najnowsza) prêdkoœæ;
+  \item \texttt{maxSpeed} --- maksymalna prêdkoœæ;
+  \item \texttt{latestElevation} --- ostatnia (najnowsza) wysokoœæ nad poziomem morza;
+  \item \texttt{minElevation} --- minimalna wysokoœæ nad poziomem morza;
+  \item \texttt{maxElevation} --- maksymalna wysokoœæ nad poziomem morza;
+  \item \texttt{elevationUp} --- suma przewy¿szeñ pod górê;
+  \item \texttt{elevationDown} --- suma przewy¿szeñ z góry;
+  \item \texttt{totalDistance} --- ca³kowity przejechany dystans;
+  \item \texttt{totalDuration} --- ca³kowity czas podró¿y;
+  \item \texttt{inMotionDuration} --- czas podró¿y w ruchu.
+\end{itemize}
 
-  {\belowcaptionskip=-9pt
-    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:useactivitystatistics, caption=\emph{Hook} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:useactivitystatistics, caption=\emph{Hook} \texttt{useActivityStatistics}, basicstyle=\footnotesize\ttfamily]
 export type ActivityStatisticsExtended = {
   latestSpeed?: number; latestElevation?: number;
 } & ActivityStatistics;
@@ -811,6 +823,8 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
   const [maxSpeed, setMaxSpeed] = useState<number>();
   const [elevationUp, setElevationUp] = useState<number>();
   const [elevationDown, setElevationDown] = useState<number>();
+  const [minElevation, setMinElevation] = useState<number>();
+  const [maxElevation, setMaxElevation] = useState<number>();
   useEffect(() => {
     const s = calculateStatistics(track);
     setMaxSpeed(s.maxSpeed);
@@ -821,23 +835,25 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
     setInMotionDuration(s.inMotionDuration);
     setElevationUp(s.elevationUp);
     setElevationDown(s.elevationDown);
+    setMinElevation(s.minElevation);
+    setMaxElevation(s.maxElevation);
   }, [track]);
-  return { latestSpeed, latestElevation, totalDistance, totalDuration, inMotionDuration, maxSpeed, elevationUp, elevationDown };
+  return { latestSpeed, latestElevation, totalDistance, totalDuration, inMotionDuration, maxSpeed, elevationUp, elevationDown, minElevation, maxElevation };
 };
 \end{lstlisting}}
 
 Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla ka¿dej statystyki zaimplementowano osobny stan, a wszystkie stany zwracane s¹ z \emph{hooka} w jednym obiekcie. Przy ka¿dej modyfikacji obiektu \texttt{track} wywo³ywana jest funkcja \texttt{calculateStatistics(track)} która wylicza wszystkie statystyki. Z racji, ¿e funkcja jest obszerna, jej kodu nie zawarto na ¿adnym listingu. Natomiast algorytm jej dzia³ania opisuje nastêpuj¹cy pseudokod:
 \begin{enumerate}
   \item Zainicjalizuj zmienne wartoœci¹ zerow¹:
-        \texttt{latestElevation}
-        \texttt{totalDuration}
-        \texttt{latestSpeed}
-        \texttt{maxSpeed}
-        \texttt{totalDistance}
-        \texttt{inMotionDuration}
-        \texttt{elevationUp}
-        \texttt{elevationDown}
-        \texttt{minElevation}
+        \texttt{latestElevation},
+        \texttt{totalDuration},
+        \texttt{latestSpeed},
+        \texttt{maxSpeed},
+        \texttt{totalDistance},
+        \texttt{inMotionDuration},
+        \texttt{elevationUp},
+        \texttt{elevationDown},
+        \texttt{minElevation},
         \texttt{maxElevation}.
   \item Wykonaj \texttt{trackFlat = track.segments.flat()} --- sp³aszcz tablicê wielowymiarow¹ do tablicy jednowymiarowej.
   \item Je¿eli tablica \texttt{trackFlat} jest pusta, idŸ do \emph{11}. W przeciwnym razie idŸ do \emph{3}.
@@ -858,7 +874,8 @@ Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla 
           \item Je¿eli \texttt{currTrackPoint.ele} jest wiêksze od \texttt{maxElevation}, to przypisz \texttt{maxElevation = currTrackPoint.ele}
           \item Je¿eli \texttt{currTrackPoint.ele} jest mniejsze od \texttt{minElevation}, to przypisz \texttt{minElevation = currTrackPoint.ele}
         \end{enumerate}
-  \item Zwróæ obiekt z danymi: \{\texttt{latestElevation},
+  \item Zwróæ obiekt z danymi:
+        \{\texttt{latestElevation},
         \texttt{totalDuration},
         \texttt{latestSpeed},
         \texttt{maxSpeed},
@@ -870,7 +887,7 @@ Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla 
         \texttt{maxElevation}\}.
 \end{enumerate}
 
-Kod funkcji \texttt{geoMove} pokazano na listingu~\ref{lst:geomove}. Korzysta ona z funkcji pomocniczych \texttt{geoDistance}, \texttt{deltaTime}, \texttt{geoSpeed1}, \texttt{deltaElevation}, które dokonuj¹ odpowiednich obliczeñ. Szczególnie interesuj¹ca jest funkcja \texttt{geoDistance}, która korzysta z formu³y \emph{Harvesine}~\cite{harvesine}. Odpowiedni kod przedstawiono na listingu~\ref{lst:geodistance}. Funkcje \texttt{deltaTime}, \texttt{deltaElevation} sprowadzaj¹ siê do obliczenia jedynie ró¿nicy dwóch wartoœci (dla czasu zwracana jest wartoœæ bezwzglêdna), natomiast \texttt{geoSpeed1} implementuje formu³ê wyliczaj¹c¹ prêdkoœæ w ruchu jednostajnym (dystans dzielony przez czas).
+Kod funkcji \texttt{geoMove} pokazano na listingu~\ref{lst:geomove}. Korzysta ona z funkcji pomocniczych \texttt{geoDistance}, \texttt{deltaTime}, \texttt{geoSpeed1}, \texttt{deltaElevation}, które dokonuj¹ odpowiednich obliczeñ. Szczególnie interesuj¹ca jest funkcja \texttt{geoDistance}, która korzysta z formu³y \emph{Harvesine}~\cite{harvesine}. Jest to formu³a, która pozwala wyliczyæ najmniejsz¹ odleg³oœæ  miêdzy dwoma punktami na powierzchni sfery. Odpowiedni kod przedstawiono na listingu~\ref{lst:geodistance}. Funkcje \texttt{deltaTime}, \texttt{deltaElevation} sprowadzaj¹ siê do obliczenia jedynie ró¿nicy dwóch wartoœci (dla czasu zwracana jest wartoœæ bezwzglêdna), natomiast \texttt{geoSpeed1} implementuje formu³ê wyliczaj¹c¹ prêdkoœæ w ruchu jednostajnym (dystans ca³kowity dzielony przez czas ca³kowity).
 
   {\belowcaptionskip=-9pt
     \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:geomove, caption=Funkcja \texttt{geoMove}, basicstyle=\footnotesize\ttfamily]
@@ -910,14 +927,12 @@ export const geoDistance = (
 \end{lstlisting}}
 
 \section{Implementacja wykresów aktywnoœci}
-Wykresy (rys.~\ref{fig:activitycharts}) wyœwietlane s¹ przez komponent \texttt{ActivityCharts}, który otrzymuje (jako w³aœciwoœæ) obiekt \texttt{track}. W pierwszej kolejnoœci jest on mapowany na serie danych obs³ugiwane przez wykresy z biblioteki \texttt{React-Vis}. W najprostszej wersji seria danych dla u¿ywanych wykresów typu \texttt{AreaChart} to tablica obiektów z dwoma kluczami:~\texttt{x} oraz {y}, odpowiadaj¹cymi wartoœciami odpowiednim osiom wykresu. Kod odpowiedzialny za mapowanie przedstawiono na listingu~\ref{lst:datachartmap}.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\linewidth]{rys03/activitycharts2}
-  \caption{Widok wykresów aktywnoœci}
-  \label{fig:activitycharts}
-\end{figure}
+Wykresy (rys.~\ref{fig:activitycharts}) wyœwietlane s¹ przez komponent \texttt{ActivityCharts}, który otrzymuje (jako w³aœciwoœæ) obiekt \texttt{track}. W pierwszej kolejnoœci jest on mapowany na serie danych obs³ugiwane przez wykresy z biblioteki \texttt{React-Vis}. W najprostszej wersji seria danych dla u¿ywanych wykresów typu \texttt{AreaChart} to tablica obiektów z dwoma kluczami:~\texttt{x} oraz {y}, odpowiadaj¹cymi wartoœciami odpowiednim osiom wykresu. Kod odpowiedzialny za mapowanie przedstawiono na listingu~\ref{lst:datachartmap}. Kompletna lista dostêpnych wykresów aktywnoœci jest nastêpuj¹ca:
+\begin{itemize}
+  \item wykres zale¿noœci prêdkoœci od czasu;
+  \item wykres zale¿noœci pokonanego dystansu od czasu;
+  \item wykres zale¿noœci bezwzglêdnej wysokoœci nad poziomem morza od czasu.
+\end{itemize}
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:datachartmap, caption=Fragment funkcji generowania serii danch dla wykresów aktywnoœci, basicstyle=\footnotesize\ttfamily]
@@ -950,6 +965,12 @@ const parseData = async () => {
 };
 \end{lstlisting}}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/activitycharts2}
+  \caption{Widok wykresów aktywnoœci}
+  \label{fig:activitycharts}
+\end{figure}
 
 \section{Integracja z \texttt{Realtime Database}}
 \label{sec:bazadanych}
@@ -981,7 +1002,7 @@ Pozosta³e operacja mo¿na nazwaæ \emph{operacjami jednostronnymi}, tzn.:~wysy³aj¹
   \item \texttt{loading} --- odczytywanie danych.
   \item \texttt{error} ---- b³¹d odczytu danych.
 \end{enumerate}
-Funkcja \texttt{onValue} rejestruje s³uchacza, który z ka¿d¹ zmian¹ otrzyman¹ z bazy danych wywo³uje funkcjê \emph{callback} przekazan¹ jako drugi parametr. \emph{Hooki} \texttt{useReadTrack} i \texttt{useReadActivities} zaprojektowano w pe³ni analogicznie. Ró¿ni¹ siê g³ównie typami danych oraz œcie¿kami odczytu.
+Funkcja \texttt{onValue} rejestruje s³uchacza, który z ka¿d¹ zmian¹ otrzyman¹ z bazy danych wywo³uje funkcjê \emph{callback} przekazan¹ jako drugi parametr. \emph{Hooki} \texttt{useReadTrack} i~\texttt{useReadActivities} zaprojektowano w pe³ni analogicznie. Ró¿ni¹ siê g³ównie typami danych oraz œcie¿kami odczytu.
 
   {\belowcaptionskip=-9pt
     \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:readactivities, caption=\emph{Hook} odczytu danych profilu z bazy danych, basicstyle=\footnotesize\ttfamily]
@@ -1011,7 +1032,7 @@ export const useReadProfile = (userId: string | null) => {
 };
 \end{lstlisting}}
 
-Szczególnie interesuj¹ca jest funkcja \texttt{writeActivityWithTrack}, której kod pokazano na listingu~\ref{lst:writeactivities}. Obiekty \texttt{track} i \texttt{activity} w aplikacji klienta s¹ silnie ze sob¹ powi¹zane --- \texttt{track} mo¿na uznaæ za element nale¿¹cy do \texttt{activity}. Zatem wydawaæ by siê mog³o, ¿e w bazie danych \texttt{track} powinien byæ zapisany jako potomek \texttt{activity}. Tymczasem w celu optymalizacji zapytañ do bazy danych, obiekty te zapisywane s¹ do ró¿nych œcie¿ek, jednak pod wspólnym identyfikatorem. W wyniku wywo³ania funkcji \texttt{push} zwracany jest obiekt zawieraj¹cy nowo wygenerowany, unikalny klucz, który s³u¿y jako wspólny identyfikator dla obiektów \texttt{activity} i \texttt{track}. Nastêpnie obiekty zapisywane s¹ do bazy wywo³aniem funkcji \texttt{set}.
+Szczególnie interesuj¹ca jest funkcja \texttt{writeActivityWithTrack}, której kod pokazano na listingu~\ref{lst:writeactivities}. Obiekty \texttt{track} i \texttt{activity} w aplikacji klienta s¹ silnie ze sob¹ powi¹zane --- \texttt{track} mo¿na uznaæ za element nale¿¹cy do \texttt{activity}. Zatem wydawaæ by siê mog³o, ¿e w~bazie danych \texttt{track} powinien byæ zapisany jako potomek \texttt{activity}. Tymczasem w celu optymalizacji zapytañ do bazy danych, obiekty te zapisywane s¹ do ró¿nych œcie¿ek, jednak pod wspólnym identyfikatorem. W wyniku wywo³ania funkcji \texttt{push} zwracany jest obiekt zawieraj¹cy nowo wygenerowany, unikalny klucz, który s³u¿y jako wspólny identyfikator dla obiektów \texttt{activity} i \texttt{track}. Nastêpnie obiekty zapisywane s¹ do bazy wywo³aniem funkcji \texttt{set}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:writeactivities, caption=Funkcja zapisu aktywnoœci i œladu do bazy danych, basicstyle=\footnotesize\ttfamily]
@@ -1057,7 +1078,7 @@ export const deleteActivityWithTrack = async (
 };
 \end{lstlisting}}
 
-Wszystkie funkcje wykonuj¹ce operacje \texttt{UPDATE} dzia³aj¹ w bardzo zbli¿ony do siebie sposób. Przyk³ad --- funkcjê \texttt{updateProfile} --- podano na listingu~\ref{lst:updateprofile}. Funkcje aktualizuj¹ce przyjmuj¹ jako parametr obiekt \texttt{payload}, który zawiera œcie¿ki wzglêdne do aktualizowanych kluczy, oraz nowe wartoœci dla tych kluczy. Zapytanie do bazy wykonywane jest przez wywo³anie \texttt{update}.
+Wszystkie funkcje wykonuj¹ce operacje \texttt{UPDATE} dzia³aj¹ w bardzo zbli¿ony do siebie sposób. Przyk³ad --- funkcjê \texttt{updateProfile} --- podano na listingu~\ref{lst:updateprofile}. Funkcje aktualizuj¹ce przyjmuj¹ jako parametr obiekt \texttt{payload}, który zawiera œcie¿ki wzglêdne do aktualizowanych kluczy, oraz nowe wartoœci dla tych kluczy. Zapytanie do bazy wykonywane jest przez wywo³anie \texttt{updateActivity}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:updateprofile, caption=Funkcja aktualizacji danych profilu, basicstyle=\footnotesize\ttfamily]
@@ -1095,36 +1116,95 @@ Baza danych zabezpieczono prost¹ regu³¹: tylko u¿ytkownik uwierzytelniony mo¿e o
 }
 
 \section{Implementacja profilu u¿ytkownika}
-Strona profilu u¿ytkownika sk³ada siê z trzech g³ównych sekcji: sekcja danych u¿ytkownika, sekcja statystyk oraz sekcja wykresów
+Strona profilu u¿ytkownika (rys.~\ref{fig:profileview}) sk³ada siê z czterech g³ównych sekcji: awatara, danych u¿ytkownika, statystyk oraz wykresów. W sekcji awatara zawarto zdjêcie u¿ytkownika. Klikniêcie zdjêcia powoduje pojawienie siê pola tekstowego, w którym u¿ytkownik mo¿e podaæ adres URL nowego zdjêcia. U¿ytkownik mo¿e równie¿ edytowaæ swoje imiê i nazwisko. Powy¿sze dane aktualizowane s¹ po stronie backendu wywo³aniami funkcji \texttt{updateUser} (tab.~\ref{tab:crudy}), co przedstawiono na listingu~\ref{lst:updateavatar}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:updateavatar, caption=Aktualizacja zdjêcia oraz imienia i nazwiska profilu, basicstyle=\footnotesize\ttfamily]
+const onNameChange = (newName: string) => {
+  if (newName === '') {
+    message.error('Invalid name');
+    return;
+  }
+  updateUser({ displayName: newName })
+    .then(() => {
+      message.success('Name updated');
+      setName(newName);
+    })
+    .catch(() => {
+      message.error("Name couldn't be updated");
+    });
+};
+const onUrlChange = (newUrl: string) => {
+  updateUser({ photoURL: newUrl })
+    .then(() => {
+      message.success('Photo updated');
+      setUrl(newUrl);
+    })
+    .catch(() => {
+      message.error("Photo couldn't be updated");
+    });
+};
+\end{lstlisting}}
+
+W karcie \texttt{Bio} prezentowane s¹ dane u¿ytkownika odczytywane z obiektu typu \texttt{UserProfile} (lis.~\ref{lst:dbtypes1}). Ich edycja przebiega podobnie jak w przypadku edycji imienia i nazwiska, jednak tym razem wywo³ywana jest funkcja \texttt{updateProfile} (tab.~\ref{tab:crudy}). Przyk³ad pokazano na lisitngu~\ref{lst:updateuserprofile}. Aktualizacja pozosta³ych pól przebiega analogicznie w stosunku do funkcji~\texttt{onDescriptionChange}.
+
+{\belowcaptionskip=-9pt
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:updateuserprofile, caption=Aktualizacja danych profilu na przyk³adzie zmiany opisu, basicstyle=\footnotesize\ttfamily]
+  const onProfileUpdate = async (
+    field: string,
+    payload: { [filed: string]: any }
+  ) => {
+    updateProfile(currentUserId, payload)
+      .then(() => {
+        message.success(field + ' updated');
+      })
+      .catch(() => {
+        message.error(field + " couldn't be updated");
+      });
+  };
+  const onDescriptionChange = (newDescription: string) => {
+    onProfileUpdate('Description', { description: newDescription }).then(() => {
+      setDescription(newDescription);
+    });
+  };
+\end{lstlisting}}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\linewidth]{rys03/profileview}
+  \caption{Widok strony profilu u¿ytkownika}
+  \label{fig:profileview}
+\end{figure}
 
 \section{Implementacja statystyk profilu u¿ytkownika}
 Funkcjê obliczaj¹c¹ statystyki profilu zaimplementowano w komponencie \texttt{ProfileDashboard} (rys.~\ref{fig:profilestats}). Algorytm funkcji polega na iteracji przez tablicê wszystkich aktywnoœci (obiekty typu \texttt{Activity} --- listing~\ref{lst:dbtypes2}) u¿ytkownika. W danych wyszukiwane s¹ (poprzez zliczanie wyst¹pieñ wartoœci lub proste porównania wartoœci) nastêpuj¹ce wartoœci:
 \begin{itemize}
-  \item ca³kowita liczba aktywnoœci;
-  \item maksymalna zarejestrowana prêdkoœæ;
-  \item data pierwszej aktywnoœci;
-  \item data ostatniej aktywnoœci;
-  \item ca³kowity czas aktywnoœci --- czas ca³kowity aktywnoœci;
-  \item œredni czas trwania aktywnoœci --- czas ca³kowity aktywnoœci;
-  \item najkrótsza aktywnoœæ --- czas ca³kowity aktywnoœci;
-  \item najd³u¿sza aktywnoœæ --- czas ca³kowity aktywnoœci;
-  \item œrednia prêdkoœæ --- czas ca³kowity aktywnoœci;
-  \item ca³kowity czas aktywnoœci --- czas aktywnoœci w ruchu;
-  \item œredni czas trwania aktywnoœci --- czas aktywnoœci w ruchu;
-  \item najkrótsza aktywnoœæ --- czas aktywnoœci w ruchu;
-  \item najd³u¿sza aktywnoœæ --- czas aktywnoœci w ruchu;
-  \item œrednia prêdkoœæ --- czas aktywnoœci w ruchu;
-  \item ca³kowity dystans;
-  \item œredni dystans;
-  \item najkrótszy dystans;
-  \item najd³u¿szy dystans;
-  \item ca³kowite przewy¿szenia w górê;
-  \item ca³kowite przewy¿szenia w dó³;
-  \item najni¿sze zarejestrowane po³o¿enie nad poziomem morza;
-  \item najwy¿sze zarejestrowane po³o¿enie nad poziomem morza.
+  \item \texttt{numberOfActivities} --- ca³kowita liczba aktywnoœci;
+  \item \texttt{maxSpeed} --- maksymalna zarejestrowana prêdkoœæ;
+  \item \texttt{firstActivityAt} --- data pierwszej aktywnoœci;
+  \item \texttt{lastActivityAt} --- data ostatniej aktywnoœci;
+  \item \texttt{totalDuration} --- ca³kowity czas aktywnoœci (czas ca³kowity);
+  \item \texttt{averageDuration} --- œredni czas trwania aktywnoœci (czas ca³kowity);
+  \item \texttt{minDuration} --- najkrótsza aktywnoœæ (czas ca³kowity);
+  \item \texttt{maxDuration} --- najd³u¿sza aktywnoœæ (czas ca³kowity);
+  \item \texttt{averageSpeed} --- œrednia prêdkoœæ (czas ca³kowity);
+  \item \texttt{inMotionDuration} --- ca³kowity czas aktywnoœci (czas w ruchu);
+  \item \texttt{averageInMotionDuration} --- œredni czas trwania aktywnoœci (czas w ruchu);
+  \item \texttt{minInMotionDuration} --- najkrótsza aktywnoœæ (czas w ruchu);
+  \item \texttt{maxInMotionDuration} --- najd³u¿sza aktywnoœæ (czas w ruchu);
+  \item \texttt{averageSpeedInMotion} --- œrednia prêdkoœæ (czas w ruchu);
+  \item \texttt{totalDistance} --- ca³kowity dystans;
+  \item \texttt{averageDistance} --- œredni dystans;
+  \item \texttt{minDistance} --- najkrótszy dystans;
+  \item \texttt{maxDistance} --- najd³u¿szy dystans;
+  \item \texttt{totalElevationUp} --- suma przewy¿szeñ w górê;
+  \item \texttt{totalElevationDown} --- suma przewy¿szeñ w dó³;
+  \item \texttt{minElevation} --- najni¿sze zarejestrowane po³o¿enie nad poziomem morza;
+  \item \texttt{maxElevation} --- najwy¿sze zarejestrowane po³o¿enie nad poziomem morza.
 \end{itemize}
+Ze wzglêdu na rozmiar (d³ugoœæ kodu) funkcji oraz jej trywialn¹ implementacjê, kodu nie pokazano na ¿adnym listingu.
 
-\begin{figure}[h]
+\begin{figure}[hb]
   \centering
   \includegraphics[width=0.9\linewidth]{rys03/stats}
   \caption{Widok statystyk profilu u¿ytkownika}
@@ -1132,11 +1212,20 @@ Funkcjê obliczaj¹c¹ statystyki profilu zaimplementowano w komponencie \texttt{Pr
 \end{figure}
 
 \section{Implementacja wykresów profilu u¿ytkownika}
-Komponent \texttt{ProfileCharts} odpowiedzialny jest za prezentacjê wykresów profilu u¿ytkownika. Komponent przyjmuje jako w³aœciwoœæ tablicê obiektów \texttt{Activity}. Na pocz¹tku dane aktywnoœci mapowane s¹ na serie danych obs³ugiwane przez wykresy z biblioteki \texttt{React-Vis}. Nastêpnie serie danych przekazywane s¹ do komponentów odpowiednich wykresów, które je formatuj¹ i wyœwietlaj¹. Przyk³adowe wykresy zaprezentowano na rysunku~\ref{fig:profilecharts}.
+Komponent \texttt{ProfileCharts} odpowiedzialny jest za prezentacjê wykresów profilu u¿ytkownika. Komponent przyjmuje jako w³aœciwoœæ tablicê obiektów \texttt{Activity}. Na pocz¹tku dane aktywnoœci mapowane s¹ na serie danych obs³ugiwane przez wykresy z biblioteki \texttt{React-Vis}. Nastêpnie serie danych przekazywane s¹ do komponentów odpowiednich wykresów, które je formatuj¹ i wyœwietlaj¹. Przyk³adowe wykresy zaprezentowano na rysunku~\ref{fig:profilecharts}. Kompletna lista wykresów profilu u¿ytkownika jest nastêpuj¹ca: \begin{itemize}
+  \item dzienny dystans na przestrzeni ostatnich 30 dni;
+  \item dzienny czasu aktywnoœci na przestrzeni ostatnich 30 dni;
+  \item dzienne przewy¿szenia na przestrzeni ostatnich 30 dni;
+  \item najczêœciej wybierane rodzaje sportu;
+  \item najczêœciej wybierane kategorie;
+  \item najczêœciej wybierane oceny;
+  \item najczêœciej u¿ywane tagów;
+  \item najczêœciej wybierane kszta³ty aktywnoœci.
+\end{itemize}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\linewidth]{rys03/charts}
-  \caption{Widok statystyk profilu u¿ytkownika}
+  \caption{Widok wykresów profilu u¿ytkownika}
   \label{fig:profilecharts}
 \end{figure}

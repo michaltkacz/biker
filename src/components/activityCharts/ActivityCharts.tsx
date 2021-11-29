@@ -131,7 +131,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
         ) : (
           <>
             <FlexibleWidthXYPlot
-              height={300}
+              height={150}
               xType='time-utc'
               yDomain={[0, maxSpeed * 1.1]}
               onMouseLeave={() => setSpeedCrosshair(null)}
@@ -172,7 +172,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
               )}
             </FlexibleWidthXYPlot>
             <FlexibleWidthXYPlot
-              height={300}
+              height={150}
               xType='time-utc'
               yDomain={[0, maxDistance * 1.1]}
               onMouseLeave={() => setDistanceCrosshair(null)}
@@ -212,7 +212,7 @@ const ActivityCharts: React.FC<ActivityChartsProps> = ({ track }) => {
               )}
             </FlexibleWidthXYPlot>
             <FlexibleWidthXYPlot
-              height={300}
+              height={150}
               xType='time-utc'
               yDomain={[0, maxElevation * 1.1]}
               onMouseLeave={() => setElevationCrosshair(null)}

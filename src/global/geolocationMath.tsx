@@ -18,7 +18,7 @@ export const geoDistance = (
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance in m
+  return R * c; // m
 };
 
 export const geoSpeed1 = (deltaDistance: number, deltaTime: number): number => {
@@ -36,7 +36,7 @@ export const geoSpeed2 = (
   return geoSpeed1(
     geoDistance(lat1, lon1, lat2, lon2),
     deltaTime(time1, time2)
-  ); // km/h
+  ); // m/s
 };
 
 export const geoMove = (
@@ -69,11 +69,9 @@ export const deltaElevation = (
   if (!ele1 || !ele2) {
     return undefined;
   }
-  return ele1 - ele2;
+  return ele1 - ele2; //m
 };
 
 export const deltaTime = (time1: number, time2: number) => {
-  return Math.abs(time2 - time1);
-  // const time = Math.abs(time2 - time1);
-  // return time < 1000 ? 1000 : time;
+  return Math.abs(time2 - time1); //ms
 };

@@ -140,7 +140,6 @@ const Activity: React.FC<ActivityProps> = ({ activity }) => {
             rating ? Object.values(RatingTypes).indexOf(rating) + 1 : 0
           }
           onChange={(value) => {
-            console.log(value);
             value === 0
               ? setRating(undefined)
               : setRating(Object.values(RatingTypes)[value - 1]);

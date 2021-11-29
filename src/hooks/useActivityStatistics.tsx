@@ -17,6 +17,8 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
   const [maxSpeed, setMaxSpeed] = useState<number>();
   const [elevationUp, setElevationUp] = useState<number>();
   const [elevationDown, setElevationDown] = useState<number>();
+  const [minElevation, setMinElevation] = useState<number>();
+  const [maxElevation, setMaxElevation] = useState<number>();
 
   useEffect(() => {
     // maxSpeed
@@ -30,6 +32,8 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
     setInMotionDuration(s.inMotionDuration);
     setElevationUp(s.elevationUp);
     setElevationDown(s.elevationDown);
+    setMinElevation(s.minElevation);
+    setMaxElevation(s.maxElevation);
   }, [track]);
 
   return {
@@ -41,6 +45,8 @@ const useActivityStatistics = (track: Track): ActivityStatisticsExtended => {
     maxSpeed,
     elevationUp,
     elevationDown,
+    minElevation,
+    maxElevation,
   };
 };
 

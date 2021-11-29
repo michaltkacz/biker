@@ -24,7 +24,6 @@ const GpxImporter = () => {
     message.success('Importing...');
   }, [files]);
 
-  //defaultActiveKey='gpx-importer'
   return (
     <Collapse className='gpx-importer'>
       <Collapse.Panel

@@ -16,6 +16,7 @@ const ActivityShaper: React.FC<ActivityShaperProps> = ({ shape, onChange }) => {
     <div className='activity-shaper'>
       <WithLabel label='Loop'>
         <Switch
+          defaultChecked={shape.isLoop}
           onChange={(checked) => onChange({ ...shape, isLoop: checked })}
         />
       </WithLabel>
