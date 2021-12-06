@@ -2,7 +2,7 @@
 \label{chap:implementacja}
 W niniejszym rozdziale przedstawiono proces tworzenia aplikacji. Pokazano fragmenty kodu realizuj¹ce kluczowe funkcjonalnoœci, jak np.:~uwierzytelnianie, rejestrowanie œladów czy prezentacja statystyk. Zawarto równie¿ rysunki, na których ukazane s¹ widoki aplikacji.
 
-Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu.
+Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejnoœæ przedstawiono poni¿ej. Jednak w praktyce prace nad pewnymi etapami prowadzono równolegle, jak np.:~nagrywanie œladów oraz kalkulator statystyk. Wynika to naturalnie z faktu, ¿e pewne etapy s¹ ze sob¹ œciœlej powi¹zane, a co za tym idzie --- zmiany wprowadzone w~jednej czêœci systemu, poci¹gaj¹ za sob¹ zmiany w drugiej czêœci systemu. Przebieg procesu implementacji:
 \begin{enumerate}
   \item Inicjalizacja aplikacji klienta.
   \item Inicjalizacja \texttt{Firebase}.
@@ -28,7 +28,18 @@ Przebieg procesu implementacji projektu mo¿na podzieliæ na etapy, których kolejn
 Pracê nad projektem prowadzono z u¿yciem edytora \texttt{Visual Studio Code}. Zmiany w kodzie regularnie zapisywano do zdalnego repozytorium \texttt{GitHub}. Repozytorium jest publiczne, a~dostêp do niego mo¿na uzyskaæ pod adresem:~\url{https://github.com/michaltkacz/biker}.
 
 \section{Inicjalizacja aplikacji klienta}
-Projekt aplikacji klienta utworzono przez uruchomienie komendy w œrodowisku \texttt{Node.js}, przedstawionej na listingu~\ref{lst:npx}. Dziêki wykorzystaniu flagi \texttt{--template cra-template-pwa-typescript} projekt zainicjalizowano w konfiguracji z jêzykiem \texttt{TypeScript} oraz z zaimplementowanym \emph{service-workerem} odpowiedzialnym za dzia³anie aplikacji w trybie PWA. Nastêpnie projekt oczyszczono ze zbêdnych plików oraz zainstalowano kluczowe, dodatkowe biblioteki (ponownie listing~\ref{lst:npx}) konieczne do rozpoczêcia pracy nad kodem (pozosta³e biblioteki w miarê zapotrzebowania doinstalowywano w póŸniejszych etapach rozwoju aplikacji). Finaln¹ strukturê plików uzyskan¹ po ukoñczeniu projektu przedstawiono w dodatku~\ref{chap:b}.
+Projekt aplikacji klienta utworzono przez uruchomienie komendy w œrodowisku \texttt{Node.js}, przedstawionej na listingu~\ref{lst:npx}. Dziêki wykorzystaniu flagi \texttt{--template cra-template-pwa-typescript} projekt zainicjalizowano w konfiguracji z jêzykiem \texttt{TypeScript} oraz z zaimplementowanym \emph{service-workerem} odpowiedzialnym za dzia³anie aplikacji w trybie PWA. Nastêpnie projekt oczyszczono ze zbêdnych plików oraz zainstalowano kluczowe, dodatkowe biblioteki (ponownie listing~\ref{lst:npx}) konieczne do rozpoczêcia pracy nad kodem (pozosta³e biblioteki w miarê zapotrzebowania doinstalowywano w póŸniejszych etapach rozwoju aplikacji). Finaln¹ strukturê plików uzyskan¹ po ukoñczeniu projektu przedstawiono w Dodatku~\ref{chap:b}.
+
+\begin{figure}[h]
+  \centering
+  \begin{tabular}{@{}ll@{}}
+    a)                                                                                     & b) \\
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree1.png}}}} &
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree2.png}}}}
+  \end{tabular}
+  \caption{Drzewo plików projektu: a) po inicjalizacji, b) po usuniêciu zbêdnych plików}
+  \label{fig:filetree}
+\end{figure}
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[label=lst:npx, caption=Inicjalizacja projektu React oraz instalacja kluczowych bibliotek, basicstyle=\footnotesize\ttfamily]
@@ -47,24 +58,15 @@ npm i react-icons
 \end{lstlisting}
 }
 
-\begin{figure}[htb]
-  \centering
-  \begin{tabular}{@{}ll@{}}
-    a)                                                                                     & b) \\
-    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree1.png}}}} &
-    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.375\textwidth]{rys03/filetree2.png}}}}
-  \end{tabular}
-  \caption{Drzewo plików projektu: a) po inicjalizacji, b) po usuniêciu zbêdnych plików}
-  \label{fig:filetree}
-\end{figure}
+
 
 
 \section{Inicjalizacja \texttt{Firebase}}
-W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://firebase.google.com/}, a nastêpnie postêpowaæ zgodnie z instrukcjami wyœwietlanymi na stronie, lub zgodnie z oficjaln¹ dokumentacj¹~\cite{fireinit}. Po pomyœlnej inicjalizacji, deweloper zyskuje dostêp do konsoli (\texttt{Firebase Console}) (rys.~\ref{fig:fireconsole}), która pozwala na zarz¹dzanie projektem. W menu po lewej stronie, w zak³adce \emph{Build} dostêpne s¹ poszczególne modu³y. Trzy z nich: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}, omówiono w dalszej czêœci~rozdzia³u.
+W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://firebase.google.com/}, a nastêpnie postêpowaæ zgodnie z instrukcjami wyœwietlanymi na stronie, lub zgodnie z oficjaln¹ dokumentacj¹~\cite{fireinit}. Po pomyœlnej inicjalizacji, deweloper zyskuje dostêp do konsoli (\texttt{Firebase Console}) (rys.~\ref{fig:fireconsole}), która pozwala na zarz¹dzanie projektem. W menu po lewej stronie, w zak³adce \emph{Build} dostêpne s¹ poszczególne modu³y. Trzy z nich: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}, omówiono w~dalszej czêœci~rozdzia³u.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\linewidth]{rys03/fireconsole.png}
+  \includegraphics[width=0.9\linewidth]{rys03/fireconsole.png}
   \caption{Widok g³ównej strony \texttt{Firebase Console}}
   \label{fig:fireconsole}
 \end{figure}
@@ -72,7 +74,7 @@ W celu inicjalizacji projektu Firebase nale¿y odwiedziæ stronê: \url{https://fir
 \section{Integracja z \texttt{Firebase}}
 W folderze z plikami Ÿród³owymi projektu aplikacji klienta utworzono nowy plik o nazwie \texttt{firebase.tsx}. Nastêpnie zawarto w nim kod konfiguracji \texttt{Firebase}, który skopiowano z~konsoli (rys.~\ref{fig:fireconfig}). Na podstawie tej konfiguracji, w pliku \texttt{src/firebase/firebase.tsx} zainicjalizowano modu³ aplikacji \texttt{Firebase}. W póŸniejszych etapach zainicjalizowano równie¿ obiekty autoryzacji \texttt{auth} oraz bazy danych \texttt{database}. Pozwalaj¹ one z poziomu aplikacji klienta odwo³ywaæ siê do odpowiednich funkcjonalnoœci po stronie \texttt{Firebase'a}. Finaln¹ wersjê pliku przedstawiono na listingu~\ref{lst:fireinit}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{rys03/fireconfig.png}
   \caption{Obiekt konfiguracyjny w \texttt{Firebase Console}}
@@ -206,7 +208,7 @@ Ikony aplikacji (rys.~\ref{fig:pwaicons}) --- \texttt{logo.svg}, \texttt{logo\_m
     \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.475\textwidth]{rys03/logo.png}}}} &
     \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.475\textwidth]{rys03/logo_maskable.png}}}}
   \end{tabular}
-  \caption{Ikony aplikacji: a) logo, b) logo\_maskable}
+  \caption{Ikony aplikacji: a) \texttt{logo.svg}, b) \texttt{logo\_maskable.svg}}
   \label{fig:pwaicons}
 \end{figure}
 
@@ -341,21 +343,21 @@ export enum RatingTypes {
 \section{Implementacja uk³adów stron}
 W aplikacji zaimplementowano dwa ró¿ne uk³ady strony --- jeden wy³¹cznie dla strony autoryzacji, a drugi -- globalny, wspólny dla wszystkich pozosta³ych stron. Uk³ady s¹ w pe³ni responsywne, co oznacza, ¿e dynamicznie dostosowuj¹ siê one do rozmiaru ekranu urz¹dzenia. Responsywnoœæ uzyskano dziêki zastosowaniu zasad CSS typu \texttt{@media min-width}.
 
-Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekranu o szerokoœci powy¿ej 768px)--- rysunek~\ref{fig:authpagetemplatedesktop}, a w wersji mobilnej --- rysunek~\ref{fig:authpagemobile}a (dla ekranu o szerokoœci nie przekraczaj¹cej 768px). Gotowe widoki aplikacji dla powy¿szych szablonów pokazano odpowiednio na rysunku~\ref{fig:authpagedesktop} oraz rysunku~\ref{fig:authpagemobile}b.
+Szablon uk³adu strony autoryzacji przedstawiaj¹: w wersji desktopowej (dla ekranu o szerokoœci powy¿ej 768px)--- rysunek~\ref{fig:authpagetemplatedesktop}, a w wersji mobilnej --- rysunek~\ref{fig:authpagemobile}a (dla ekranu o~szerokoœci nie przekraczaj¹cej 768px). Gotowe widoki aplikacji dla powy¿szych szablonów pokazano odpowiednio na rysunku~\ref{fig:authpagedesktop} oraz rysunku~\ref{fig:authpagemobile}b.
 
 Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania stron: profilu u¿ytkownika, rejestratora GPS oraz aktywnoœci (rys.~\ref{fig:globalpage}). Jest on równie¿ w pe³ni responsywny. Dla ekranów o~rozmiarze powy¿ej 1200px \emph{sider} przyjmuje on sta³¹ szerokoœæ 200px i nie mo¿e zostaæ ukryty, natomiast \emph{content} wype³nia ca³e pozosta³e miejsce. W przypadku ekranów nie wiêkszych ni¿ 1200px, \emph{sider} staje siê dynamiczny --- mo¿e zostaæ ukryty przy u¿yciu przycisku \emph{sider button}. Z kolei \emph{content} przyjmuje sta³¹ szerokoœæ równ¹ ca³kowitej szerokoœci okna widoku. Z~tego wzglêdu otwarcie \emph{sidera} powoduje wypchniêcie \emph{contentu} o 200px w prawo, poza obszar ekranu. Jest to zabieg umyœlny, który ma na celu zminimalizowanie efektu \emph{content jumpingu}, czyli niechcianej zmiany po³o¿enia elementów strony. Efekt ten by³ szczególnie zauwa¿alny na urz¹dzeniach z w¹skim ekranem, jak np.:~smartfonach.
 
 % \newpage
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=\linewidth]{rys03/authpagetemplatedesktop}
+  \includegraphics[width=0.85\linewidth]{rys03/authpagetemplatedesktop}
   \caption{Szablon uk³adu strony autoryzacji w wersji desktopowej}
   \label{fig:authpagetemplatedesktop}
 \end{figure}
 
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=\linewidth]{rys03/authpagedesktop}
+  \includegraphics[width=0.85\linewidth]{rys03/authpagedesktop}
   \caption{Widok strony autoryzacji w wersji desktopowej}
   \label{fig:authpagedesktop}
 \end{figure}
@@ -388,17 +390,21 @@ Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania
 % \newpage
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=\linewidth]{rys03/globaltemplatepage}
+  \includegraphics[width=0.9\linewidth]{rys03/globaltemplatepage}
   \caption{Szablon globalnego uk³adu strony w wersji mobilnej i desktopowej}
   \label{fig:globaltemplatepage}
 \end{figure}
 
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=\linewidth]{rys03/globalpage}
+  \includegraphics[width=0.9\linewidth]{rys03/globalpage}
   \caption{Widok strony aktywnoœci w wersji desktopowej}
   \label{fig:globalpage}
 \end{figure}
+
+
+\clearpage
+
 
 
 \section{Implementacja uwierzytelniania}
@@ -554,19 +560,21 @@ Schemat komponentu strony rejestratora GPS przedstawiono na rysunku~\ref{fig:tra
   \item \texttt{MapDashboard} --- komponent wyœwietlaj¹cy statystki aktualnie nagrywanego œladu. Statystki wyliczane s¹ w \emph{hooku} \texttt{useActivityStatistics}.
 \end{enumerate}
 
-Kluczowa logika strony zawarta jest w \emph{hooku} \texttt{useTracker}, którego najwa¿niejszym zadaniem jest rejestrowanie œladu GPS. Kod programu realizuj¹cy to zadanie przedstawiono na listingu~\ref{lst:trackerpage}. Po w³¹czeniu nagrywania stan \texttt{track} ustawiany jest na wartoœæ bêd¹c¹ tablic¹ zawieraj¹c¹ jeden pusty segment (pust¹ tablicê punktów), a stan \texttt{isTracking} ustawiany jest na wartoœæ \texttt{true}, czego skutkiem jest aktywacja \emph{hooka} \texttt{useInterval}. Interwa³ wywo³uje funkcjê \texttt{updateTrack} co 2000ms.
-
-Funkcja \texttt{updateTrack} najpierw sprawdza warunek, czy najnowsza pozycja jest dostêpna (w~przypadku b³êdu uzyskania lokalizacji przez przegl¹darkê, ostatnia pozycja przyjmuje wartoœæ \texttt{null}). Gdy pozycja jest niedostêpna i gdy ostatni segment \texttt{tracka} nie jest pusty, do \texttt{tracka}, na koniec tablicy dodawany jest nowy pusty segment. W przeciwnym wypadku --- gdy dostêpna jest nowa pozycja --- dopisywana jest ona na koñcu ostatniego segmentu \texttt{tracka}. Ponadto, aktywacja nagrywania blokuje wygaszacz ekranu urz¹dzenia (funkcje \texttt{enableNoSleep} \texttt{disableNoSleep} z \emph{hooka} \texttt{useNoSleep}).
-
-\begin{figure}[t]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{rys03/trackerpage}
   \caption{Schemat strony rejestratora œladów GPS}
   \label{fig:trackerpage}
 \end{figure}
 
-{\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:trackerpage, caption=Strona rejestratora GPS, basicstyle=\footnotesize\ttfamily]
+
+Kluczowa logika strony zawarta jest w \emph{hooku} \texttt{useTracker}, którego najwa¿niejszym zadaniem jest rejestrowanie œladu GPS. Kod programu realizuj¹cy to zadanie przedstawiono na listingu~\ref{lst:trackerpage}. Po w³¹czeniu nagrywania stan \texttt{track} ustawiany jest na wartoœæ bêd¹c¹ tablic¹ zawieraj¹c¹ jeden pusty segment (pust¹ tablicê punktów), a stan \texttt{isTracking} ustawiany jest na wartoœæ \texttt{true}, czego skutkiem jest aktywacja \emph{hooka} \texttt{useInterval}. Interwa³ wywo³uje funkcjê \texttt{updateTrack} co 2000ms.
+
+Funkcja \texttt{updateTrack} najpierw sprawdza warunek, czy najnowsza pozycja jest dostêpna (w~przypadku b³êdu uzyskania lokalizacji przez przegl¹darkê, ostatnia pozycja przyjmuje wartoœæ \texttt{null}). Gdy pozycja jest niedostêpna i gdy ostatni segment \texttt{tracka} nie jest pusty, do \texttt{tracka}, na koniec tablicy dodawany jest nowy pusty segment. W przeciwnym wypadku --- gdy dostêpna jest nowa pozycja --- dopisywana jest ona na koñcu ostatniego segmentu \texttt{tracka}. Ponadto, aktywacja nagrywania blokuje wygaszacz ekranu urz¹dzenia (funkcje \texttt{enableNoSleep} \texttt{disableNoSleep} z \emph{hooka} \texttt{useNoSleep}).
+
+
+  {\belowcaptionskip=-9pt
+    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:trackerpage, caption=Strona rejestratora GPS, basicstyle=\footnotesize\ttfamily]
 const emptySegment: TrackSegment = [];
 const emptyTrack: Track = {
   activityId: '',
@@ -619,7 +627,7 @@ const useTracker = (interval: number = 2000): TrackRecorder => {
   };
 };
 \end{lstlisting}
-}
+  }
 
 Dla lepszego zobrazowania dzia³ania funkcji \texttt{updateTrack}, na rysunku~\ref{fig:trackerpage} przedstawiono diagram sekwencji funkcji. W pseudokodzie na schemacie przyjêto nastêpuj¹ce oznaczenia:
 \begin{itemize}
@@ -633,7 +641,7 @@ Obiekt \texttt{track} jest zwracany do komponentu \texttt{TrackerPage}, a nastêp
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.75\linewidth]{rys03/updatetrack}
+  \includegraphics[width=0.65\linewidth]{rys03/updatetrack}
   \caption{Diagram sekwencji dla funkcji \texttt{updateTrack}}
   \label{fig:trackerpage}
 \end{figure}
@@ -648,7 +656,7 @@ Obiekt \texttt{track} jest zwracany do komponentu \texttt{TrackerPage}, a nastêp
 \section{Implementacja importu GPX}
 Schemat procesu importu aktywnoœci z pliku GPX przedstawiono na rysunku~\ref{fig:importeksport}a. Na pocz¹tku u¿ytkownik wybiera z dysku urz¹dzenia pliki z rozszerzeniem \texttt{.gpx}. Nastêpnie pliki s¹ parsowane z wykorzystaniem biblioteki \texttt{gpxparser}. Rezultatem parsowania jest obiekt JavaScriptowy, który nastêpnie mapowany jest na obiekt typu \texttt{Activity} (definicja typu --- listing~\ref{lst:dbtypes2}) oraz wyliczane s¹ statystyki aktywnoœci. W przedostatnim kroku dane zapisywane s¹ do bazy, w wyniku czego aktywnoœci nadawany jest unikalny identyfikator. Na koniec aktywnoœæ wyœwietlana jest na stronie. Je¿eli na dowolnym etapie wyst¹pi b³¹d, proces importu jest~przerywany.
 
-Kroki: parsowanie, mapowanie, obliczenie statystyk i zapis do bazy pokazano na listingu~\ref{lst:import}. Listing przedstawia kod \emph{hooka} \texttt{useEffect} komponentu \texttt{GpxToActivityParser}. Widok aplikacji z inferfejsem importu pokazano na rysunku~\ref{fig:globalpage}.
+Kroki: parsowanie, mapowanie, obliczenie statystyk i zapis do bazy pokazano na listingu~\ref{lst:import}. Listing przedstawia kod \emph{hooka} \texttt{useEffect} komponentu \texttt{GpxToActivityParser}. Widok aplikacji z interfejsem importu pokazano na rysunku~\ref{fig:globalpage}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:import, caption=Import aktywnoœci z pliku GPX, basicstyle=\footnotesize\ttfamily]
@@ -705,8 +713,8 @@ useEffect(() => {
   \centering
   \begin{tabular}{@{}ll@{}}
     a)                                                                              & b) \\
-    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.33\textwidth]{rys03/import2}}}} &
-    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.33\textwidth]{rys03/eksport2}}}}
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.25\textwidth]{rys03/import2}}}} &
+    \vtop{\vskip-2ex\hbox{{\includegraphics[width=0.25\textwidth]{rys03/eksport2}}}}
   \end{tabular}
   \caption{Schematy procesów: a) importu aktywnoœci, b) eksportu aktywnoœci}
   \label{fig:importeksport}
@@ -714,7 +722,7 @@ useEffect(() => {
 
 \section{Implementacja eksportu GPX}
 \label{sec:eksport}
-Schemat procesu eksportu aktywnoœci do pliku GPX przedstawiono na rysunku~\ref{fig:importeksport}b. W widoku aktywnoœci (rys.~\ref{fig:globalpage}) u¿ytkownik wybiera aktywnoœæ, która ma zostaæ wyeksportowana. Naciœniêcie przycisku \texttt{Export GPX} wywo³uje funkcjê \texttt{buildGpxAndSaveFile}, której kod przedstawiono na listingu~\ref{lst:eksport}. Funkcja przyjmuje dwa parametry: obiekt typu \texttt{Track} (definicja typu --- \ref{lst:dbtypes3}) oraz \texttt{filename}.
+Schemat procesu eksportu aktywnoœci do pliku GPX przedstawiono na rysunku~\ref{fig:importeksport}b. W~widoku aktywnoœci (rys.~\ref{fig:globalpage}) u¿ytkownik wybiera aktywnoœæ, która ma zostaæ wyeksportowana. Naciœniêcie przycisku \texttt{Export GPX} wywo³uje funkcjê \texttt{buildGpxAndSaveFile}, której kod przedstawiono na listingu~\ref{lst:eksport}. Funkcja przyjmuje dwa parametry: obiekt typu \texttt{Track} (definicja typu --- \ref{lst:dbtypes3}) oraz \texttt{filename}.
 
 W pierwszym kroku w funkcji pomocniczej \texttt{buildGpx} obiekt \texttt{track} mapowany jest na tablicê obiektów typu \texttt{Point} zdefiniowanego w bibliotece \texttt{GPX builder}. Nastêpnie funkcja \texttt{buildGPX} generuje ³añcuch znaków, który jest reprezentacj¹ \texttt{tracka} w standardzie GPX. £añcuch znaków zapisywany jest do pliku z rozszerzeniem \texttt{*.gpx} funkcj¹ \texttt{saveAs} dostarczon¹ przez bibliotekê \texttt{file-saver}.
 
@@ -722,7 +730,7 @@ W pierwszym kroku w funkcji pomocniczej \texttt{buildGpx} obiekt \texttt{track} 
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:eksport, caption=Eksport aktywnoœci do pliku GPX, basicstyle=\footnotesize\ttfamily]
 export const buildGpxAndSaveFile = (track: Track, fileName: string) => {
   const gpx = buildGpx(track);
-  var blob = new Blob([gpx], {
+  const blob = new Blob([gpx], {
     type: 'application/gpx+xml;charset=utf-8',
   });
   saveAs(blob, fileName + '.gpx');
@@ -785,7 +793,7 @@ const onExportActivity = () => {
 };
 \end{lstlisting}}
 
-Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWithTrack}, która usuwa z bazy danych u¿ytkownika aktywnoœæ o zadanym identyfikatorze. Naciœniêcie przycisku \texttt{Update} (domyœlnie zablokowany, odblokowuje siê po wprowadzeniu zmiany w danych aktywnoœci) powoduje najpierw utworzenie obiektu \texttt{payload}, który zawiera listê zmian aktywnoœci, a nastêpnie wywo³anie funkcji \texttt{updateActivity}, która dokonuje aktualizacji w bazie danych u¿ytkownika. Funkcjê eksportu opisano w sekcji~\ref{sec:eksport}, a komunikacjê z baz¹ danych --- w~sekcji~\ref{sec:bazadanych}.
+Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWithTrack}, która usuwa z bazy danych u¿ytkownika aktywnoœæ o zadanym identyfikatorze. Naciœniêcie przycisku \texttt{Update} (domyœlnie zablokowany, odblokowuje siê po wprowadzeniu zmiany w danych aktywnoœci) powoduje najpierw utworzenie obiektu \texttt{payload}, który zawiera listê zmian aktywnoœci, a nastêpnie wywo³anie funkcji \texttt{updateActivity}, która dokonuje aktualizacji w~bazie danych u¿ytkownika. Funkcjê eksportu opisano w sekcji~\ref{sec:eksport}, a komunikacjê z baz¹ danych~---~w~sekcji~\ref{sec:bazadanych}.
 
 \begin{figure}[h]
   \centering
@@ -795,7 +803,7 @@ Naciœniêcie przycisku \texttt{Delete} wywo³uje funkcjê \texttt{deleteActivityWit
 \end{figure}
 
 \section{Implementacja statystyk aktywnoœci}
-Funkcjonalnoœæ obliczania statystyk zaimplementowano w \emph{hooku} \texttt{useActivityStatistics}. \emph{Hook} zwraca obiekt statystyk, który zawiera nastêpuj¹ce dane:
+Funkcjonalnoœæ obliczania statystyk zaimplementowano w~\emph{hooku} \texttt{useActivityStatistics}. \emph{Hook} zwraca obiekt statystyk, który zawiera nastêpuj¹ce dane:
 \begin{itemize}
   \item \texttt{latestSpeed} --- ostatnia (najnowsza) prêdkoœæ;
   \item \texttt{maxSpeed} --- maksymalna prêdkoœæ;
@@ -870,7 +878,7 @@ Kod \emph{hooka} przedstawiono na lisitngu~\ref{lst:useactivitystatistics}. Dla 
           \item Przypisz \texttt{totalDistance += distance}.
           \item Przypisz \texttt{inMotionDuration += time}.
           \item Je¿eli \texttt{speed} jest wiêksze od \texttt{maxSpeed}, to przypisz: \texttt{maxSpeed = speed}.
-          \item Je¿eli \texttt{dElevation > 0}, to przypisz \texttt{elevationDown += dElevation}. W przeciwnym razie przypisz \texttt{elevationUp += -dElevation}
+          \item Je¿eli \texttt{dElevation > 0}, to przypisz \texttt{elevationDown += dElevation}. W~przeciwnym razie przypisz \texttt{elevationUp += -dElevation}
           \item Je¿eli \texttt{currTrackPoint.ele} jest wiêksze od \texttt{maxElevation}, to przypisz \texttt{maxElevation = currTrackPoint.ele}
           \item Je¿eli \texttt{currTrackPoint.ele} jest mniejsze od \texttt{minElevation}, to przypisz \texttt{minElevation = currTrackPoint.ele}
         \end{enumerate}
@@ -934,8 +942,15 @@ Wykresy (rys.~\ref{fig:activitycharts}) wyœwietlane s¹ przez komponent \texttt{A
   \item wykres zale¿noœci bezwzglêdnej wysokoœci nad poziomem morza od czasu.
 \end{itemize}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{rys03/activitycharts2}
+  \caption{Widok wykresów aktywnoœci}
+  \label{fig:activitycharts}
+\end{figure}
+
 {\belowcaptionskip=-9pt
-\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:datachartmap, caption=Fragment funkcji generowania serii danch dla wykresów aktywnoœci, basicstyle=\footnotesize\ttfamily]
+\begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:datachartmap, caption=Fragment funkcji generowania serii danych dla wykresów aktywnoœci, basicstyle=\footnotesize\ttfamily]
 const parseData = async () => {
   ...
   flatTrack.forEach((point, index) => {
@@ -965,16 +980,10 @@ const parseData = async () => {
 };
 \end{lstlisting}}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\linewidth]{rys03/activitycharts2}
-  \caption{Widok wykresów aktywnoœci}
-  \label{fig:activitycharts}
-\end{figure}
 
 \section{Integracja z \texttt{Realtime Database}}
 \label{sec:bazadanych}
-W celu integracji z baz¹ danych w pierwszym kroku nale¿y w aplikacji zainicjalizowaæ obiekt bazy danych, jak pokazano  na listingu~\ref{lst:fireinit} (obiekt \texttt{database}). Wszystkie funkcje odpowiedzialne za komunikacjê z baz¹ zaimplementowano w pliku \texttt{src/firebase/hooks/useDatabase.tsx}. Ponadto w pliku \texttt{src/firebase/contexts/AuthContext.tsx} zaimplementowano funkcjê \texttt{updateProfile}. Ró¿ni siê ona od pozosta³cyh funkcji tym, ¿e nie komunikuje siê bezpoœrednio z moud³em bazy danych, tylko z modu³em uwierzytelniania. Lista i opis zaimplementowanych funkcji przedstawiono w tabeli~\ref{tab:crudy}. Jest to minimalny i wystarczaj¹cy zestaw funkcji koniecznych do realizacji wszystkich wymagañ funkcjonalnych projektu.
+W celu integracji z baz¹ danych w pierwszym kroku nale¿y w aplikacji zainicjalizowaæ obiekt bazy danych, jak pokazano  na listingu~\ref{lst:fireinit} (obiekt \texttt{database}). Wszystkie funkcje odpowiedzialne za komunikacjê z baz¹ zaimplementowano w pliku \texttt{src/firebase/hooks/useDatabase.tsx}. Ponadto w~pliku \texttt{src/firebase/contexts/AuthContext.tsx} zaimplementowano funkcjê \texttt{updateProfile}. Ró¿ni siê ona od pozosta³cyh funkcji tym, ¿e nie komunikuje siê bezpoœrednio z moud³em bazy danych, tylko z modu³em uwierzytelniania. Lista i opis zaimplementowanych funkcji przedstawiono w tabeli~\ref{tab:crudy}. Jest to minimalny i wystarczaj¹cy zestaw funkcji koniecznych do realizacji wszystkich wymagañ funkcjonalnych projektu.
 
 \begin{table}[htb] \small
   \centering
@@ -1032,7 +1041,7 @@ export const useReadProfile = (userId: string | null) => {
 };
 \end{lstlisting}}
 
-Szczególnie interesuj¹ca jest funkcja \texttt{writeActivityWithTrack}, której kod pokazano na listingu~\ref{lst:writeactivities}. Obiekty \texttt{track} i \texttt{activity} w aplikacji klienta s¹ silnie ze sob¹ powi¹zane --- \texttt{track} mo¿na uznaæ za element nale¿¹cy do \texttt{activity}. Zatem wydawaæ by siê mog³o, ¿e w~bazie danych \texttt{track} powinien byæ zapisany jako potomek \texttt{activity}. Tymczasem w celu optymalizacji zapytañ do bazy danych, obiekty te zapisywane s¹ do ró¿nych œcie¿ek, jednak pod wspólnym identyfikatorem. W wyniku wywo³ania funkcji \texttt{push} zwracany jest obiekt zawieraj¹cy nowo wygenerowany, unikalny klucz, który s³u¿y jako wspólny identyfikator dla obiektów \texttt{activity} i \texttt{track}. Nastêpnie obiekty zapisywane s¹ do bazy wywo³aniem funkcji \texttt{set}.
+Szczególnie interesuj¹ca jest funkcja \texttt{writeActivityWithTrack}, której kod pokazano na listingu~\ref{lst:writeactivities}. Obiekty \texttt{track} i \texttt{activity} w aplikacji klienta s¹ silnie ze sob¹ powi¹zane --- \texttt{track} mo¿na uznaæ za element nale¿¹cy do \texttt{activity}. Zatem wydawaæ by siê mog³o, ¿e w~bazie danych \texttt{track} powinien byæ zapisany jako potomek \texttt{activity}. Tymczasem w celu optymalizacji zapytañ do bazy danych, obiekty te zapisywane s¹ do ró¿nych œcie¿ek, jednak pod wspólnym identyfikatorem. W wyniku wywo³ania funkcji \texttt{push} zwracany jest obiekt zawieraj¹cy nowo wygenerowany, unikalny klucz, który s³u¿y jako wspólny identyfikator dla obiektów \texttt{activity} i \texttt{track}. Nastêpnie obiekty zapisywane s¹ do bazy wywo³aniem funkcji~\texttt{set}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:writeactivities, caption=Funkcja zapisu aktywnoœci i œladu do bazy danych, basicstyle=\footnotesize\ttfamily]
@@ -1146,7 +1155,7 @@ const onUrlChange = (newUrl: string) => {
 };
 \end{lstlisting}}
 
-W karcie \texttt{Bio} prezentowane s¹ dane u¿ytkownika odczytywane z obiektu typu \texttt{UserProfile} (lis.~\ref{lst:dbtypes1}). Ich edycja przebiega podobnie jak w przypadku edycji imienia i nazwiska, jednak tym razem wywo³ywana jest funkcja \texttt{updateProfile} (tab.~\ref{tab:crudy}). Przyk³ad pokazano na lisitngu~\ref{lst:updateuserprofile}. Aktualizacja pozosta³ych pól przebiega analogicznie w stosunku do funkcji~\texttt{onDescriptionChange}.
+W karcie \texttt{Bio} prezentowane s¹ dane u¿ytkownika odczytywane z obiektu typu \texttt{UserProfile} (lis.~\ref{lst:dbtypes1}). Ich edycja przebiega podobnie jak w przypadku edycji imienia i~nazwiska, jednak tym razem wywo³ywana jest funkcja \texttt{updateProfile} (tab.~\ref{tab:crudy}). Przyk³ad pokazano na lisitngu~\ref{lst:updateuserprofile}. Aktualizacja pozosta³ych pól przebiega analogicznie w stosunku do funkcji~\texttt{onDescriptionChange}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:updateuserprofile, caption=Aktualizacja danych profilu na przyk³adzie zmiany opisu, basicstyle=\footnotesize\ttfamily]
@@ -1171,7 +1180,7 @@ W karcie \texttt{Bio} prezentowane s¹ dane u¿ytkownika odczytywane z obiektu typ
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\linewidth]{rys03/profileview}
+  \includegraphics[width=\linewidth]{rys03/profileview}
   \caption{Widok strony profilu u¿ytkownika}
   \label{fig:profileview}
 \end{figure}
@@ -1204,13 +1213,6 @@ Funkcjê obliczaj¹c¹ statystyki profilu zaimplementowano w komponencie \texttt{Pr
 \end{itemize}
 Ze wzglêdu na rozmiar (d³ugoœæ kodu) funkcji oraz jej trywialn¹ implementacjê, kodu nie pokazano na ¿adnym listingu.
 
-\begin{figure}[hb]
-  \centering
-  \includegraphics[width=0.9\linewidth]{rys03/stats}
-  \caption{Widok statystyk profilu u¿ytkownika}
-  \label{fig:profilestats}
-\end{figure}
-
 \section{Implementacja wykresów profilu u¿ytkownika}
 Komponent \texttt{ProfileCharts} odpowiedzialny jest za prezentacjê wykresów profilu u¿ytkownika. Komponent przyjmuje jako w³aœciwoœæ tablicê obiektów \texttt{Activity}. Na pocz¹tku dane aktywnoœci mapowane s¹ na serie danych obs³ugiwane przez wykresy z biblioteki \texttt{React-Vis}. Nastêpnie serie danych przekazywane s¹ do komponentów odpowiednich wykresów, które je formatuj¹ i wyœwietlaj¹. Przyk³adowe wykresy zaprezentowano na rysunku~\ref{fig:profilecharts}. Kompletna lista wykresów profilu u¿ytkownika jest nastêpuj¹ca: \begin{itemize}
   \item dzienny dystans na przestrzeni ostatnich 30 dni;
@@ -1223,9 +1225,16 @@ Komponent \texttt{ProfileCharts} odpowiedzialny jest za prezentacjê wykresów pro
   \item najczêœciej wybierane kszta³ty aktywnoœci.
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.9\linewidth]{rys03/charts}
   \caption{Widok wykresów profilu u¿ytkownika}
   \label{fig:profilecharts}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{rys03/stats}
+  \caption{Widok statystyk profilu u¿ytkownika}
+  \label{fig:profilestats}
 \end{figure}

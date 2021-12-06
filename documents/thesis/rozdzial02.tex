@@ -6,7 +6,7 @@ Na pocz¹tku rozdzia³u przedstawiono pod³o¿e teoretyczne pracy. Nastêpnie dokonan
 W poni¿szej sekcji przedstawiono pod³o¿e teoretyczne trzech zagadnieñ: komputer rowerowy, GPS oraz GPX. Koncepcje te stoj¹ u podstaw ca³ej pracy. Z tego te¿ wzglêdu, zaznajomienie siê z poni¿szymi informacjami jest wskazane przed przyst¹pieniem do lektury dalszych rozdzia³ów.
 
 \subsection{Komputer rowerowy}
-Elektroniczny komputer rowerowy, potocznie zwany równie¿ licznikiem rowerowym, to w ogólnym ujêciu urz¹dzenie przeznaczone do rejestrowania oraz prezentowania statystyk podró¿y rowerowej. W swojej idei przypomina samochodow¹ tablicê rozdzielcz¹. Pocz¹tkowo tego typu urz¹dzenia mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i~wyœwietlania: prêdkoœci z~jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
+Elektroniczny komputer rowerowy, potocznie zwany równie¿ licznikiem rowerowym, to w~ogólnym ujêciu urz¹dzenie przeznaczone do rejestrowania oraz prezentowania statystyk podró¿y rowerowej. W swojej idei przypomina samochodow¹ tablicê rozdzielcz¹. Pocz¹tkowo tego typu urz¹dzenia mia³y doœæ ograniczone mo¿liwoœci, które g³ównie sprowadza³y siê do obliczania i~wyœwietlania: prêdkoœci z~jak¹ w danej chwili przemieszcza siê rower, przejechanego ca³kowitego dystansu czy obecnej godziny. Z biegiem czasu liczniki by³y wzbogacane w nowe funkcje, jak np.:~obliczanie prêdkoœci œredniej, obliczanie czasu podró¿y, wskazanie kadencji, odczyt temperatury powietrza,~itp.
 Zasada dzia³ania prostego licznika rowerowego oparta jest na trzech g³ównych elementach:
 \begin{enumerate}
   \item Magnes zamontowany na szprysze ko³a roweru.
@@ -21,7 +21,7 @@ Za prze³om w dziedzinie komputerów rowerowych mo¿na uznaæ wyposa¿enie licznika w
 Pocz¹tkowo, aby korzystaæ z funkcji komputera rowerowego, konieczne by³o zaopatrzenie siê w dedykowane urz¹dzenie, jednak obecnie równie dobr¹ alternatyw¹ jest u¿ycie smartfona z~zainstalowan¹ odpowiedni¹ aplikacj¹. Jest to rozwi¹zanie bardziej przystêpne dla przeciêtnego u¿ytkownika z dwóch g³ównych przyczyn:
 \begin{enumerate}
   \item Wspó³czeœnie znakomita wiêkszoœæ osób jest posiadaczem smartfona~\cite{smartphones}.
-  \item Nie wymaga inwestycji finansowej.
+  \item Nie wymaga inwestycji finansowej (chocia¿ aplikacje zazwyczaj oferuj¹ dodatkowe, rozbudowane, p³atne funkcjonalnoœci).
 \end{enumerate}
 
 Aplikacji tego typu dostêpnych na rynku jest wiele. Do najpopularniejszych nale¿¹ m.in.:~\texttt{Strava}, \texttt{Cyclemeter}, \texttt{MapMyRide}, \texttt{Bikemap}, \texttt{Komoot}, czy \texttt{Wahoo~Fitness}. Mimo ¿e wszystkie udostêpniaj¹ fundamentalne funkcjonalnoœci komputera rowerowego, to ró¿ni¹ siê one w zakresie funkcjonalnoœci dodatkowych. Czêœæ z nich skierowana jest bardziej w stronê organizacji treningów (np.~\texttt{Strava}), inne specjalizuj¹ siê w planowaniu tras (np.~\texttt{Komoot}), a~jeszcze inne skoncentrowane s¹ na analizie statystyk (np.~\texttt{Cyclemeter}).
@@ -38,7 +38,7 @@ Zarówno dedykowane komputery rowerowe, jak i smartfony z zainstalowanymi aplikac
 
 Stacje nadawacze na Ziemi rozmieszczone s¹ w taki sposób, aby ka¿dy satelita jest zawsze w zasiêgu minimum dwóch nadajników. Zadaniem stacji jest przesy³anie do satelitów sygna³ów korekcyjnych czasu i~pozycji.
 
-Satelity rozmieszczone s¹ w taki sposób, aby w ka¿dym punkcie na Ziemi dostêpny by³ sygna³ z co najmniej czterech z nich. Na dzieñ 2 listopada 2021 roku w sk³ad konstelacji wchodzi 30 operacyjnych satelitów~\cite{gpsconstellation}. Ich zadaniem jest nadawanie sygna³u radiowego, który zawiera informacje o obecnym wzajemnym po³o¿eniu satelitów, o teoretycznej trajektorii lotu oraz odchyleñ od niej.
+Satelity rozmieszczone s¹ w taki sposób, aby w ka¿dym punkcie na Ziemi dostêpny by³ sygna³ z co najmniej czterech z nich. Wed³ug danych dostêpnych w listopadzie 2021 roku w sk³ad konstelacji wchodzi 30 operacyjnych satelitów~\cite{gpsconstellation}. Ich zadaniem jest nadawanie sygna³u radiowego, który zawiera informacje o obecnym wzajemnym po³o¿eniu satelitów, o~teoretycznej trajektorii lotu oraz odchyleñ od niej.
 
 Odbiornik na powierzchni ziemi na podstawie odebranych sygna³ów z minimum czterech satelitów okreœla odleg³oœæ od nich, a nastêpnie wylicza swoj¹ pozycjê geograficzn¹ --- standardowo w uk³adzie odniesienia WGS-84 (ang.~\emph{World Geodetic System '84}). Czynniki, które mog¹ zak³óciæ sygna³, a co za tym idzie wp³yn¹æ na jakoœæ okreœlenia pozycji, to m.in.:
 \begin{itemize}
@@ -54,7 +54,7 @@ Pierwotnie system GPS utworzony zosta³ z myœl¹ o zastosowaniach militarnych, jed
 
 
 \subsection{GPX}
-GPX (ang.~\emph{GPS Exchange Format})~\cite{gpxpage} to otwarty, ustandaryzowany schemat jêzyka XML (ang.~\emph{Extensible Markup Language}) opracowany w celu ujednolicenia procesu transferu danych pomiêdzy urz¹dzeniami, aplikacjami i us³ugami wykorzystuj¹cymi system GPS. Obecna wersja standardu to wydany 9 sierpnia 2004 GPX 1.1.
+GPX (ang.~\emph{GPS Exchange Format})~\cite{gpxpage} to otwarty, ustandaryzowany schemat jêzyka XML (ang.~\emph{Extensible Markup Language}) opracowany w celu ujednolicenia procesu transferu danych pomiêdzy urz¹dzeniami, aplikacjami i us³ugami wykorzystuj¹cymi system GPS. Obecna wersja standardu to wydany 9 sierpnia 2004 roku GPX 1.1.
 
 Dziêki wykorzystaniu architektury XML poszczególne dane lokalizacyjne uzyskane z systemu GPS zapisywane s¹ w koresponduj¹cych tagach XML, a te z kolei stanowi¹ zawartoœæ plików, których domyœlnym rozszerzeniem jest \texttt{*.gpx}. Pliki te mo¿na w prosty sposób eksportowaæ, przenosiæ, udostêpniaæ i importowaæ pomiêdzy ró¿nymi urz¹dzeniami. Standard zapewnia, ¿e dane zawsze bêd¹ poprawne i jednakowo interpretowane na dowolnej platformie.
 
@@ -127,24 +127,24 @@ Szablonow¹ strukturê standardu GPX~\cite{gpxschema} przedstawiono na listingu~\r
 Dziêki otwartoœci standardu mo¿liwe jest jego rozszerzanie. Jednym z popularnych rozszerzeñ jest \emph{Garmin GPX Schema Extension}. Dodaje ono nowe typy danych, które pozwalaj¹ zapisaæ w pliku dodatkowe informacje. Przyk³adowo, w omówionym wczeœniej \emph{waypoint type} mo¿na utrwaliæ zarejestrowan¹ w danym punkcie temperaturê lub kategoriê do której dany punkt nale¿y. Z kolei \emph{track type} zyskuje mo¿liwoœæ przechowywania koloru, w jakim œlad powinien zostaæ wyœwietlony na mapie. Wszystkie funkcjonalnoœci rozszerzenia opisano w oficjalnym~schemacie~\cite{gpxgarmin}.
 
 \section{Zarys wymagañ}
-W wyniku zebrania wymagañ projektowych powsta³a lista ogólna lista wymagañ u¿ytkowych, któr¹ podzielono na dwie kategorie: podstawowe oraz dodatkowe. Spe³nienie wymagañ z kategorii podstawowych uznano za równoznaczne z osi¹gniêciem wyznaczonego celu pracy. Kategorii wymagañ dodatkowych nie przewidziano do realizacji w ramach pracy. Przedstawia ona jedynie pomys³y i kierunek dalszego rozwoju. Kompletna lista jest nastêpuj¹ca:
+W wyniku zebrania wymagañ projektowych powsta³a lista ogólna lista wymagañ u¿ytkowych, któr¹ podzielono na dwie kategorie: podstawowe oraz dodatkowe. Spe³nienie wymagañ z~kategorii podstawowych uznano za równoznaczne z osi¹gniêciem wyznaczonego celu pracy. Kategorii wymagañ dodatkowych nie przewidziano do realizacji w ramach pracy. Przedstawia ona jedynie pomys³y i kierunek dalszego rozwoju. Kompletna lista jest nastêpuj¹ca:
 \begin{enumerate}
   \item Wymagania podstawowe:
         \begin{itemize}
-          \item Uwierzytelnianie u¿ytkownika;
-          \item Nagrywanie œladów GPS (standard GPX);
-          \item Import œladów GPS (pliki \texttt{*.gpx});
-          \item Eksport œladów GPS (pliki \texttt{*.gpx});
-          \item Statystki œladu GPS (liczby, wykresy, prezentacja na mapie);
+          \item Uwierzytelnianie u¿ytkownika.
+          \item Nagrywanie œladów GPS (standard GPX).
+          \item Import œladów GPS (pliki \texttt{*.gpx}).
+          \item Eksport œladów GPS (pliki \texttt{*.gpx}).
+          \item Statystki œladu GPS (liczby, wykresy, prezentacja na mapie).
           \item Statystki ogólne u¿ytkownika (liczby, wykresy).
         \end{itemize}
   \item Wymagania dodatkowe:
         \begin{itemize}
-          \item Edycja profilu (np.:~zmiana danych personalnych)
-          \item Mapa cieplna aktywnoœci (ang. \emph{Heat Map});
-          \item Planowanie dróg z wykorzystaniem mapy;
-          \item Nawigacja wed³ug zaplanowanych dróg;
-          \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie aktywnoœci);
+          \item Edycja profilu (np.:~zmiana danych personalnych).
+          \item Mapa cieplna aktywnoœci (ang. \emph{Heat Map}).
+          \item Planowanie dróg z wykorzystaniem mapy.
+          \item Nawigacja wed³ug zaplanowanych dróg.
+          \item Podstawowe elementy mediów spo³ecznoœciowych (przegl¹danie profili u¿ytkowników, udostêpnianie aktywnoœci).
           \item Rozbudowane funkcjonalnoœci mediów spo³ecznoœciowych (system znajomych, komentarze, wydarzenia grupowe, wspó³dzielone planowanie tras, wspó³dzielona nawigacja).
         \end{itemize}
 \end{enumerate}
@@ -304,7 +304,7 @@ Diagram przypadków u¿ycia pokazano na rysunku~\ref{fig:uzycia}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.7\linewidth]{rys02/uzycia}
+  \includegraphics[width=0.85\linewidth]{rys02/uzycia}
   \caption{Diagram przypadków u¿ycia}
   \label{fig:uzycia}
 \end{figure}
@@ -319,7 +319,7 @@ Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych apl
 \end{enumerate}
 G³ównym problemem natomiast mo¿e okazaæ siê wydajnoœæ takiego rozwi¹zania. Dzia³anie PWA oparte jest na przegl¹darce internetowej. Z kolei aplikacje natywne dzia³aj¹ w systemie jako niezale¿ne instancje. W ogólnym ujêciu aplikacje natywne pozwalaj¹ na uzyskanie lepszej wydajnoœci, poniewa¿ maj¹ bezpoœredni dostêp do zasobów sprzêtowych.
 
-Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów systemu zestawiono w tabeli~\ref{tab:koncepcje}. Na rysunku~\ref{fig:architektura} przedstawiono schemat ostatecznej wersji architektury systemu. Szczegó³y opisano w kolejnych podrozdzia³ach.
+Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów systemu zestawiono w tabeli~\ref{tab:koncepcje}. Na rysunku~\ref{fig:architektura} przedstawiono schemat ostatecznej wersji architektury systemu. Szczegó³y opisano w kolejnych sekcjach.
 
 
 \begin{table}[htb] \small
@@ -339,7 +339,7 @@ Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów sy
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\linewidth]{rys02/architektura}
+  \includegraphics[width=0.9\linewidth]{rys02/architektura}
   \caption{Schemat architektury systemu}
   \label{fig:architektura}
 \end{figure}
@@ -347,7 +347,7 @@ Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów sy
 \section{Warstwa backend}
 W tradycyjnym podejœciu tworzenia aplikacji internetowej lub mobilnej, poza wykonaniem oprogramowania klienckiego, zazwyczaj konieczne jest utworzenie serwera, bazy danych, magazynu plików, systemu uwierzytelniania oraz po³¹czenie tych (i wielu innych) elementów w~dzia³aj¹c¹ ca³oœæ.
 
-Alternatyw¹ jest wykorzystanie modelu BaaS (ang.~\emph{Backend-as-a-Service}), który przenosi odpowiedzialnoœæ za funkcje backendowe na dostawcê BaaS. Poszczególne modu³y (np.:~baza danych czy system uwierzytelniania) do³¹czane s¹ do warstwy klienta z u¿yciem pakietów SDK (ang.~\emph{Software Development Kit}) oraz API (ang.~\emph{Application Programming Interface}). Obrazowo mo¿na przedstawiæ to tak: programista buduje system z gotowych, dostarczonych z zewn¹trz, konfigurowalnych klocków, zamiast tworzyæ swoje w³asne klocki od podstaw. Dziêki temu rozwój oprogramowania jest szybszy, tañszy, oraz mniej podatny na b³êdy, a samo oprogramowanie jest ³atwo skalowalne. Jednak w przypadku zapotrzebowania na unikalne funkcjonalnoœci warstwy backend, BaaS mo¿e siê nie sprawdziæ ze wzglêdu na ograniczone mo¿liwoœci~konfiguracyjne.
+Alternatyw¹ jest wykorzystanie modelu BaaS (ang.~\emph{Backend-as-a-Service}), który przenosi odpowiedzialnoœæ za funkcje backendowe na dostawcê BaaS. Poszczególne modu³y (np.:~baza danych czy system uwierzytelniania) do³¹czane s¹ do warstwy klienta z u¿yciem pakietów SDK (ang.~\emph{Software Development Kit}) oraz API (ang.~\emph{Application Programming Interface}). Obrazowo mo¿na przedstawiæ to tak: programista buduje system z gotowych, dostarczonych z zewn¹trz, konfigurowalnych klocków, zamiast tworzyæ swoje w³asne klocki od podstaw. Dziêki temu rozwój oprogramowania jest szybszy, tañszy, oraz mniej podatny na b³êdy, a~samo oprogramowanie jest ³atwo skalowalne. Jednak w przypadku zapotrzebowania na unikalne funkcjonalnoœci warstwy backend, BaaS mo¿e siê nie sprawdziæ ze wzglêdu na ograniczone mo¿liwoœci~konfiguracyjne.
 
 BaaS jest technologi¹ stosunkowo now¹, poniewa¿ pierwsze projekty w tej dziedzinie siêgaj¹ zaledwie pocz¹tku drugiej dekady XX wieku. Obecnie na rynku dostêpnych jest wiele platform. Do najpopularniejszych mo¿na zaliczyæ (kolejnoœæ losowa): \texttt{Google Firebase}, \texttt{Apple CloudKit}, \texttt{Amazon AWS Amplify}, \texttt{Microsoft Azure Mobile Apps}, \texttt{Back4App}, \texttt{Parse} czy \texttt{Backendless}. Czêœæ z nich jest jest oprogramowaniem otwartym. Platformy komercyjne udostêpniaj¹ swoje us³ugi w chmurze, w ramach darmowych oraz p³atnych planów (np.:~\texttt{Firebase}, \texttt{AWS Amplify}). Niektóre platformy wymagaj¹ w³asnego hostowania~(np.:~\texttt{Parse}).
 
@@ -355,7 +355,7 @@ Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Go
 \begin{itemize}
   \item Podstawowe doœwiadczenie autora w integracji z platform¹, wynikaj¹ce z wykorzystania jej we wczeœniej realizowanych projektach.
   \item Dostêpnoœæ platformy w chmurze (brak koniecznoœci samodzielnego hostowania backendu).
-  \item Dostêpnoœæ darmowego planu, pokrywaj¹cego zapotrzebowanie w ramach rozwoju i testowania tworzonego oprogramowania.
+  \item Dostêpnoœæ darmowego planu, pokrywaj¹cego zapotrzebowanie w ramach rozwoju i~testowania tworzonego oprogramowania.
   \item Pokrycie wszystkich wymagañ projektu przez udostêpniane przez platformê us³ugi.
 \end{itemize}
 
@@ -375,7 +375,7 @@ Ca³a warstwa backend realizowanego projektu oparta jest na platformie \texttt{Go
   \end{tabularx}
 \end{table}
 
-W ramach projektu wykorzystane zosta³y modu³y: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}. W kolejnych podrozdzia³ach opisano  zwi¹zane z nimi za³o¿enia.
+W ramach projektu wykorzystane zosta³y modu³y: \texttt{Authentication}, \texttt{Realtime Database} i \texttt{Hosting}. W kolejnych sekcjach opisano  zwi¹zane z nimi za³o¿enia.
 
 \subsection{Uwierzytelnianie}
 Implementacja w³asnego systemu uwierzytelniana jest procesem z³o¿onym, pracoch³onnym i~wymagaj¹cym odpowiedniej wiedzy. Dlatego Firebase dostarcza modu³ Authentication odpowiedzialny za obs³ugê uwierzytelniania. Udostêpnia on cztery metody, którymi u¿ytkownik mo¿e potwierdziæ swoj¹ to¿samoœæ:
@@ -386,7 +386,7 @@ Implementacja w³asnego systemu uwierzytelniana jest procesem z³o¿onym, pracoch³o
   \item Sesja anonimowa.
 \end{enumerate}
 
-Bazowa wersja projektu zak³ada wykorzystanie dwóch z powy¿szych metod: email i has³o oraz jeden zewnêtrzny dostawca --- \texttt{Google}. Natomiast wraz z rozwojem aplikacji przewidziane jest rozszerzenie listy zewnêtrznych dostawców oraz dodanie uwierzytelniania z wykorzystaniem numeru telefonu. Nie nale¿y to jednak do zadañ priorytetowych projektu.
+Bazowa wersja projektu zak³ada wykorzystanie dwóch z powy¿szych metod: email i has³o oraz jeden zewnêtrzny dostawca --- \texttt{Google}. Natomiast wraz z rozwojem aplikacji przewidziane jest rozszerzenie listy zewnêtrznych dostawców oraz dodanie uwierzytelniania z~wykorzystaniem numeru telefonu. Nie nale¿y to jednak do zadañ priorytetowych projektu.
 
 Firebase dostarcza równie¿ bibliotekê \texttt{FirebaseUI}, która posiada zaimplementowany interfejs u¿ytkownika oraz wiêkszoœæ logiki programowej wymaganej do uwierzytelnienia po stronie klienta. Interfejs ten osadza siê w aplikacji i konfiguruje wed³ug w³asnych preferencji. W projekcie wykorzystano tê bibliotekê.
 
@@ -394,7 +394,7 @@ Firebase dostarcza równie¿ bibliotekê \texttt{FirebaseUI}, która posiada zaimple
 \texttt{Firebase} oferuje dwa rodzaje baz danych hostowanych w chmurze: \texttt{Realtime Database} i~\texttt{Firestore Database}. S¹ to bazy typu \emph{real-time} (nie myliæ z nazw¹ samej bazy danych), co oznacza ¿e s¹ one w stanie wydajnie przetwarzaæ dane w czasie rzeczywistym. Z ka¿d¹ zmian¹ danych w bazie, wszystkie aktywne, pod³¹czone urz¹dzenia otrzymuj¹ natychmiastow¹ aktualizacjê. Ponadto systemy te zaprojektowane s¹ w taki sposób, ¿e gdy urz¹dzenie utraci po³¹czenie z Internetem, aplikacja mo¿e pracowaæ dalej. Jest to mo¿liwe dziêki zachowaniu lokalnej kopii ostatnio u¿ywanych danych (\emph{data persistence}). Wszystkie wykonane operacje offline s¹ synchronizowane z baz¹ po odzyskaniu po³¹czenia, a powsta³e konflikty s¹ rozstrzygane automatycznie. Obydwie bazy s¹ bazami nierelacyjnymi (NoSQL) --- \texttt{Realtime} oparty jest na obiekcie JSON, natomiast \texttt{Firestore} to baza dokumentowa. \texttt{Firestore} jest rozwi¹zaniem nowszym, bazuj¹cym poniek¹d na \texttt{Realtime}, jednak nie oznacza to, ¿e \texttt{Realtime} jest bezu¿yteczny. Oba rozwi¹zania znajduj¹ swoje zastosowania w ró¿nych przypadkach. Na potrzeby projektu, jako bazê danych wybrano \texttt{Realtime Database}, poniewa¿ jest prostsza w obs³udze wzglêdem \texttt{Firestore'a}, natomiast jej mo¿liwoœci wci¹¿ pokrywaj¹ wymagania.
 
 
-Schemat struktury obiektu JSON stanowi¹cego bazê danych przedstawia pseudokod zawarty na listingu~\ref{lst:database}. Na schemacie podano typy poszczególnych pól. Znak~\texttt{?} przy nazwie pola sugeruje, ¿e pole to mo¿e byæ w bazie niezainicjalizowane. Wpis \texttt{<unique(userId)>} nale¿y rozumieæ, ¿e w obrêbie obiektu-rodzica mo¿e wyst¹piæ wiele obiektów, których nazwy s¹ unikalne. Typy \texttt{GENDERS}, \texttt{RATINGS}, \texttt{SPORTS}, \texttt{CATEGORIES} pe³ni¹ w schemacie rolê tylko pomocnicz¹, a~zapis \texttt{valueOf(\emph{TYPE})} oznacza, ¿e pole przyjmuje jedn¹ wartoœæ z danego \emph{TYPE}. W przypadku \texttt{activities} i \texttt{tracks} obiekty-dzieci przyjmuj¹ nazwy odpowiadaj¹ce identyfikatorowi aktywnoœci. Wystêpuje tu relacja jeden do jednego --- jeden \emph{track} jest przyporz¹dkowany do jednej \emph{activity}. Zastosowana praktyka jest powszechnie stosowana w obiektowych bazach danych.
+Schemat struktury obiektu JSON stanowi¹cego bazê danych przedstawia pseudokod zawarty na listingu~\ref{lst:database}. Na schemacie podano typy poszczególnych pól. Znak~\texttt{?} przy nazwie pola sugeruje, ¿e pole to mo¿e byæ w bazie niezainicjalizowane. Wpis \texttt{<unique(userId)>} nale¿y rozumieæ, ¿e w obrêbie obiektu-rodzica mo¿e wyst¹piæ wiele obiektów, których nazwy s¹ unikalne. Typy \texttt{GENDERS}, \texttt{RATINGS}, \texttt{SPORTS}, \texttt{CATEGORIES} pe³ni¹ w schemacie rolê tylko pomocnicz¹, a~zapis \texttt{valueOf(\emph{TYPE})} oznacza, ¿e pole przyjmuje jedn¹ wartoœæ z danego \emph{TYPE}. W przypadku \texttt{activities} i \texttt{tracks} obiekty-dzieci przyjmuj¹ nazwy odpowiadaj¹ce identyfikatorowi aktywnoœci. Wystêpuje tu relacja jeden do jednego --- jeden \emph{track} jest przyporz¹dkowany do jednej \emph{activity}. Zastosowana praktyka jest powszechnie stosowana w~obiektowych bazach danych.
 
   {\belowcaptionskip=-9pt
     \begin{lstlisting}[language=JavaScript, label=lst:database, caption=Struktura zastosowanej bazy danych w postaci pseudokodu, basicstyle=\footnotesize\ttfamily]
@@ -492,25 +492,25 @@ Aplikacjê klienta zaimplementowano z wykorzystaniem biblioteki \texttt{React} \c
   \caption{G³ówne biblioteki wykorzystane przy tworzeniu aplikacji klienta}
   \label{tab:biblioteki}
   \begin{tabularx}{\linewidth}{|l|X|X|} \hline
-    Nazwa                                     & Zastosowanie                                                                                                          & Link                                                                   \\      \hline\hline
-    \texttt{TypeScript}                       & Jêzyk programowania oparty na \texttt{JavaScript}, dodaj¹cy do statyczne typowanie                                    & \url{typescriptlang.org}                                               \\      \hline
-    \texttt{Less.js}                          & Rozszerzenie jêzykowe CSS, stylowanie aplikacji                                                                       & \url{lesscss.org}                                                      \\      \hline
-    \texttt{React}                            & Budowa interfejsu u¿ytkownika                                                                                         & \url{reactjs.org}                                                      \\      \hline
-    \texttt{Ant Design}                       & Gotowe komponenty reactowe oraz system designu                                                                        & \url{ant.design}                                                       \\      \hline
-    \texttt{Firebase}                         & Integracja z platform¹ Firebase                                                                                       & \url{firebase.google.com}                                              \\      \hline
-    \texttt{FirebaseUI}                       & Gotow¹ implementacja uwierzytelniania z platform¹ Firebase                                                            & \url{firebase.google.com}                                              \\      \hline
-    \texttt{Leaflet}                          & Interaktywne mapy                                                                                                     & \url{leafletjs.com}                                                    \\      \hline
-    \texttt{React-Leaflet}                    & Wrapper Leafleta, gotowe komponenty reactowe                                                                          & \url{react-leaflet.js.org}                                             \\      \hline
-    \texttt{FileSaver.js}                     & Obs³uga zapisywania plików na dysku                                                                                   & \url{github.com/eligrey/FileSaver.js}                                  \\      \hline
-    \texttt{react-vis}                        & Reactowe komponenty wykresów                                                                                          & \url{uber.github.io/react-vis/}                                        \\      \hline
-    \texttt{react-icons}                      & Reactowe komponenty ikon                                                                                              & \url{react-icons.github.io/react-icons/}                               \\      \hline
-    \texttt{react-resize-detector}            & API obserwacji zmiany rozmiaru elementów na stronie                                                                   & \url{github.com/maslianok/react-resize-detector}                       \\      \hline
-    \texttt{react-responsive }                & API obserwacji zmiany rozmiaru okna przegl¹darki                                                                      & \url{github.com/yocontra/react-responsive}                             \\      \hline
-    \texttt{GPXParser}                        & Parser standardu GPX na obiekty javascriptowe                                                                         & \url{github.com/Luuka/GPXParser.js}                                    \\      \hline
-    \texttt{GPX builder}                      & Parser obiektów javascriptowych na standard GPX                                                                       & \url{github.com/Luuka/GPXParser.js}                                    \\      \hline
-    \texttt{nosleep.js}                       & Mechanizm blokady wygaszania ekranu urz¹dzenia                                                                        & \url{github.com/richtr/NoSleep.js}                                     \\      \hline
-    \texttt{uuid}                             & Generator unikalnych identyfikatorów                                                                                  & \url{github.com/uuidjs/uuid}                                           \\      \hline
-    \texttt{he}                               & Enkoder i dekoder \emph{html entities}                                                                                & \url{github.com/mathiasbynens/he}                                      \\      \hline
-    \texttt{useTimeout}, \texttt{useInterval} & Hooki reactowe umo¿liwiaj¹ce deklaratywne u¿ycie javscriptowych funkcji \texttt{setTimeout} oraz \texttt{setInterval} & \url{gist.github.com/Danziger/336e75b6675223ad805a88c2} \url{dfdcfd4a} \\      \hline
+    Nazwa                                     & Zastosowanie                                                                                                                 & Link                                                                   \\      \hline\hline
+    \texttt{TypeScript}                       & Jêzyk programowania oparty na \texttt{JavaScript}, dodaj¹cy do statyczne typowanie                                           & \url{typescriptlang.org}                                               \\      \hline
+    \texttt{Less.js}                          & Rozszerzenie jêzykowe CSS, stylowanie aplikacji                                                                              & \url{lesscss.org}                                                      \\      \hline
+    \texttt{React}                            & Budowa interfejsu u¿ytkownika                                                                                                & \url{reactjs.org}                                                      \\      \hline
+    \texttt{Ant Design}                       & Gotowe komponenty reactowe oraz system designu                                                                               & \url{ant.design}                                                       \\      \hline
+    \texttt{Firebase}                         & Integracja z platform¹ Firebase                                                                                              & \url{firebase.google.com}                                              \\      \hline
+    \texttt{FirebaseUI}                       & Gotow¹ implementacja uwierzytelniania z platform¹ Firebase                                                                   & \url{firebase.google.com}                                              \\      \hline
+    \texttt{Leaflet}                          & Interaktywne mapy                                                                                                            & \url{leafletjs.com}                                                    \\      \hline
+    \texttt{React-Leaflet}                    & Wrapper \texttt{Leafleta}, gotowe komponenty reactowe                                                                        & \url{react-leaflet.js.org}                                             \\      \hline
+    \texttt{FileSaver.js}                     & Obs³uga zapisywania plików na dysku                                                                                          & \url{github.com/eligrey/FileSaver.js}                                  \\      \hline
+    \texttt{react-vis}                        & Reactowe komponenty wykresów                                                                                                 & \url{uber.github.io/react-vis/}                                        \\      \hline
+    \texttt{react-icons}                      & Reactowe komponenty ikon                                                                                                     & \url{react-icons.github.io/react-icons/}                               \\      \hline
+    \texttt{react-resize-detector}            & API obserwacji zmiany rozmiaru elementów na stronie                                                                          & \url{github.com/maslianok/react-resize-detector}                       \\      \hline
+    \texttt{react-responsive }                & API obserwacji zmiany rozmiaru okna przegl¹darki                                                                             & \url{github.com/yocontra/react-responsive}                             \\      \hline
+    \texttt{GPXParser}                        & Parser standardu GPX na obiekty javascriptowe                                                                                & \url{github.com/Luuka/GPXParser.js}                                    \\      \hline
+    \texttt{GPX builder}                      & Parser obiektów javascriptowych na standard GPX                                                                              & \url{github.com/Luuka/GPXParser.js}                                    \\      \hline
+    \texttt{nosleep.js}                       & Mechanizm blokady wygaszania ekranu urz¹dzenia                                                                               & \url{github.com/richtr/NoSleep.js}                                     \\      \hline
+    \texttt{uuid}                             & Generator unikalnych identyfikatorów                                                                                         & \url{github.com/uuidjs/uuid}                                           \\      \hline
+    \texttt{he}                               & Enkoder i dekoder \emph{html entities}                                                                                       & \url{github.com/mathiasbynens/he}                                      \\      \hline
+    \texttt{useTimeout}, \texttt{useInterval} & \emph{Hooki} reactowe umo¿liwiaj¹ce deklaratywne u¿ycie javscriptowych funkcji \texttt{setTimeout} oraz \texttt{setInterval} & \url{gist.github.com/Danziger/336e75b6675223ad805a88c2} \url{dfdcfd4a} \\      \hline
   \end{tabularx}
 \end{table}

@@ -378,10 +378,12 @@ Listing \thelstlisting: #1\hfill%\hfill%
 \setlength{\headsep}{10pt}
 \setlength{\headheight}{13.6pt} % wartoœæ baselineskip dla czcionki 11pt tj. \small wynosi 13.6pt
 \setlength{\footskip}{\headsep+\headheight}
-\setlength{\uppermargin}{\headheight+\headsep+1cm}
-\setlength{\textheight}{\paperheight-\uppermargin-\footskip-1.5cm}
-\setlength{\textwidth}{\paperwidth-5cm}
-\setlength{\spinemargin}{2.5cm}
+% \setlength{\uppermargin}{\headheight+\headsep+1cm}
+\setlength{\uppermargin}{2.5cm}
+\setlength{\lowermargin}{2.5cm}
+\setlength{\textheight}{\paperheight-\uppermargin-\footskip-2cm}
+\setlength{\textwidth}{\paperwidth-5.5cm}
+\setlength{\spinemargin}{3cm}
 \setlength{\foremargin}{2.5cm}
 \setlength{\marginparsep}{2mm}
 \setlength{\marginparwidth}{2.3mm}
@@ -727,7 +729,7 @@ Listing \thelstlisting: #1\hfill%\hfill%
 \setlength{\tmpfboxrule}{\fboxrule}
 \setlength{\fboxsep}{2mm}
 \setlength{\fboxrule}{0mm}
-%\setlength{\fboxrule}{0.1mm} %% INFO: Jeœli chcemy zobaczyæ ramkê, wystarczy odmarkowaæ tê linijkê
+% \setlength{\fboxrule}{0.1mm} %% INFO: Jeœli chcemy zobaczyæ ramkê, wystarczy odmarkowaæ tê linijkê
 \setlength{\unitlength}{1mm}
 \begin{picture}(0,0)
 \put(26,-124){\fbox{
@@ -762,7 +764,9 @@ SPECJALNOŒÆ: & \@specjalnosc\\
 \begin{tabularx}{\linewidth}{p{6cm}X}
 		&{\fontsize{16pt}{18pt}\selectfont PROWADZ¥CY PRACÊ:}\\[2mm] %INFO: tutaj jest miejsce na nazwisko promotora pracy
 		&{\fontsize{14pt}{16pt}\selectfont \@promotor}\\[10mm]
-		&{\fontsize{16pt}{18pt}\selectfont OCENA PRACY:}\\[20mm]
+		% &{\fontsize{16pt}{18pt}\selectfont }\\[20mm]
+		% &{\fontsize{16pt}{18pt}\selectfont OCENA PRACY:}\\[20mm]
+
 % Tekst 'OCENA PRACY:' mo¿na usun¹æ, jeœli praca ma byæ dostarczona bez podpisu promotora (w dobie pandemii)
 % Czyli zamiast powy¿ej zdefiniowanego wiersza tabeli mo¿na wpisaæ:
 %    &{\fontsize{16pt}{18pt}\selectfont }\\[20mm]
@@ -818,8 +822,6 @@ SPECJALNOŒÆ: & \@specjalnosc\\
 %       Bo im mniej jest czêœci sk³adowych do przetworzenia, tym szybsza jest kompilacja.
 %       Proszê nie myliæ tej komendy z poleceniem \include{}, któr¹ u¿ywa siê do zadeklarowania czêœci sk³adowych dokumentu (plików z latexowym kodem).
 
-%\includeonly{skroty,rozdzial01}
-
 \begin{document}
 % Komendami poni¿ej mo¿na prze³¹czyæ odstêp miêdzy liniami. Proszê jednak tego nie robiæ !!!
 %\SingleSpacing
@@ -832,33 +834,35 @@ SPECJALNOŒÆ: & \@specjalnosc\\
 %\frontmatter
 \pdfbookmark[0]{Tytu³}{Tytul.1}
 \maketitle
+% \clearpage
+\newpage\leavevmode\thispagestyle{empty}\newpage
 
-\clearpage
-%\chapterstyle{noNumbered}
 \include{streszczenie}
 \pagestyle{outer}
-\clearpage
+
+% \clearpage
+\newpage\leavevmode\thispagestyle{empty}\newpage
 \pdfbookmark[0]{Spis treœci}{spisTresci.1}%
-%%\phantomsection
-%%\addcontentsline{toc}{chapter}{Spis treœci}
 \tableofcontents*
-\clearpage
-\pdfbookmark[0]{Spis rysunków}{spisRysunkow.1} % jeœli chcemy mieæ w spisie treœci, to zamarkowaæ tê liniê, a odmarkowaæ linie poni¿sze
-%%\phantomsection
-%%\addcontentsline{toc}{chapter}{Spis rysunków}
-\listoffigures*
-\clearpage
-\pdfbookmark[0]{Spis tabel}{spisTabel.1} %
-%%\phantomsection
-%%\addcontentsline{toc}{chapter}{Spis tabel}
-\listoftables*
-\clearpage
-\pdfbookmark[0]{Spis listingów}{spisListingow.1} %
-%%\phantomsection
-%%\addcontentsline{toc}{chapter}{Spis listingów}
-\lstlistoflistings*
-\clearpage
-\include{skroty} %skróty mo¿na sobie pomin¹æ
+
+% \clearpage
+\newpage\leavevmode\thispagestyle{empty}\newpage
+
+% \pdfbookmark[0]{Spis rysunków}{spisRysunkow.1} % jeœli chcemy mieæ w spisie treœci, to zamarkowaæ tê liniê, a odmarkowaæ linie poni¿sze
+% %%\phantomsection
+% %%\addcontentsline{toc}{chapter}{Spis rysunków}
+% \listoffigures*
+% \clearpage
+% \pdfbookmark[0]{Spis tabel}{spisTabel.1} %
+% %%\phantomsection
+% %%\addcontentsline{toc}{chapter}{Spis tabel}
+% \listoftables*
+% \clearpage
+% \pdfbookmark[0]{Spis listingów}{spisListingow.1} %
+% %%\phantomsection
+% %%\addcontentsline{toc}{chapter}{Spis listingów}
+% \lstlistoflistings*
+% \clearpage
 
 
 %\mainmatter
@@ -878,6 +882,27 @@ SPECJALNOŒÆ: & \@specjalnosc\\
 %       (w tym przypadku jest to "dokumentacja.bib")
 \setlength{\bibitemsep}{2pt} % - by zacieœniæ wykaz literatury
 \bibliography{dokumentacja}
+
+\clearpage
+% \pdfbookmark[0]{Spis rysunków}{spisRysunkow.1} % jeœli chcemy mieæ w spisie treœci, to zamarkowaæ tê liniê, a odmarkowaæ linie poni¿sze
+\phantomsection
+\addcontentsline{toc}{chapter}{Spis rysunków}
+\listoffigures*
+\clearpage
+%\pdfbookmark[0]{Spis tabel}{spisTabel.1} %
+\phantomsection
+\addcontentsline{toc}{chapter}{Spis tabel}
+\listoftables*
+\clearpage
+% \pdfbookmark[0]{Spis listingów}{spisListingow.1} %
+\phantomsection
+\addcontentsline{toc}{chapter}{Spis listingów}
+\lstlistoflistings*
+\clearpage
+
+\include{skroty} %skróty mo¿na sobie pomin¹æ
+
+
 \appendix
 \include{dodatekA}
 \include{dodatekB}
