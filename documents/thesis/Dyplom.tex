@@ -546,7 +546,7 @@ Listing \thelstlisting: #1\hfill%\hfill%
     Subject={Aplikacja internetowa do zarz¹dzania trasami rowerowymi i analizy ich sta-
 	tystyk wraz z aplikacj¹ mobiln¹ do zapisu danych trasy z wykorzystaniem
 	modu³u GPS.},
-    Keywords={aplikacja internetowa, komputer rowerowy, nawigacja rowerowa, GPS, GPX},
+    Keywords={aplikacja internetowa, komputer rowerowy, GPS, GPX},
 		Producer={Micha³ Tkacz},
 	  CreationDate= {}, % zgodnie ze sk³adni¹: {D:yyyymmddhhmmss}, np. D:20210208175600
     ModDate={D:\pdfdate},   % data modyfikacji bêdzie dat¹ kompilacji
@@ -822,6 +822,8 @@ SPECJALNOŒÆ: & \@specjalnosc\\
 %       Bo im mniej jest czêœci sk³adowych do przetworzenia, tym szybsza jest kompilacja.
 %       Proszê nie myliæ tej komendy z poleceniem \include{}, któr¹ u¿ywa siê do zadeklarowania czêœci sk³adowych dokumentu (plików z latexowym kodem).
 
+\usepackage{pdfpages}
+
 \begin{document}
 % Komendami poni¿ej mo¿na prze³¹czyæ odstêp miêdzy liniami. Proszê jednak tego nie robiæ !!!
 %\SingleSpacing
@@ -831,22 +833,27 @@ SPECJALNOŒÆ: & \@specjalnosc\\
 %\settypeoutlayoutunit{cm} % do debugowania
 %\typeoutstandardlayout    % wypisuje na stdout informacje o ustawieniach
 
+
 %\frontmatter
 \pdfbookmark[0]{Tytu³}{Tytul.1}
-\maketitle
+\includepdf[noautoscale]{titlePage/titlePage.pdf}
+% \maketitle
 % \clearpage
 \newpage\leavevmode\thispagestyle{empty}\newpage
 
+\pagestyle{empty}
 \include{streszczenie}
-\pagestyle{outer}
 
 % \clearpage
 \newpage\leavevmode\thispagestyle{empty}\newpage
+\pagestyle{empty}
 \pdfbookmark[0]{Spis treœci}{spisTresci.1}%
 \tableofcontents*
 
-% \clearpage
-\newpage\leavevmode\thispagestyle{empty}\newpage
+\clearpage
+% \newpage\leavevmode\thispagestyle{empty}\newpage
+\pagestyle{outer}
+
 
 % \pdfbookmark[0]{Spis rysunków}{spisRysunkow.1} % jeœli chcemy mieæ w spisie treœci, to zamarkowaæ tê liniê, a odmarkowaæ linie poni¿sze
 % %%\phantomsection

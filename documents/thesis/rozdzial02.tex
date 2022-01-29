@@ -302,22 +302,26 @@ W poni¿szej liœcie zawarto wymagania niefunkcjonalne aplikacji:
 \section{Diagram przypadków u¿ycia}
 Diagram przypadków u¿ycia pokazano na rysunku~\ref{fig:uzycia}
 
-\begin{figure}[h]
+\begin{figure}[hp]
   \centering
-  \includegraphics[width=0.85\linewidth]{rys02/uzycia}
+  \includegraphics[width=0.9\linewidth]{rys02/uzycia}
   \caption{Diagram przypadków u¿ycia}
   \label{fig:uzycia}
 \end{figure}
 
 \section{Architektura systemu}
-Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych aplikacji pod wspóln¹ nazw¹. Pierwsz¹ z nich mia³a byæ aplikacja internetowa (dostêp poprzez przegl¹darkê). W niej zawarte mia³y byæ wszystkie planowane funkcjonalnoœci za wyj¹tkiem jedynie nagrywania œladów z wykorzystaniem modu³u GPS. Za to zadanie mia³a byæ odpowiedzialna dedykowana aplikacja mobilna dla systemu \texttt{Android}. Ta wizja jednak uleg³a zmianie --- finalna wersja zak³ada wykonanie aplikacji internetowej w technice PWA. Pozwala ona na instalacjê aplikacji internetowej na urz¹dzeniu mobilnym i sprawienie wra¿enia aplikacji natywnej. Takie rozwi¹zanie posiada zarówno swoje zalety, jak i wady. Do korzyœci na pewno nale¿¹:
+Pierwotna koncepcja zak³ada³a zaprojektowanie i implementacjê dwóch osobnych aplikacji pod wspóln¹ nazw¹. Pierwsz¹ z nich mia³a byæ aplikacja internetowa (dostêp poprzez przegl¹darkê). W niej zawarte mia³y byæ wszystkie planowane funkcjonalnoœci za wyj¹tkiem jedynie nagrywania œladów z wykorzystaniem modu³u GPS. Za to zadanie mia³a byæ odpowiedzialna dedykowana aplikacja mobilna dla systemu \texttt{Android}. Ta wizja jednak uleg³a zmianie --- finalna wersja zak³ada wykonanie aplikacji internetowej w technice PWA. Pozwala ona na instalacjê aplikacji internetowej na urz¹dzeniu mobilnym i sprawienie wra¿enia aplikacji natywnej. Takie rozwi¹zanie posiada zarówno swoje zalety, jak i wady.
+
+\clearpage
+Do korzyœci na pewno nale¿¹:
 \begin{enumerate}
   \item Jedna aplikacja oznacza jedn¹ bazê kodu, któr¹ ³atwiej jest utrzymaæ i rozwijaæ w stosunku do dwóch osobnych baz.
   \item Funkcjonalnoœci aplikacji mobilnej i internetowej s¹ identyczne.
   \item Aplikacja mobilna nie jest ograniczona do dzia³ania jedynie na systemie \texttt{Android}.
   \item Brak koniecznoœci rozprowadzania pakietu instalacyjnego aplikacji mobilnej.
 \end{enumerate}
-G³ównym problemem natomiast mo¿e okazaæ siê wydajnoœæ takiego rozwi¹zania. Dzia³anie PWA oparte jest na przegl¹darce internetowej. Z kolei aplikacje natywne dzia³aj¹ w systemie jako niezale¿ne instancje. W ogólnym ujêciu aplikacje natywne pozwalaj¹ na uzyskanie lepszej wydajnoœci, poniewa¿ maj¹ bezpoœredni dostêp do zasobów sprzêtowych.
+
+G³ównym problemem natomiast mo¿e okazaæ siê wydajnoœæ takiego rozwi¹zania. Dzia³anie PWA oparte jest na przegl¹darce internetowej. Z kolei aplikacje natywne dzia³aj¹ w~systemie jako niezale¿ne instancje. W ogólnym ujêciu aplikacje natywne pozwalaj¹ na uzyskanie lepszej wydajnoœci, poniewa¿ maj¹ bezpoœredni dostêp do zasobów sprzêtowych.
 
 Porównanie koncepcji oraz dobór technologii realizacji poszczególnych modu³ów systemu zestawiono w tabeli~\ref{tab:koncepcje}. Na rysunku~\ref{fig:architektura} przedstawiono schemat ostatecznej wersji architektury systemu. Szczegó³y opisano w kolejnych sekcjach.
 

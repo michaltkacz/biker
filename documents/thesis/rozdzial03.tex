@@ -218,8 +218,9 @@ Korzystaj¹c z mo¿liwoœci jêzyka TypeScript, w projekcie utworzono typy danych de
 
 Na listingu~\ref{lst:dbtypes1} przedstawiono strukturê typów w ogólnym ujêciu. \texttt{DatabaseSchema} przek³ada siê na instancjê bazy danych po stronie \texttt{Realtime Database}. Zawartoœci¹ obiektu tego typu s¹ obiekty u¿ytkowników kluczowane unikalnym identyfikatorem u¿ytkownika (identyfikator jest generowany automatycznie przez \texttt{Firebase} przy rejestracji nowego konta). Ka¿dy obiekt u¿ytkownika zawiera swój identyfikator, obiekt profilu, obiekt aktywnoœci i obiekt œladów. W obiekcie profilu z kolei przechowywane s¹ dane personalne u¿ytkownika: p³eæ, data urodzenia, waga, wzrost, kraj i miasto zamieszkania oraz opis.
 
-  {\belowcaptionskip=-9pt
-    \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:dbtypes1, caption=Typy obiektowe struktury bazy danych (1/3) --- \emph{root} bazy danych oraz u¿ytkownik, basicstyle=\footnotesize\ttfamily]
+\clearpage
+{\belowcaptionskip=-9pt
+  \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:dbtypes1, caption=Typy obiektowe struktury bazy danych (1/3) --- \emph{root} bazy danych oraz u¿ytkownik, basicstyle=\footnotesize\ttfamily]
 type DatabaseSchema = {
   users?: { [userId: string]: User };
 };
@@ -239,7 +240,7 @@ export type UserProfile = {
   description?: string;
 };
 \end{lstlisting}
-  }
+}
 
 Na listingu~\ref{lst:dbtypes2} pokazano typ aktywnoœci, która zawiera w sobie szczegó³owe dane o zapisanej podró¿y rowerowej, w tym podstawowe statystki œladu. Wœród statystyk nie ma zapisanych ¿adnych wartoœci uœrednionych (np.:~œrednia prêdkoœæ, œrednia elewacja), poniewa¿ mo¿na je ³atwo wyliczyæ z pozosta³ych, dostêpnych statystyk.
 
@@ -350,14 +351,14 @@ Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania
 % \newpage
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=0.85\linewidth]{rys03/authpagetemplatedesktop}
+  \includegraphics[width=0.80\linewidth]{rys03/authpagetemplatedesktop}
   \caption{Szablon uk³adu strony autoryzacji w wersji desktopowej}
   \label{fig:authpagetemplatedesktop}
 \end{figure}
 
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=0.85\linewidth]{rys03/authpagedesktop}
+  \includegraphics[width=0.80\linewidth]{rys03/authpagedesktop}
   \caption{Widok strony autoryzacji w wersji desktopowej}
   \label{fig:authpagedesktop}
 \end{figure}
@@ -390,14 +391,14 @@ Szablon globalny (rys.~\ref{fig:globaltemplatepage}), wykorzystano do zbudowania
 % \newpage
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=0.9\linewidth]{rys03/globaltemplatepage}
+  \includegraphics[width=0.8\linewidth]{rys03/globaltemplatepage}
   \caption{Szablon globalnego uk³adu strony w wersji mobilnej i desktopowej}
   \label{fig:globaltemplatepage}
 \end{figure}
 
 \begin{figure}[htp]
   \centering
-  \includegraphics[width=0.9\linewidth]{rys03/globalpage}
+  \includegraphics[width=0.8\linewidth]{rys03/globalpage}
   \caption{Widok strony aktywnoœci w wersji desktopowej}
   \label{fig:globalpage}
 \end{figure}
@@ -709,7 +710,7 @@ useEffect(() => {
   }); }, [file, currentUserId]);
 \end{lstlisting}}
 
-\begin{figure}[h]
+\begin{figure}[hb]
   \centering
   \begin{tabular}{@{}ll@{}}
     a)                                                                              & b) \\
@@ -752,7 +753,7 @@ export const buildGpx = (track: Track) => {
 \end{lstlisting}}
 
 \section{Implementacja aktywnoœci}
-Strona aktywnoœci \texttt{ActivityPage} {rys.~\ref{fig:globalpage}} sk³ada siê z dwóch komponentów: importu aktywnoœci (umiejscowiony na górze strony) oraz listy zapisanych aktywnoœci. Ka¿dy element tej listy to komponent \texttt{Activity}. W komponencie tym prezentowane s¹ dane aktywnoœci, œlad GPS na mapie, statystyki aktywnoœci oraz wykresy aktywnoœci (rys.~\ref{fig:activitycharts}). Oprócz wyœwietlania danych dostêpne s¹ trzy funkcjonalnoœci: edycja danych aktywnoœci, usuniêcie aktywnoœci oraz eksport aktywnoœci. Kod funkcji przedstawiono na listingu~\ref{lst:activityfunctions}.
+Strona aktywnoœci \texttt{ActivityPage} (rys.~\ref{fig:globalpage}) sk³ada siê z dwóch komponentów: importu aktywnoœci (umiejscowiony na górze strony) oraz listy zapisanych aktywnoœci. Ka¿dy element tej listy to komponent \texttt{Activity}. W komponencie tym prezentowane s¹ dane aktywnoœci, œlad GPS na mapie, statystyki aktywnoœci oraz wykresy aktywnoœci (rys.~\ref{fig:activitycharts}). Oprócz wyœwietlania danych dostêpne s¹ trzy funkcjonalnoœci: edycja danych aktywnoœci, usuniêcie aktywnoœci oraz eksport aktywnoœci. Kod funkcji przedstawiono na listingu~\ref{lst:activityfunctions}.
 
 {\belowcaptionskip=-9pt
 \begin{lstlisting}[language=JavaScript, style=JavaScriptStyle, label=lst:activityfunctions, caption={Funkcje: edycji, usuniêcia oraz eksportu aktywnoœci}, basicstyle=\footnotesize\ttfamily]
